@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>10894 - Save Hridoy | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="UVa 10894 要依輸入整數 N 的符號與絕對值，輸出 SAVE HRIDOY 的點陣字樣：正數表示橫向排列，負數表示直向排列；字體大小為 S &#x3D; |N|。每個 5×5 字形中的像素會放大成 S×S 區塊，輸入 0 時停止。程式保存十個字母的樣板，再逐行輸出放大後的圖案。 放大一個字形像素每個字母以 5×5 的 * 和 . 表示。字體大小 S &#x3D; 2 時，一個像素會展開成 2×2 方塊： 12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10894 - Save Hridoy">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/10/20/uva-10894-problem-h-save-hridoy-022/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="UVa 10894 要依輸入整數 N 的符號與絕對值，輸出 SAVE HRIDOY 的點陣字樣：正數表示橫向排列，負數表示直向排列；字體大小為 S &#x3D; |N|。每個 5×5 字形中的像素會放大成 S×S 區塊，輸入 0 時停止。程式保存十個字母的樣板，再逐行輸出放大後的圖案。 放大一個字形像素每個字母以 5×5 的 * 和 . 表示。字體大小 S &#x3D; 2 時，一個像素會展開成 2×2 方塊： 12">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-10-20T15:56:48.000Z">
+<meta property="article:modified_time" content="2026-10-25T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-10894-problem-h-save-hridoy-022" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-10894-problem-h-save-hridoy-022/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:56:48.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      10894 - Save Hridoy
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10894 要依輸入整數 <code>N</code> 的符號與絕對值，輸出 <code>SAVE HRIDOY</code> 的點陣字樣：正數表示橫向排列，負數表示直向排列；字體大小為 <code>S = |N|</code>。每個 <code>5×5</code> 字形中的像素會放大成 <code>S×S</code> 區塊，輸入 <code>0</code> 時停止。程式保存十個字母的樣板，再逐行輸出放大後的圖案。</p>
+<h2 id="放大一個字形像素"><a href="#放大一個字形像素" class="headerlink" title="放大一個字形像素"></a>放大一個字形像素</h2><p>每個字母以 <code>5×5</code> 的 <code>*</code> 和 <code>.</code> 表示。字體大小 <code>S = 2</code> 時，一個像素會展開成 <code>2×2</code> 方塊：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*  -&gt;  **</span><br><span class="line">       **</span><br><span class="line">.  -&gt;  ..</span><br><span class="line">       ..</span><br></pre></td></tr></table></figure>
+
+<p>字母內部的像素也依相同規則放大，因此字體寬度與高度都會乘上 <code>S</code>。</p>
+<h2 id="方向、間距與輸出尺寸"><a href="#方向、間距與輸出尺寸" class="headerlink" title="方向、間距與輸出尺寸"></a>方向、間距與輸出尺寸</h2><p>若 <code>N &gt; 0</code>，圖案水平排列，共輸出 <code>5S</code> 列；若 <code>N &lt; 0</code>，十個字母由上往下排列，字母圖樣保持正向、不旋轉。以下尺寸都以正的字體大小 <code>S = |N|</code> 計算。</p>
+<p>程式用 <code>size</code> 保存輸入的正負值，傳給繪圖函式的 <code>scale</code> 則是正的放大倍率 <code>|size|</code>。</p>
+<p>每個單字內，相鄰字母之間留 <code>S</code> 列或欄的點號；<code>SAVE</code> 和 <code>HRIDOY</code> 之間留 <code>3S</code> 列或欄。兩個單字分別有 4 個和 6 個字母，所以共有 8 個單字內間隔，另有一個單字間隔：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">字母本身：10 × 5S = 50S</span><br><span class="line">單字內間隔：8 × S = 8S</span><br><span class="line">單字間隔：3S</span><br><span class="line">合計：61S</span><br></pre></td></tr></table></figure>
+
+<p>因此水平模式有 <code>5S</code> 列、每列 <code>61S</code> 個字元；垂直模式有 <code>61S</code> 列、每列 <code>5S</code> 個字元。每組測資輸出結束後，還要印出兩個空白列。</p>
+<p>程式不必先建立整張橫幅。水平模式逐列取出十個字母相同位置的樣板列，將每個像素水平重複 <code>S</code> 次，再把整列輸出 <code>S</code> 次。垂直模式則逐字母輸出：每個樣板列先水平放大 <code>S</code> 倍，再輸出 <code>S</code> 次；字母之間另外輸出相應高度的點號列。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 字形依照橫幅文字順序排列：SAVE，接著 HRIDOY。</span></span><br><span class="line"><span class="type">const</span> string glyphs[<span class="number">10</span>][<span class="number">5</span>] = &#123;</span><br><span class="line">    <span class="comment">// SAVE</span></span><br><span class="line">    <span class="comment">// S</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*....&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;....*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// A</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;.***.&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// V</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;.*.*.&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// E</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*....&quot;</span>,</span><br><span class="line">        <span class="string">&quot;***..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*....&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// HRIDOY</span></span><br><span class="line">    <span class="comment">// H</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// R</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*.*..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*..**&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// I</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// D</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;***..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*..*.&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*..*.&quot;</span>,</span><br><span class="line">        <span class="string">&quot;***..&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// O</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// Y</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;.*.*.&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">printHorizontal</span><span class="params">(<span class="type">int</span> scale)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> row = <span class="number">0</span>; row &lt; <span class="number">5</span>; ++row) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> repeat = <span class="number">0</span>; repeat &lt; scale; ++repeat) &#123;</span><br><span class="line">            string line;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> letter = <span class="number">0</span>; letter &lt; <span class="number">10</span>; ++letter) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> column = <span class="number">0</span>; column &lt; <span class="number">5</span>; ++column) &#123;</span><br><span class="line">                    line.<span class="built_in">append</span>(scale, glyphs[letter][row][column]);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (letter &lt; <span class="number">9</span>) &#123;</span><br><span class="line">                    <span class="type">const</span> <span class="type">int</span> gapWidth = (letter == <span class="number">3</span> ? <span class="number">3</span> : <span class="number">1</span>) * scale;</span><br><span class="line">                    line.<span class="built_in">append</span>(gapWidth, <span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            cout &lt;&lt; line &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">printVertical</span><span class="params">(<span class="type">int</span> scale)</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="type">const</span> string <span class="title">dottedRow</span><span class="params">(<span class="number">5</span> * scale, <span class="string">&#x27;.&#x27;</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> letter = <span class="number">0</span>; letter &lt; <span class="number">10</span>; ++letter) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> row = <span class="number">0</span>; row &lt; <span class="number">5</span>; ++row) &#123;</span><br><span class="line">            string line;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> column = <span class="number">0</span>; column &lt; <span class="number">5</span>; ++column) &#123;</span><br><span class="line">                line.<span class="built_in">append</span>(scale, glyphs[letter][row][column]);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> repeat = <span class="number">0</span>; repeat &lt; scale; ++repeat) &#123;</span><br><span class="line">                cout &lt;&lt; line &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (letter &lt; <span class="number">9</span>) &#123;</span><br><span class="line">            <span class="type">const</span> <span class="type">int</span> gapHeight = (letter == <span class="number">3</span> ? <span class="number">3</span> : <span class="number">1</span>) * scale;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> row = <span class="number">0</span>; row &lt; gapHeight; ++row) &#123;</span><br><span class="line">                cout &lt;&lt; dottedRow &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> size;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; size &amp;&amp; size != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="built_in">printHorizontal</span>(size);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">printVertical</span>(-size);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>輸出圖案本身有 <code>O(S²)</code> 個字元，因此時間複雜度為 <code>O(S²)</code>；程式每次只建立一列字串，額外空間為 <code>O(S)</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯。官方範例輸出與 uDebug 第一組 6 個字體大小的 accepted output 相符；另與保留的舊 AC 程式比較 <code>±1</code>、<code>±2</code>、<code>±3</code>、<code>±17</code>、<code>±50</code>，輸出完全一致。字體大小 <code>1</code>、<code>2</code> 和 <code>50</code> 的兩種方向，列數與每列字元數也都符合公式。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/108/10894.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10894">uDebug 測資</a></p>
+<p>本篇程式以 C++11 提交 UVa，結果為 Accepted。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10894-problem-h-save-hridoy-022/" data-id="cuidO1INY0Rmgc1d0dwhrfRe3" data-title="10894 - Save Hridoy" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/10/20/uva-417-word-index-021/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          417 - Word Index
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10415 - Eb Alto Saxophone Player</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-CLI/">C++/CLI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ZeroJudge/">ZeroJudge</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%B5%B1%E7%A8%8B%E5%BC%8F/">系統程式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+          </li>
+        
+          <li>
+            <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/">10114 - Loansome Car Buyer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
