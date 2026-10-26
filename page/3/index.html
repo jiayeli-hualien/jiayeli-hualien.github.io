@@ -108,7 +108,55 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10783-odd-sum-036/" data-id="cuidjPhn6EOgXM2QAcq-cDEse" data-title="10783 - Odd Sum" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10783-odd-sum-036/" data-id="cuid8HcFl62uDtTTu6d5PQLT5" data-title="10783 - Odd Sum" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10008-what-s-cryptanalysis-037" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-10008-what-s-cryptanalysis-037/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T06:06:27.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-10008-what-s-cryptanalysis-037/">10008 - What&#39;s Cryptanalysis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10008 給定一段文字，要求統計每個英文字母出現的次數。大小寫視為同一個字母，空格、標點和數字都忽略；輸出只列出至少出現一次的字母，依次數由多到少排列，次數相同時按字母順序排列。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/100/10008.pdf">題目敘述</a></p>
+<h2 id="統計-26-個字母再排序"><a href="#統計-26-個字母再排序" class="headerlink" title="統計 26 個字母再排序"></a>統計 26 個字母再排序</h2><p>固定使用 26 個計數器記錄 <code>A</code> 到 <code>Z</code> 的出現次數。讀取每一整行，逐字檢查：大寫字母用 <code>ch - &#39;A&#39;</code> 找到位置，小寫字母用 <code>ch - &#39;a&#39;</code> 找到相同位置，其他字元不計數。</p>
+<p>統計完成後，只把出現過的字母放入清單，再依「次數遞減、字母遞增」排序並輸出。若共有 <code>L</code> 個輸入字元，時間複雜度為 <code>O(L + 26 log 26)</code>；計數器和排序清單最多各存 26 個項目。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;limits&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">LetterCount</span> &#123;</span><br><span class="line">    <span class="type">char</span> letter;</span><br><span class="line">    <span class="type">int</span> count;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> lineCount;</span><br><span class="line">    <span class="keyword">if</span> (!(cin &gt;&gt; lineCount)) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    cin.<span class="built_in">ignore</span>(numeric_limits&lt;streamsize&gt;::<span class="built_in">max</span>(), <span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    array&lt;<span class="type">int</span>, 26&gt; frequency = &#123;&#125;;</span><br><span class="line">    string line;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; lineCount; ++i) &#123;</span><br><span class="line">        <span class="built_in">getline</span>(cin, line);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">char</span> ch : line) &#123;</span><br><span class="line">            <span class="keyword">if</span> (ch &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">                ++frequency[ch - <span class="string">&#x27;A&#x27;</span>];</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ch &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">                ++frequency[ch - <span class="string">&#x27;a&#x27;</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    vector&lt;LetterCount&gt; letters;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (frequency[i] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            letters.<span class="built_in">push_back</span>(&#123;<span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(<span class="string">&#x27;A&#x27;</span> + i), frequency[i]&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">sort</span>(letters.<span class="built_in">begin</span>(), letters.<span class="built_in">end</span>(), [](<span class="type">const</span> LetterCount&amp; left,</span><br><span class="line">                                            <span class="type">const</span> LetterCount&amp; right) &#123;</span><br><span class="line">        <span class="keyword">if</span> (left.count != right.count) <span class="keyword">return</span> left.count &gt; right.count;</span><br><span class="line">        <span class="keyword">return</span> left.letter &lt; right.letter;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> LetterCount&amp; item : letters) &#123;</span><br><span class="line">        cout &lt;&lt; item.letter &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; item.count &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>這份 C++11 程式提交至 UVa 後獲得 <strong>Accepted</strong>（submission <strong>31355637</strong>，0.000 秒）。本機以官方範例比對，並檢查了大小寫混合、空白行及非字母字元。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10008-what-s-cryptanalysis-037/" data-id="cuid22p3ttTIqWzb0L8c3jeyv" data-title="10008 - What&#39;s Cryptanalysis" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
