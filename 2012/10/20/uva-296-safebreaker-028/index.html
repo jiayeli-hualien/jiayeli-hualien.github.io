@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>296 - Safebreaker | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="UVa 296 是類似「幾 A 幾 B」的四位數猜密碼題。可以把 0000 到 9999 想成候選清單：每條猜測都附有一組 A&#x2F;B 線索，我們逐條排除不符合的候選。最後剩下 0 個、1 個或多個候選，就分別輸出 impossible、密碼或 indeterminate。 A&#x2F;B 線索怎麼判斷A 表示數字和位置都正確；B 表示數字正確，但位置錯誤。假設秘密是 3321，猜測 12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="296 - Safebreaker">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/10/20/uva-296-safebreaker-028/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="UVa 296 是類似「幾 A 幾 B」的四位數猜密碼題。可以把 0000 到 9999 想成候選清單：每條猜測都附有一組 A&#x2F;B 線索，我們逐條排除不符合的候選。最後剩下 0 個、1 個或多個候選，就分別輸出 impossible、密碼或 indeterminate。 A&#x2F;B 線索怎麼判斷A 表示數字和位置都正確；B 表示數字正確，但位置錯誤。假設秘密是 3321，猜測 12">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-10-20T15:35:59.000Z">
+<meta property="article:modified_time" content="2026-10-26T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-296-safebreaker-028" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-296-safebreaker-028/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:35:59.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      296 - Safebreaker
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 296 是類似「幾 A 幾 B」的四位數猜密碼題。可以把 <code>0000</code> 到 <code>9999</code> 想成候選清單：每條猜測都附有一組 A&#x2F;B 線索，我們逐條排除不符合的候選。最後剩下 0 個、1 個或多個候選，就分別輸出 <code>impossible</code>、密碼或 <code>indeterminate</code>。</p>
+<h2 id="A-B-線索怎麼判斷"><a href="#A-B-線索怎麼判斷" class="headerlink" title="A&#x2F;B 線索怎麼判斷"></a>A&#x2F;B 線索怎麼判斷</h2><p><code>A</code> 表示數字和位置都正確；<code>B</code> 表示數字正確，但位置錯誤。假設秘密是 <code>3321</code>，猜測 <code>1223</code>：只有第三位的 <code>2</code> 相同，所以 <code>A = 1</code>。猜測和秘密都含有 <code>1</code>、<code>2</code>、<code>3</code> 各一個，合計有 3 個數字相符；扣掉位置正確的 1 個，得到 <code>B = 2</code>，所以線索是 <code>1/2</code>。</p>
+<p>計算相符數量時要考慮重複數字。猜測裡即使有兩個 <code>2</code>，秘密只有一個 <code>2</code>，也只能算一個相符；因此每個數字依兩邊實際出現次數配對，最多配對 <code>min(猜測次數, 秘密次數)</code> 次。</p>
+<h2 id="逐條排除候選"><a href="#逐條排除候選" class="headerlink" title="逐條排除候選"></a>逐條排除候選</h2><p>候選清單是解題的想法，程式不必真的存下 10,000 個數。只要依序檢查 <code>0000</code> 到 <code>9999</code>，對每個候選逐條計算 A&#x2F;B；有一條線索不符就排除，通過全部線索才保留。找到第二個候選時就能確定是多解，不必再檢查後面的數字。</p>
+<p>密碼可能以 0 開頭。程式把猜測讀成四個字元，並將數字候選拆成四位，所以 <code>0000</code> 也會保留完整位數；輸出唯一答案時則固定補成四位數。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Clue</span> &#123;</span><br><span class="line">    array&lt;<span class="type">int</span>, 4&gt; digits;</span><br><span class="line">    array&lt;<span class="type">int</span>, 10&gt; frequency&#123;&#125;;</span><br><span class="line">    <span class="type">int</span> exact;</span><br><span class="line">    <span class="type">int</span> misplaced;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">array&lt;<span class="type">int</span>, 4&gt; <span class="title">digitsOf</span><span class="params">(<span class="type">int</span> code)</span> </span>&#123;</span><br><span class="line">    array&lt;<span class="type">int</span>, 4&gt; digits&#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">3</span>; position &gt;= <span class="number">0</span>; --position) &#123;</span><br><span class="line">        digits[position] = code % <span class="number">10</span>;</span><br><span class="line">        code /= <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> digits;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">matchesAllClues</span><span class="params">(<span class="type">int</span> code, <span class="type">const</span> vector&lt;Clue&gt;&amp; clues)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> array&lt;<span class="type">int</span>, 4&gt; candidate = <span class="built_in">digitsOf</span>(code);</span><br><span class="line">    array&lt;<span class="type">int</span>, 10&gt; candidateFrequency&#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> digit : candidate) &#123;</span><br><span class="line">        ++candidateFrequency[digit];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> Clue&amp; clue : clues) &#123;</span><br><span class="line">        <span class="type">int</span> exact = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> sharedDigits = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">0</span>; position &lt; <span class="number">4</span>; ++position) &#123;</span><br><span class="line">            <span class="keyword">if</span> (candidate[position] == clue.digits[position]) &#123;</span><br><span class="line">                ++exact;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> digit = <span class="number">0</span>; digit &lt; <span class="number">10</span>; ++digit) &#123;</span><br><span class="line">            sharedDigits += <span class="built_in">min</span>(candidateFrequency[digit], clue.frequency[digit]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> misplaced = sharedDigits - exact;</span><br><span class="line">        <span class="keyword">if</span> (exact != clue.exact || misplaced != clue.misplaced) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> testCases;</span><br><span class="line">    <span class="keyword">if</span> (!(cin &gt;&gt; testCases)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (testCases--) &#123;</span><br><span class="line">        <span class="type">int</span> guessCount;</span><br><span class="line">        cin &gt;&gt; guessCount;</span><br><span class="line">        <span class="function">vector&lt;Clue&gt; <span class="title">clues</span><span class="params">(guessCount)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Clue&amp; clue : clues) &#123;</span><br><span class="line">            string code;</span><br><span class="line">            <span class="type">char</span> slash;</span><br><span class="line">            cin &gt;&gt; code &gt;&gt; clue.exact &gt;&gt; slash &gt;&gt; clue.misplaced;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">0</span>; position &lt; <span class="number">4</span>; ++position) &#123;</span><br><span class="line">                clue.digits[position] = code[position] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                ++clue.frequency[clue.digits[position]];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> solutionCount = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> solution = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> code = <span class="number">0</span>; code &lt; <span class="number">10000</span>; ++code) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">matchesAllClues</span>(code, clues)) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            solution = code;</span><br><span class="line">            <span class="keyword">if</span> (++solutionCount == <span class="number">2</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (solutionCount == <span class="number">0</span>) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;impossible\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (solutionCount &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;indeterminate\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; <span class="built_in">setw</span>(<span class="number">4</span>) &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; solution &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>對每個候選密碼，最多檢查 10 條線索；每條線索只需比較 4 個位置與 10 種數字的出現次數。因此單筆測資的時間複雜度為 <code>O(10^4 G)</code>，其中 <code>G ≤ 10</code>；額外空間為 <code>O(G)</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 C++11 和 <code>-Wall -Wextra -pedantic</code> 編譯通過，官方範例輸出為 <code>3411</code>、<code>1234</code>、<code>indeterminate</code>、<code>impossible</code>。自建案例也涵蓋 <code>0000</code> 的前導零輸出、重複數字、互相矛盾的線索和沒有任何線索時的多解判定。</p>
+<p>舊版有三筆 uHunt 紀錄：submission 10665198 和 10665202 為 Wrong Answer，submission 10665259 Accepted。整理版另以 C++11 提交，submission <strong>31355530</strong> Accepted，0.020 秒。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/2/296.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-296-safebreaker-028/" data-id="cuidkuNzHq6VqKGrdn-wjpwJz" data-title="296 - Safebreaker" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/10/20/uva-10125-sumsets-027/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          10125 - Sumsets
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+          </li>
+        
+          <li>
+            <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/">10114 - Loansome Car Buyer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
