@@ -108,7 +108,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10783-odd-sum-036/" data-id="cuid8HcFl62uDtTTu6d5PQLT5" data-title="10783 - Odd Sum" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10783-odd-sum-036/" data-id="cuid2VeagIDhYal15obQKhuBm" data-title="10783 - Odd Sum" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -156,7 +156,56 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10008-what-s-cryptanalysis-037/" data-id="cuid22p3ttTIqWzb0L8c3jeyv" data-title="10008 - What&#39;s Cryptanalysis" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10008-what-s-cryptanalysis-037/" data-id="cuid1kBynpAxboqsvE_-_BsLx" data-title="10008 - What&#39;s Cryptanalysis" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-575-skew-binary-038" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-575-skew-binary-038/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T06:02:28.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-575-skew-binary-038/">575 - Skew Binary</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 575 要把 skew binary 數字轉成十進位。從右邊數第 <code>k</code> 位的權重是 <code>2^(k + 1) - 1</code>，位數可以是 <code>0</code>、<code>1</code>，最右側的非零位也可能是 <code>2</code>。輸入每行一個數字，<code>0</code> 表示結束；每個數字的十進位值不超過 <code>2^31 - 1</code>。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/5/575.pdf">題目敘述</a></p>
+<h2 id="由右向左累加位值"><a href="#由右向左累加位值" class="headerlink" title="由右向左累加位值"></a>由右向左累加位值</h2><p>各位的權重依序是 <code>1, 3, 7, 15, ...</code>，每一項都等於前一項乘 2 再加 1。因此從最右位開始，逐位乘上目前權重並加進答案，再更新權重即可。</p>
+<p>例如 <code>10120</code> 的計算是 <code>1 × 31 + 0 × 15 + 1 × 7 + 2 × 3 + 0 × 1 = 44</code>。程式用 64 位元無號整數保存權重和答案，並以 <code>0</code> 作為輸入終止標記。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdint&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">toDecimal</span><span class="params">(<span class="type">const</span> string&amp; skew)</span> </span>&#123;</span><br><span class="line">    <span class="type">uint64_t</span> value = <span class="number">0</span>;</span><br><span class="line">    <span class="type">uint64_t</span> placeValue = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = skew.<span class="built_in">size</span>(); i &gt; <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> digit = skew[i - <span class="number">1</span>] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        value += digit * placeValue;</span><br><span class="line">        placeValue = placeValue * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    string skew;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; skew &amp;&amp; skew != <span class="string">&quot;0&quot;</span>) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">toDecimal</span>(skew) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每個輸入位數只處理一次，時間複雜度為 <code>O(D)</code>，其中 <code>D</code> 是位數；額外空間用來保存目前的輸入字串。</p>
+<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>這份 C++11 程式提交至 UVa 後獲得 <strong>Accepted</strong>（submission <strong>31355652</strong>，0.000 秒）；本機輸出與官方範例一致。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-575-skew-binary-038/" data-id="cuidflw1-SWFHLDoJO8-pFg1i" data-title="575 - Skew Binary" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
