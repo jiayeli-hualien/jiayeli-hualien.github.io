@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>11336 D:DRAM | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="題目 UVa 11336 - D:DRAM 要判斷新地圖是否為舊地圖的「更詳細版本」。判斷必須同時符合兩個條件：  新地圖包含舊地圖的所有地點。 舊地圖每一條道路 A-B，都能在新地圖中找到一條從 A 到 B 的路線，而且中途只能經過新地圖有、舊地圖沒有的地點。直接保留 A-B 也符合條件，因為路線沒有中途地點。  假設舊地圖有道路 A-B，下圖比較兩種新地圖中的替代路線。A、B 是舊地點；藍色節">
+<meta property="og:type" content="article">
+<meta property="og:title" content="11336 D:DRAM">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="題目 UVa 11336 - D:DRAM 要判斷新地圖是否為舊地圖的「更詳細版本」。判斷必須同時符合兩個條件：  新地圖包含舊地圖的所有地點。 舊地圖每一條道路 A-B，都能在新地圖中找到一條從 A 到 B 的路線，而且中途只能經過新地圖有、舊地圖沒有的地點。直接保留 A-B 也符合條件，因為路線沒有中途地點。  假設舊地圖有道路 A-B，下圖比較兩種新地圖中的替代路線。A、B 是舊地點；藍色節">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2013-11-25T16:09:50.000Z">
+<meta property="article:modified_time" content="2026-10-24T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-11336-d-dram-io-dfs-or-bfs-010" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/" class="article-date">
+  <time class="dt-published" datetime="2013-11-25T16:09:50.000Z" itemprop="datePublished">2013-11-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      11336 D:DRAM
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>題目 <a target="_blank" rel="noopener" href="https://onlinejudge.org/external/113/11336.pdf">UVa 11336 - D:DRAM</a> 要判斷新地圖是否為舊地圖的「更詳細版本」。判斷必須同時符合兩個條件：</p>
+<ul>
+<li>新地圖包含舊地圖的所有地點。</li>
+<li>舊地圖每一條道路 <code>A-B</code>，都能在新地圖中找到一條從 <code>A</code> 到 <code>B</code> 的路線，而且中途只能經過新地圖有、舊地圖沒有的地點。直接保留 <code>A-B</code> 也符合條件，因為路線沒有中途地點。</li>
+</ul>
+<p>假設舊地圖有道路 <code>A-B</code>，下圖比較兩種新地圖中的替代路線。<code>A</code>、<code>B</code> 是舊地點；藍色節點代表舊地點，綠色節點代表新地圖新增的地點。<code>A-X-B</code> 符合條件；<code>A-C-X-B</code> 不符合，因為中途經過的 <code>C</code> 已存在於舊地圖。</p>
+<div id="graphviz-0"></div>
+
+<p>因此，先確認舊地點都出現在新地圖，再對每一條舊道路做 BFS。搜尋時只穿過新地點，抵達舊道路的另一端就算找到替代路線。</p>
+<h2 id="路線為什麼只能經過新地點？"><a href="#路線為什麼只能經過新地點？" class="headerlink" title="路線為什麼只能經過新地點？"></a>路線為什麼只能經過新地點？</h2><p>假設舊地圖有道路 <code>A-B</code>。新地圖可以用 <code>A-X-B</code> 取代它，只要 <code>X</code> 是新增加的地點。但若路線是 <code>A-C-X-B</code>，而 <code>C</code> 已經存在於舊地圖，這條路線就不符合題意：舊道路的中途地點必須全部是新地點。</p>
+<p>BFS 從舊道路的一端出發，只把新地點加入佇列；遇到另一端時立即成功。這樣找到的路徑端點是原道路的兩個地點，所有中途地點則必定是新地點。</p>
+<h2 id="演算法"><a href="#演算法" class="headerlink" title="演算法"></a>演算法</h2><ol>
+<li>讀取兩張地圖，將道路視為無向邊，並以鄰接串列儲存。</li>
+<li>檢查舊地圖的每個地點是否都在新地圖中；同時標記新地圖中的舊地點。</li>
+<li>對舊地圖的每一條道路 <code>(u, v)</code>，在新地圖中從 <code>u</code> 執行 BFS。搜尋只穿過新地點，若能到達 <code>v</code>，代表這條舊道路有合法替代路線。</li>
+<li>所有舊道路都有替代路線時，輸出 <code>YES</code>；只要有一個條件不成立，就輸出 <code>NO</code>。</li>
+</ol>
+<p>若舊地圖有 <code>M</code> 條道路，新地圖有 <code>V</code> 個地點與 <code>E</code> 條道路，最壞時間複雜度為 <code>O(M(V + E))</code>，空間複雜度為 <code>O(V + E)</code>。</p>
+<h2 id="C-11-程式碼"><a href="#C-11-程式碼" class="headerlink" title="C++11 程式碼"></a>C++11 程式碼</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">RoadMap</span> &#123;</span><br><span class="line">    map&lt;string, <span class="type">int</span>&gt; placeId;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; roadsByPlace;</span><br><span class="line">    vector&lt;pair&lt;string, string&gt;&gt; roads;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">getPlaceId</span><span class="params">(<span class="type">const</span> string&amp; name)</span> </span>&#123;</span><br><span class="line">        map&lt;string, <span class="type">int</span>&gt;::const_iterator found = placeId.<span class="built_in">find</span>(name);</span><br><span class="line">        <span class="keyword">if</span> (found != placeId.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            <span class="keyword">return</span> found-&gt;second;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> id = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(roadsByPlace.<span class="built_in">size</span>());</span><br><span class="line">        placeId[name] = id;</span><br><span class="line">        roadsByPlace.<span class="built_in">push_back</span>(<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;());</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addRoad</span><span class="params">(<span class="type">const</span> string&amp; from, <span class="type">const</span> string&amp; to)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> fromId = <span class="built_in">getPlaceId</span>(from);</span><br><span class="line">        <span class="type">int</span> toId = <span class="built_in">getPlaceId</span>(to);</span><br><span class="line">        roadsByPlace[fromId].<span class="built_in">push_back</span>(toId);</span><br><span class="line">        roadsByPlace[toId].<span class="built_in">push_back</span>(fromId);</span><br><span class="line">        roads.<span class="built_in">push_back</span>(<span class="built_in">make_pair</span>(from, to));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isRoadSeparator</span><span class="params">(<span class="type">const</span> string&amp; line)</span> </span>&#123;</span><br><span class="line">    <span class="function">istringstream <span class="title">input</span><span class="params">(line)</span></span>;</span><br><span class="line">    string first, second, third, extra;</span><br><span class="line">    <span class="keyword">return</span> (input &gt;&gt; first &gt;&gt; second &gt;&gt; third) &amp;&amp;</span><br><span class="line">           first == <span class="string">&quot;*&quot;</span> &amp;&amp; second == <span class="string">&quot;*&quot;</span> &amp;&amp; third == <span class="string">&quot;*&quot;</span> &amp;&amp; !(input &gt;&gt; extra);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">readRoads</span><span class="params">(istream&amp; input, RoadMap&amp; map)</span> </span>&#123;</span><br><span class="line">    string line;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">getline</span>(input, line)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!line.<span class="built_in">empty</span>() &amp;&amp; line[line.<span class="built_in">size</span>() - <span class="number">1</span>] == <span class="string">&#x27;\r&#x27;</span>) &#123;</span><br><span class="line">            line.<span class="built_in">erase</span>(line.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isRoadSeparator</span>(line)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function">istringstream <span class="title">roadLine</span><span class="params">(line)</span></span>;</span><br><span class="line">        string from, to;</span><br><span class="line">        <span class="keyword">if</span> (roadLine &gt;&gt; from &gt;&gt; to) &#123;</span><br><span class="line">            map.<span class="built_in">addRoad</span>(from, to);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">hasPathUsingOnlyNewIntermediatePlaces</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> RoadMap&amp; newMap,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> vector&lt;<span class="type">bool</span>&gt;&amp; isOldPlace,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">int</span> start,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">int</span> target</span></span></span><br><span class="line"><span class="params"><span class="function">)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (start == target) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">vector&lt;<span class="type">bool</span>&gt; <span class="title">visited</span><span class="params">(newMap.roadsByPlace.size(), <span class="literal">false</span>)</span></span>;</span><br><span class="line">    queue&lt;<span class="type">int</span>&gt; pending;</span><br><span class="line">    visited[start] = <span class="literal">true</span>;</span><br><span class="line">    pending.<span class="built_in">push</span>(start);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!pending.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">        <span class="type">int</span> place = pending.<span class="built_in">front</span>();</span><br><span class="line">        pending.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; newMap.roadsByPlace[place].<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="type">int</span> next = newMap.roadsByPlace[place][i];</span><br><span class="line">            <span class="keyword">if</span> (next == target) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!isOldPlace[next] &amp;&amp; !visited[next]) &#123;</span><br><span class="line">                visited[next] = <span class="literal">true</span>;</span><br><span class="line">                pending.<span class="built_in">push</span>(next);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isMoreDetailed</span><span class="params">(<span class="type">const</span> RoadMap&amp; oldMap, <span class="type">const</span> RoadMap&amp; newMap)</span> </span>&#123;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">bool</span>&gt; <span class="title">isOldPlace</span><span class="params">(newMap.roadsByPlace.size(), <span class="literal">false</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (map&lt;string, <span class="type">int</span>&gt;::const_iterator it = oldMap.placeId.<span class="built_in">begin</span>();</span><br><span class="line">         it != oldMap.placeId.<span class="built_in">end</span>(); ++it) &#123;</span><br><span class="line">        map&lt;string, <span class="type">int</span>&gt;::const_iterator newPlace = newMap.placeId.<span class="built_in">find</span>(it-&gt;first);</span><br><span class="line">        <span class="keyword">if</span> (newPlace == newMap.placeId.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        isOldPlace[newPlace-&gt;second] = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; oldMap.roads.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        <span class="type">const</span> string&amp; from = oldMap.roads[i].first;</span><br><span class="line">        <span class="type">const</span> string&amp; to = oldMap.roads[i].second;</span><br><span class="line">        <span class="type">int</span> start = newMap.placeId.<span class="built_in">find</span>(from)-&gt;second;</span><br><span class="line">        <span class="type">int</span> target = newMap.placeId.<span class="built_in">find</span>(to)-&gt;second;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">hasPathUsingOnlyNewIntermediatePlaces</span>(</span><br><span class="line">                newMap, isOldPlace, start, target)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    string oldName;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">getline</span>(cin, oldName)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!oldName.<span class="built_in">empty</span>() &amp;&amp; oldName[oldName.<span class="built_in">size</span>() - <span class="number">1</span>] == <span class="string">&#x27;\r&#x27;</span>) &#123;</span><br><span class="line">            oldName.<span class="built_in">erase</span>(oldName.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (oldName == <span class="string">&quot;END&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        RoadMap oldMap, newMap;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">readRoads</span>(cin, oldMap)) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        string newName;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">getline</span>(cin, newName)) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!newName.<span class="built_in">empty</span>() &amp;&amp; newName[newName.<span class="built_in">size</span>() - <span class="number">1</span>] == <span class="string">&#x27;\r&#x27;</span>) &#123;</span><br><span class="line">            newName.<span class="built_in">erase</span>(newName.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">readRoads</span>(cin, newMap)) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isMoreDetailed</span>(oldMap, newMap)) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;YES: &quot;</span> &lt;&lt; newName &lt;&lt; <span class="string">&quot; is a more detailed version of &quot;</span></span><br><span class="line">                 &lt;&lt; oldName &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;NO: &quot;</span> &lt;&lt; newName &lt;&lt; <span class="string">&quot; is not a more detailed version of &quot;</span></span><br><span class="line">                 &lt;&lt; oldName &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>以本機針對案例及 uDebug 公開測資比對輸出，結果相符。UVa 提交 <strong>31353594</strong>（C++11）Accepted，0.000 秒，2026-10-24。</p>
+<script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script><script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script><textarea id="graphviz-0-code" style="display: none">graph MapPathConditions {
+    graph [rankdir=LR, bgcolor="transparent", nodesep=0.45, ranksep=0.65, margin=0.08];
+    node [shape=circle, style=filled, fixedsize=true, width=0.65, height=0.65,
+          fontname="Arial", fontsize=12, color="#536273", penwidth=1.2];
+    edge [dir=none, penwidth=2.0];
+
+    subgraph cluster_valid {
+        label="符合：A-X-B";
+        style="rounded";
+        color="#A8B4C3";
+        fontname="Arial";
+        fontsize=12;
+
+        vA [label="A", fillcolor="#DCEBFA"];
+        vX [label="X", fillcolor="#DFF3E4"];
+        vB [label="B", fillcolor="#DCEBFA"];
+        vA -- vX [color="#2E8B57"];
+        vX -- vB [color="#2E8B57"];
+    }
+
+    subgraph cluster_invalid {
+        label="不符合：A-C-X-B";
+        style="rounded";
+        color="#A8B4C3";
+        fontname="Arial";
+        fontsize=12;
+
+        iA [label="A", fillcolor="#DCEBFA"];
+        iC [label="C", fillcolor="#DCEBFA"];
+        iX [label="X", fillcolor="#DFF3E4"];
+        iB [label="B", fillcolor="#DCEBFA"];
+        iA -- iC [color="#C94C4C"];
+        iC -- iX [color="#C94C4C"];
+        iX -- iB [color="#C94C4C"];
+    }
+}</textarea><script>  var viz = new Viz();  var code = document.getElementById("graphviz-0-code").value;  viz.renderSVGElement(code)  .then(function(element) {    document.getElementById("graphviz-0").append(element)  });</script>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/" data-id="cuidjzyqs93MUHYKDCSS_5Pz4" data-title="11336 D:DRAM" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          10309 - Turn the Lights Off
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10415 - Eb Alto Saxophone Player</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-CLI/">C++/CLI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ZeroJudge/">ZeroJudge</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%B5%B1%E7%A8%8B%E5%BC%8F/">系統程式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/">10415 - Eb Alto Saxophone Player</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

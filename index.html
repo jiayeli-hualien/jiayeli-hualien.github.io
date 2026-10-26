@@ -211,6 +211,409 @@ c:ref:c -> null [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];
 
 
   
+    <article id="post-uva-12247-jollo-008" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/12/06/uva-12247-jollo-008/" class="article-date">
+  <time class="dt-published" datetime="2013-12-06T03:26:33.000Z" itemprop="datePublished">2013-12-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>一副牌有 52 張，以 1 到 52 表示。遊戲共三局，每局兩人各出一張牌，牌面較大者贏該局；先贏兩局者贏得整場。公主已拿到三張牌，王子目前有兩張。發牌者看過這五張牌後，要從其餘牌中挑一張 <code>Z</code> 加入王子的手牌，找出能保證王子獲勝的最小 <code>Z</code>；如果沒有這種牌就輸出 <code>-1</code>。每筆輸入給出五張互不相同的牌：<code>A B C</code> 是公主的牌，<code>X Y</code> 是王子的牌；五個數字都是 <code>0</code> 時代表輸入結束。</p>
+<p>「保證獲勝」表示不論三局中雙方怎麼安排出牌，王子都至少能贏兩局。因此，固定一張候選牌 <code>Z</code> 後，要檢查公主最多可能贏幾局。</p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>要找出最小的未發牌 Z，讓王子不論出牌順序如何都能贏得三局兩勝。固定候選 Z 後，把三局視為三組牌的配對，計算公主最多能贏幾局。若最多一勝，王子至少贏兩局；若公主可能贏兩局，這張 Z 就不安全。</p>
+<h2 id="固定-Z，計算公主最多能贏幾局"><a href="#固定-Z，計算公主最多能贏幾局" class="headerlink" title="固定 Z，計算公主最多能贏幾局"></a>固定 Z，計算公主最多能贏幾局</h2><p>把公主的三張牌和王子的三張牌分別由小到大排序，從兩邊最小的牌開始配對。</p>
+<ul>
+<li>若目前最小的公主牌不大於王子最小的牌，它連王子最小的牌都贏不了，也就贏不了其他王子牌，可以略過。</li>
+<li>若公主牌較大，就把這兩張牌配成公主的一勝，再各自看下一張牌。</li>
+</ul>
+<p>這樣會得到公主能拿到的最大勝場數。若目前最小的公主牌能贏過最小的王子牌，總能找到一個最佳配對包含這一對：若目前的公主牌原本配給較大的王子牌，改配給最小王子牌仍能獲勝；若最小王子牌配給另一張公主牌，則可交換兩組配對，兩張公主仍都能獲勝。若其中一張牌原本未配對，直接改配也不會減少總勝場。</p>
+<h2 id="由小到大測試-Z"><a href="#由小到大測試-Z" class="headerlink" title="由小到大測試 Z"></a>由小到大測試 Z</h2><p>牌面是 1 到 52。略過已發給公主或王子的五張牌，依序測試其他牌。對每張候選 Z 計算公主最多能贏幾局；第一張使公主最多只能贏一局的牌，就是答案。若全部試完仍找不到，就輸出 -1。</p>
+<p>例如輸入 10 20 30 24 26 時，未發的最小牌是 21。三張牌排序後，公主是 10, 20, 30，王子是 21, 24, 26。10 和 20 都無法贏過王子最小的牌 21；30 最多只能贏一局，因此答案是 21。</p>
+<p>每組測資最多檢查 52 張候選牌，每次只排序三張牌，時間為 O(52)，額外空間為 O(1)。</p>
+<h2 id="C-11-程式碼"><a href="#C-11-程式碼" class="headerlink" title="C++11 程式碼"></a>C++11 程式碼</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">maxPrincessWins</span><span class="params">(std::array&lt;<span class="type">int</span>, <span class="number">3</span>&gt; princess,</span></span></span><br><span class="line"><span class="params"><span class="function">                    std::array&lt;<span class="type">int</span>, <span class="number">3</span>&gt; prince)</span> </span>&#123;</span><br><span class="line">    std::<span class="built_in">sort</span>(princess.<span class="built_in">begin</span>(), princess.<span class="built_in">end</span>());</span><br><span class="line">    std::<span class="built_in">sort</span>(prince.<span class="built_in">begin</span>(), prince.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> wins = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> princessIndex = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> princeIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (princessIndex &lt; <span class="number">3</span> &amp;&amp; princeIndex &lt; <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (princess[princessIndex] &gt; prince[princeIndex]) &#123;</span><br><span class="line">            ++wins;</span><br><span class="line">            ++princessIndex;</span><br><span class="line">            ++princeIndex;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// This card cannot beat any remaining Prince card.</span></span><br><span class="line">            ++princessIndex;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> wins;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> a, b, c, x, y;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (std::<span class="built_in">scanf</span>(<span class="string">&quot;%d %d %d %d %d&quot;</span>, &amp;a, &amp;b, &amp;c, &amp;x, &amp;y) == <span class="number">5</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a == <span class="number">0</span> &amp;&amp; b == <span class="number">0</span> &amp;&amp; c == <span class="number">0</span> &amp;&amp; x == <span class="number">0</span> &amp;&amp; y == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::array&lt;<span class="type">int</span>, 3&gt; princess = &#123;&#123;a, b, c&#125;&#125;;</span><br><span class="line">        std::array&lt;<span class="type">bool</span>, 53&gt; used = &#123;&#125;;</span><br><span class="line">        used[a] = <span class="literal">true</span>;</span><br><span class="line">        used[b] = <span class="literal">true</span>;</span><br><span class="line">        used[c] = <span class="literal">true</span>;</span><br><span class="line">        used[x] = <span class="literal">true</span>;</span><br><span class="line">        used[y] = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> answer = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> z = <span class="number">1</span>; z &lt;= <span class="number">52</span>; ++z) &#123;</span><br><span class="line">            <span class="keyword">if</span> (used[z]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            std::array&lt;<span class="type">int</span>, 3&gt; prince = &#123;&#123;x, y, z&#125;&#125;;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">maxPrincessWins</span>(princess, prince) &lt; <span class="number">2</span>) &#123;</span><br><span class="line">                answer = z;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, answer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-提交紀錄"><a href="#UVa-提交紀錄" class="headerlink" title="UVa 提交紀錄"></a>UVa 提交紀錄</h2><p>Submission 31353572：C++11，Accepted，0.000 秒。</p>
+<p>題目敘述與範例：<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/122/12247.pdf">UVa 12247 - Jollo</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/12/06/uva-12247-jollo-008/" data-id="cuidUEFkPFN6cEJoKABVFxrAo" data-title="12247 - Jollo" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10309-turn-the-lights-off-009" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/" class="article-date">
+  <time class="dt-published" datetime="2013-11-26T16:36:55.000Z" itemprop="datePublished">2013-11-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>每筆測資先給一個名稱，接著給 <code>10×10</code> 棋盤：<code>O</code> 表示燈亮，<code>#</code> 表示燈熄；名稱為 <code>end</code> 時輸入結束。按下一格的開關會反轉該格以及上下左右相鄰格的燈，超出棋盤的方向不作用。題目要找出讓整個棋盤熄燈所需的最少按鍵次數。若無法全部熄燈，或最少次數超過 100，就輸出 <code>-1</code>；每筆輸出包含測資名稱和答案。</p>
+<p>下圖用 <code>3×3</code> 小棋盤示範按下中央開關，如何一次熄掉中央與上下左右的燈；對角線上的燈不變。<code>O</code> 代表亮燈，<code>#</code> 代表熄燈；黃底表示亮燈，灰底表示熄燈。</p>
+<div id="graphviz-0"></div>
+
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>解法分成兩步：枚舉第一列的按法，再由上往下推導其餘各列。每個候選方案推完十列後，檢查棋盤是否全暗，從可行方案中取最少按鍵數；沒有可行方案或最少次數超過 100，就輸出 <code>-1</code>。</p>
+<h2 id="為什麼只窮舉第一列"><a href="#為什麼只窮舉第一列" class="headerlink" title="為什麼只窮舉第一列"></a>為什麼只窮舉第一列</h2><p>同一個開關按兩次會抵消，因此只需考慮每個位置按或不按一次。</p>
+<p>不能把「看到亮燈就按」直接套用在第一列，因為第一列的燈還會受下方開關影響；第一列沒有前一列的狀態可用來決定按法，因此要枚舉十個開關的 <code>2^10 = 1024</code> 種組合，而不是枚舉全盤 100 個開關的 <code>2^100</code> 種組合。</p>
+<p>固定第一列後，從第二列開始逐列處理。若上一列某格仍亮著，只有正下方的開關能再影響那格，所以必須按；若已熄滅，就不按。每列的按法因此都由上一列唯一決定，不必再枚舉。</p>
+<p>處理完第十列後，所有前九列都已清除，還要檢查最後一列是否也全暗。若全暗，這組按法可行；在 1024 種第一列按法中取按鍵數最少者，即為答案。</p>
+<p>每個候選第一列只需模擬 100 個位置，因此時間複雜度為 O(2^10 × 100)，額外空間為 O(100)。</p>
+<h2 id="C-11-程式碼"><a href="#C-11-程式碼" class="headerlink" title="C++11 程式碼"></a>C++11 程式碼</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Board = std::array&lt;std::string, <span class="number">10</span>&gt;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">press</span><span class="params">(Board&amp; board, <span class="type">int</span> row, <span class="type">int</span> col)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> rowOffset[<span class="number">5</span>] = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">-1</span>, <span class="number">1</span>&#125;;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> colOffset[<span class="number">5</span>] = &#123;<span class="number">0</span>, <span class="number">-1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> direction = <span class="number">0</span>; direction &lt; <span class="number">5</span>; ++direction) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> nextRow = row + rowOffset[direction];</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> nextCol = col + colOffset[direction];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (nextRow &lt; <span class="number">0</span> || nextRow &gt;= <span class="number">10</span> ||</span><br><span class="line">            nextCol &lt; <span class="number">0</span> || nextCol &gt;= <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">char</span>&amp; light = board[nextRow][nextCol];</span><br><span class="line">        light = (light == <span class="string">&#x27;O&#x27;</span>) ? <span class="string">&#x27;#&#x27;</span> : <span class="string">&#x27;O&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">allLightsOff</span><span class="params">(<span class="type">const</span> Board&amp; board)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> std::string&amp; row : board) &#123;</span><br><span class="line">        <span class="keyword">if</span> (row.<span class="built_in">find</span>(<span class="string">&#x27;O&#x27;</span>) != std::string::npos) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">minimumPresses</span><span class="params">(<span class="type">const</span> Board&amp; initialBoard)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> best = <span class="number">101</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> firstRowPresses = <span class="number">0</span>; firstRowPresses &lt; (<span class="number">1</span> &lt;&lt; <span class="number">10</span>);</span><br><span class="line">         ++firstRowPresses) &#123;</span><br><span class="line">        Board board = initialBoard;</span><br><span class="line">        <span class="type">int</span> pressCount = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> col = <span class="number">0</span>; col &lt; <span class="number">10</span>; ++col) &#123;</span><br><span class="line">            <span class="keyword">if</span> (firstRowPresses &amp; (<span class="number">1</span> &lt;&lt; col)) &#123;</span><br><span class="line">                <span class="built_in">press</span>(board, <span class="number">0</span>, col);</span><br><span class="line">                ++pressCount;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> row = <span class="number">1</span>; row &lt; <span class="number">10</span>; ++row) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> col = <span class="number">0</span>; col &lt; <span class="number">10</span>; ++col) &#123;</span><br><span class="line">                <span class="comment">// This is the only row that can still change the row above.</span></span><br><span class="line">                <span class="keyword">if</span> (board[row - <span class="number">1</span>][col] == <span class="string">&#x27;O&#x27;</span>) &#123;</span><br><span class="line">                    <span class="built_in">press</span>(board, row, col);</span><br><span class="line">                    ++pressCount;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">allLightsOff</span>(board)) &#123;</span><br><span class="line">            best = std::<span class="built_in">min</span>(best, pressCount);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (best &lt;= <span class="number">100</span>) ? best : <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string caseName;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (std::cin &gt;&gt; caseName &amp;&amp; caseName != <span class="string">&quot;end&quot;</span>) &#123;</span><br><span class="line">        Board board;</span><br><span class="line">        <span class="keyword">for</span> (std::string&amp; row : board) &#123;</span><br><span class="line">            std::cin &gt;&gt; row;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; caseName &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; <span class="built_in">minimumPresses</span>(board) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-提交紀錄"><a href="#UVa-提交紀錄" class="headerlink" title="UVa 提交紀錄"></a>UVa 提交紀錄</h2><p>Submission 31353574：C++11，Accepted，0.010 秒。</p>
+<p>題目敘述與範例：<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/103/10309.pdf">UVa 10309 - Turn the Lights Off</a></p>
+<p>參考資料：本篇文章參考 UVa 討論區 lucastan 對 XOR 與逐列推導的說明：<a target="_blank" rel="noopener" href="https://online-judge.uva.es/board/viewtopic.php?f=20&t=678&p=165512">10309 討論串</a>（連結年代久遠，現已失效）。</p>
+<script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script><script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script><textarea id="graphviz-0-code" style="display: none">digraph LightToggle {
+    graph [rankdir=LR, bgcolor="transparent", nodesep=0.65, ranksep=0.8, margin=0.08];
+    node [shape=plain, fontname="Arial", fontsize=12];
+    edge [color="#596579", penwidth=1.5, arrowsize=0.8, fontname="Arial", fontsize=11];
+
+    before [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="10" COLOR="#7B8493">
+        <TR><TD COLSPAN="3" BORDER="0"><B>按下前</B></TD></TR>
+        <TR><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#FFF1C7">O</TD><TD BGCOLOR="#F1F3F5">#</TD></TR>
+        <TR><TD BGCOLOR="#FFF1C7">O</TD><TD BGCOLOR="#FFF1C7">O</TD><TD BGCOLOR="#FFF1C7">O</TD></TR>
+        <TR><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#FFF1C7">O</TD><TD BGCOLOR="#F1F3F5">#</TD></TR>
+    </TABLE>>];
+
+    after [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="10" COLOR="#7B8493">
+        <TR><TD COLSPAN="3" BORDER="0"><B>按下後</B></TD></TR>
+        <TR><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#F1F3F5">#</TD></TR>
+        <TR><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#F1F3F5">#</TD></TR>
+        <TR><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#F1F3F5">#</TD></TR>
+    </TABLE>>];
+
+    before -> after [label="按下中央開關"];
+}</textarea><script>  var viz = new Viz();  var code = document.getElementById("graphviz-0-code").value;  viz.renderSVGElement(code)  .then(function(element) {    document.getElementById("graphviz-0").append(element)  });</script>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/11/27/uva-10309-turn-the-lights-off-009/" data-id="cuidOMJoEs7bKYlgIYzPy8X1C" data-title="10309 - Turn the Lights Off" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-11336-d-dram-io-dfs-or-bfs-010" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/" class="article-date">
+  <time class="dt-published" datetime="2013-11-25T16:09:50.000Z" itemprop="datePublished">2013-11-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>題目 <a target="_blank" rel="noopener" href="https://onlinejudge.org/external/113/11336.pdf">UVa 11336 - D:DRAM</a> 要判斷新地圖是否為舊地圖的「更詳細版本」。判斷必須同時符合兩個條件：</p>
+<ul>
+<li>新地圖包含舊地圖的所有地點。</li>
+<li>舊地圖每一條道路 <code>A-B</code>，都能在新地圖中找到一條從 <code>A</code> 到 <code>B</code> 的路線，而且中途只能經過新地圖有、舊地圖沒有的地點。直接保留 <code>A-B</code> 也符合條件，因為路線沒有中途地點。</li>
+</ul>
+<p>假設舊地圖有道路 <code>A-B</code>，下圖比較兩種新地圖中的替代路線。<code>A</code>、<code>B</code> 是舊地點；藍色節點代表舊地點，綠色節點代表新地圖新增的地點。<code>A-X-B</code> 符合條件；<code>A-C-X-B</code> 不符合，因為中途經過的 <code>C</code> 已存在於舊地圖。</p>
+<div id="graphviz-0"></div>
+
+<p>因此，先確認舊地點都出現在新地圖，再對每一條舊道路做 BFS。搜尋時只穿過新地點，抵達舊道路的另一端就算找到替代路線。</p>
+<h2 id="路線為什麼只能經過新地點？"><a href="#路線為什麼只能經過新地點？" class="headerlink" title="路線為什麼只能經過新地點？"></a>路線為什麼只能經過新地點？</h2><p>假設舊地圖有道路 <code>A-B</code>。新地圖可以用 <code>A-X-B</code> 取代它，只要 <code>X</code> 是新增加的地點。但若路線是 <code>A-C-X-B</code>，而 <code>C</code> 已經存在於舊地圖，這條路線就不符合題意：舊道路的中途地點必須全部是新地點。</p>
+<p>BFS 從舊道路的一端出發，只把新地點加入佇列；遇到另一端時立即成功。這樣找到的路徑端點是原道路的兩個地點，所有中途地點則必定是新地點。</p>
+<h2 id="演算法"><a href="#演算法" class="headerlink" title="演算法"></a>演算法</h2><ol>
+<li>讀取兩張地圖，將道路視為無向邊，並以鄰接串列儲存。</li>
+<li>檢查舊地圖的每個地點是否都在新地圖中；同時標記新地圖中的舊地點。</li>
+<li>對舊地圖的每一條道路 <code>(u, v)</code>，在新地圖中從 <code>u</code> 執行 BFS。搜尋只穿過新地點，若能到達 <code>v</code>，代表這條舊道路有合法替代路線。</li>
+<li>所有舊道路都有替代路線時，輸出 <code>YES</code>；只要有一個條件不成立，就輸出 <code>NO</code>。</li>
+</ol>
+<p>若舊地圖有 <code>M</code> 條道路，新地圖有 <code>V</code> 個地點與 <code>E</code> 條道路，最壞時間複雜度為 <code>O(M(V + E))</code>，空間複雜度為 <code>O(V + E)</code>。</p>
+<h2 id="C-11-程式碼"><a href="#C-11-程式碼" class="headerlink" title="C++11 程式碼"></a>C++11 程式碼</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">RoadMap</span> &#123;</span><br><span class="line">    map&lt;string, <span class="type">int</span>&gt; placeId;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; roadsByPlace;</span><br><span class="line">    vector&lt;pair&lt;string, string&gt;&gt; roads;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">getPlaceId</span><span class="params">(<span class="type">const</span> string&amp; name)</span> </span>&#123;</span><br><span class="line">        map&lt;string, <span class="type">int</span>&gt;::const_iterator found = placeId.<span class="built_in">find</span>(name);</span><br><span class="line">        <span class="keyword">if</span> (found != placeId.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            <span class="keyword">return</span> found-&gt;second;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> id = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(roadsByPlace.<span class="built_in">size</span>());</span><br><span class="line">        placeId[name] = id;</span><br><span class="line">        roadsByPlace.<span class="built_in">push_back</span>(<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;());</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addRoad</span><span class="params">(<span class="type">const</span> string&amp; from, <span class="type">const</span> string&amp; to)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> fromId = <span class="built_in">getPlaceId</span>(from);</span><br><span class="line">        <span class="type">int</span> toId = <span class="built_in">getPlaceId</span>(to);</span><br><span class="line">        roadsByPlace[fromId].<span class="built_in">push_back</span>(toId);</span><br><span class="line">        roadsByPlace[toId].<span class="built_in">push_back</span>(fromId);</span><br><span class="line">        roads.<span class="built_in">push_back</span>(<span class="built_in">make_pair</span>(from, to));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isRoadSeparator</span><span class="params">(<span class="type">const</span> string&amp; line)</span> </span>&#123;</span><br><span class="line">    <span class="function">istringstream <span class="title">input</span><span class="params">(line)</span></span>;</span><br><span class="line">    string first, second, third, extra;</span><br><span class="line">    <span class="keyword">return</span> (input &gt;&gt; first &gt;&gt; second &gt;&gt; third) &amp;&amp;</span><br><span class="line">           first == <span class="string">&quot;*&quot;</span> &amp;&amp; second == <span class="string">&quot;*&quot;</span> &amp;&amp; third == <span class="string">&quot;*&quot;</span> &amp;&amp; !(input &gt;&gt; extra);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">readRoads</span><span class="params">(istream&amp; input, RoadMap&amp; map)</span> </span>&#123;</span><br><span class="line">    string line;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">getline</span>(input, line)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!line.<span class="built_in">empty</span>() &amp;&amp; line[line.<span class="built_in">size</span>() - <span class="number">1</span>] == <span class="string">&#x27;\r&#x27;</span>) &#123;</span><br><span class="line">            line.<span class="built_in">erase</span>(line.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isRoadSeparator</span>(line)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function">istringstream <span class="title">roadLine</span><span class="params">(line)</span></span>;</span><br><span class="line">        string from, to;</span><br><span class="line">        <span class="keyword">if</span> (roadLine &gt;&gt; from &gt;&gt; to) &#123;</span><br><span class="line">            map.<span class="built_in">addRoad</span>(from, to);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">hasPathUsingOnlyNewIntermediatePlaces</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> RoadMap&amp; newMap,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> vector&lt;<span class="type">bool</span>&gt;&amp; isOldPlace,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">int</span> start,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">int</span> target</span></span></span><br><span class="line"><span class="params"><span class="function">)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (start == target) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">vector&lt;<span class="type">bool</span>&gt; <span class="title">visited</span><span class="params">(newMap.roadsByPlace.size(), <span class="literal">false</span>)</span></span>;</span><br><span class="line">    queue&lt;<span class="type">int</span>&gt; pending;</span><br><span class="line">    visited[start] = <span class="literal">true</span>;</span><br><span class="line">    pending.<span class="built_in">push</span>(start);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!pending.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">        <span class="type">int</span> place = pending.<span class="built_in">front</span>();</span><br><span class="line">        pending.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; newMap.roadsByPlace[place].<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="type">int</span> next = newMap.roadsByPlace[place][i];</span><br><span class="line">            <span class="keyword">if</span> (next == target) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!isOldPlace[next] &amp;&amp; !visited[next]) &#123;</span><br><span class="line">                visited[next] = <span class="literal">true</span>;</span><br><span class="line">                pending.<span class="built_in">push</span>(next);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isMoreDetailed</span><span class="params">(<span class="type">const</span> RoadMap&amp; oldMap, <span class="type">const</span> RoadMap&amp; newMap)</span> </span>&#123;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">bool</span>&gt; <span class="title">isOldPlace</span><span class="params">(newMap.roadsByPlace.size(), <span class="literal">false</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (map&lt;string, <span class="type">int</span>&gt;::const_iterator it = oldMap.placeId.<span class="built_in">begin</span>();</span><br><span class="line">         it != oldMap.placeId.<span class="built_in">end</span>(); ++it) &#123;</span><br><span class="line">        map&lt;string, <span class="type">int</span>&gt;::const_iterator newPlace = newMap.placeId.<span class="built_in">find</span>(it-&gt;first);</span><br><span class="line">        <span class="keyword">if</span> (newPlace == newMap.placeId.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        isOldPlace[newPlace-&gt;second] = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; oldMap.roads.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        <span class="type">const</span> string&amp; from = oldMap.roads[i].first;</span><br><span class="line">        <span class="type">const</span> string&amp; to = oldMap.roads[i].second;</span><br><span class="line">        <span class="type">int</span> start = newMap.placeId.<span class="built_in">find</span>(from)-&gt;second;</span><br><span class="line">        <span class="type">int</span> target = newMap.placeId.<span class="built_in">find</span>(to)-&gt;second;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">hasPathUsingOnlyNewIntermediatePlaces</span>(</span><br><span class="line">                newMap, isOldPlace, start, target)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    string oldName;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">getline</span>(cin, oldName)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!oldName.<span class="built_in">empty</span>() &amp;&amp; oldName[oldName.<span class="built_in">size</span>() - <span class="number">1</span>] == <span class="string">&#x27;\r&#x27;</span>) &#123;</span><br><span class="line">            oldName.<span class="built_in">erase</span>(oldName.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (oldName == <span class="string">&quot;END&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        RoadMap oldMap, newMap;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">readRoads</span>(cin, oldMap)) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        string newName;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">getline</span>(cin, newName)) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!newName.<span class="built_in">empty</span>() &amp;&amp; newName[newName.<span class="built_in">size</span>() - <span class="number">1</span>] == <span class="string">&#x27;\r&#x27;</span>) &#123;</span><br><span class="line">            newName.<span class="built_in">erase</span>(newName.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">readRoads</span>(cin, newMap)) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isMoreDetailed</span>(oldMap, newMap)) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;YES: &quot;</span> &lt;&lt; newName &lt;&lt; <span class="string">&quot; is a more detailed version of &quot;</span></span><br><span class="line">                 &lt;&lt; oldName &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;NO: &quot;</span> &lt;&lt; newName &lt;&lt; <span class="string">&quot; is not a more detailed version of &quot;</span></span><br><span class="line">                 &lt;&lt; oldName &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>以本機針對案例及 uDebug 公開測資比對輸出，結果相符。UVa 提交 <strong>31353594</strong>（C++11）Accepted，0.000 秒，2026-10-24。</p>
+<script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script><script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script><textarea id="graphviz-0-code" style="display: none">graph MapPathConditions {
+    graph [rankdir=LR, bgcolor="transparent", nodesep=0.45, ranksep=0.65, margin=0.08];
+    node [shape=circle, style=filled, fixedsize=true, width=0.65, height=0.65,
+          fontname="Arial", fontsize=12, color="#536273", penwidth=1.2];
+    edge [dir=none, penwidth=2.0];
+
+    subgraph cluster_valid {
+        label="符合：A-X-B";
+        style="rounded";
+        color="#A8B4C3";
+        fontname="Arial";
+        fontsize=12;
+
+        vA [label="A", fillcolor="#DCEBFA"];
+        vX [label="X", fillcolor="#DFF3E4"];
+        vB [label="B", fillcolor="#DCEBFA"];
+        vA -- vX [color="#2E8B57"];
+        vX -- vB [color="#2E8B57"];
+    }
+
+    subgraph cluster_invalid {
+        label="不符合：A-C-X-B";
+        style="rounded";
+        color="#A8B4C3";
+        fontname="Arial";
+        fontsize=12;
+
+        iA [label="A", fillcolor="#DCEBFA"];
+        iC [label="C", fillcolor="#DCEBFA"];
+        iX [label="X", fillcolor="#DFF3E4"];
+        iB [label="B", fillcolor="#DCEBFA"];
+        iA -- iC [color="#C94C4C"];
+        iC -- iX [color="#C94C4C"];
+        iX -- iB [color="#C94C4C"];
+    }
+}</textarea><script>  var viz = new Viz();  var code = document.getElementById("graphviz-0-code").value;  viz.renderSVGElement(code)  .then(function(element) {    document.getElementById("graphviz-0").append(element)  });</script>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/" data-id="cuidjzyqs93MUHYKDCSS_5Pz4" data-title="11336 D:DRAM" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10415-eb-alto-saxophone-player-024" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:45:00.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/">10415 - Eb Alto Saxophone Player</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10415 給一段由 14 種音符組成的樂曲，要求分別計算十根手指按下按鍵的次數。對每個音符，某根手指只有在「這個音符需要它、前一個音符不需要它」時才算按下一次；每首樂曲的第一個音符則視為前一刻沒有手指按著。輸出十個計數，順序是手指 1 到 10。</p>
+<h2 id="用前後音符的按鍵狀態計數"><a href="#用前後音符的按鍵狀態計數" class="headerlink" title="用前後音符的按鍵狀態計數"></a>用前後音符的按鍵狀態計數</h2><p>先把每個音符表示成十根手指的按鍵狀態。以下表格中的數字是手指編號：</p>
+<table>
+<thead>
+<tr>
+<th>音符</th>
+<th>需要按住的手指</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>c</code></td>
+<td>2、3、4、7、8、9、10</td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td>2、3、4、7、8、9</td>
+</tr>
+<tr>
+<td><code>e</code></td>
+<td>2、3、4、7、8</td>
+</tr>
+<tr>
+<td><code>f</code></td>
+<td>2、3、4、7</td>
+</tr>
+<tr>
+<td><code>g</code></td>
+<td>2、3、4</td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td>2、3</td>
+</tr>
+<tr>
+<td><code>b</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>C</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>D</code></td>
+<td>1、2、3、4、7、8、9</td>
+</tr>
+<tr>
+<td><code>E</code></td>
+<td>1、2、3、4、7、8</td>
+</tr>
+<tr>
+<td><code>F</code></td>
+<td>1、2、3、4、7</td>
+</tr>
+<tr>
+<td><code>G</code></td>
+<td>1、2、3、4</td>
+</tr>
+<tr>
+<td><code>A</code></td>
+<td>1、2、3</td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td>1、2</td>
+</tr>
+</tbody></table>
+<p>例如樂曲 <code>abC</code>：第一個音符 <code>a</code> 需要手指 2、3，因此兩者各計一次。切換到 <code>b</code> 時仍需要手指 2，沒有新按下；再切換到 <code>C</code> 時需要手指 3，而前一個音符 <code>b</code> 沒有用到手指 3，所以手指 3 再計一次。結果是手指 2 按 1 次、手指 3 按 2 次，其餘為 0。</p>
+<p>程式用長度 10 的布林陣列保存前一個音符與目前音符的狀態。每讀到一個音符，就依照對照表建立目前狀態；若某個位置目前為 <code>true</code>、前一狀態為 <code>false</code>，便增加該手指的計數。處理完後，將目前狀態存為前一狀態。</p>
+<p>程式用 <code>notes</code> 與 <code>fingering</code> 兩組同索引資料保存對照：<code>notes</code> 中某個音符的位置，就是它在 <code>fingering</code> 中的按鍵字串。按鍵字串以陣列索引 <code>0</code> 到 <code>9</code> 表示手指 1 到 10，所以字元 <code>&#39;0&#39;</code> 代表手指 1；例如音符 <code>c</code> 的字串是 <code>&quot;1236789&quot;</code>，代表手指 2、3、4、7、8、9、10。</p>
+<p>每首曲子都重新把計數和前一狀態設為 0。題目允許空曲子，所以每個測資必須用 <code>getline</code> 讀取一整行；空行會輸出十個 0。讀入測資數後，先用一次 <code>getline</code> 消耗該行剩餘的換行字元，再逐行讀取曲子。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> string notes = <span class="string">&quot;cdefgabCDEFGAB&quot;</span>;</span><br><span class="line">    <span class="type">const</span> string fingering[] = &#123;</span><br><span class="line">        <span class="string">&quot;1236789&quot;</span>, <span class="string">&quot;123678&quot;</span>, <span class="string">&quot;12367&quot;</span>, <span class="string">&quot;1236&quot;</span>, <span class="string">&quot;123&quot;</span>, <span class="string">&quot;12&quot;</span>, <span class="string">&quot;1&quot;</span>,</span><br><span class="line">        <span class="string">&quot;2&quot;</span>, <span class="string">&quot;0123678&quot;</span>, <span class="string">&quot;012367&quot;</span>, <span class="string">&quot;01236&quot;</span>, <span class="string">&quot;0123&quot;</span>, <span class="string">&quot;012&quot;</span>, <span class="string">&quot;01&quot;</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> testCases;</span><br><span class="line">    cin &gt;&gt; testCases;</span><br><span class="line">    string song;</span><br><span class="line">    <span class="built_in">getline</span>(cin, song);  <span class="comment">// Consume the rest of the first line.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (testCases--) &#123;</span><br><span class="line">        <span class="built_in">getline</span>(cin, song);  <span class="comment">// An empty line represents an empty song.</span></span><br><span class="line"></span><br><span class="line">        array&lt;<span class="type">int</span>, 10&gt; presses = &#123;&#125;;</span><br><span class="line">        array&lt;<span class="type">bool</span>, 10&gt; previous = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> note : song) &#123;</span><br><span class="line">            <span class="type">const</span> <span class="type">size_t</span> noteIndex = notes.<span class="built_in">find</span>(note);</span><br><span class="line">            array&lt;<span class="type">bool</span>, 10&gt; current = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">char</span> finger : fingering[noteIndex]) &#123;</span><br><span class="line">                current[finger - <span class="string">&#x27;0&#x27;</span>] = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> finger = <span class="number">0</span>; finger &lt; <span class="number">10</span>; ++finger) &#123;</span><br><span class="line">                <span class="keyword">if</span> (current[finger] &amp;&amp; !previous[finger]) &#123;</span><br><span class="line">                    ++presses[finger];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            previous = current;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        cout &lt;&lt; presses[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> finger = <span class="number">1</span>; finger &lt; <span class="number">10</span>; ++finger) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; presses[finger];</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每個音符查出所需手指後，檢查十個位置一次；一首最多 200 個音符，因此每首曲子的時間為 <code>O(10L)</code>，其中 <code>L ≤ 200</code>。額外狀態只保存十根手指，空間為 <code>O(10)</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯，官方範例與 uDebug 提供的 12 筆資料全部相符；另測試空曲子、同音符連續出現、以及不同測資之間的狀態重設。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/104/10415.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10415">uDebug 測資</a></p>
+<p>本篇程式以 C++11 提交 UVa 10415，結果為 Accepted。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" data-id="cuidXk7-Fw62xoSUrjge4AwWX" data-title="10415 - Eb Alto Saxophone Player" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10878-decode-the-tape-025" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-10878-decode-the-tape-025/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:43:55.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-10878-decode-the-tape-025/">10878 - Decode the Tape</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10878 要把紙帶上的孔洞還原成文字。每列代表一個字元；程式從每列的 8 個資料位元重建字元，並在讀到第二條 <code>___________</code> 時停止。</p>
+<h2 id="每列轉成一個字元"><a href="#每列轉成一個字元" class="headerlink" title="每列轉成一個字元"></a>每列轉成一個字元</h2><p>每列左右兩端的 <code>|</code> 是紙帶邊界，中間的 <code>.</code> 用來標示中心位置。略過邊界和點號後，剩下的位置由左至右代表位元 7 到位元 0。讀到 <code>o</code> 就把該位設為 1，讀到空白則設為 0。</p>
+<p>程式以從 0 開始的字串索引讀取固定欄位：左右邊界在 <code>row[0]</code> 和 <code>row[10]</code>，中央的 <code>.</code> 在 <code>row[6]</code>；資料位元位於 <code>row[1]</code> 到 <code>row[5]</code>，以及 <code>row[7]</code> 到 <code>row[9]</code>。因此迴圈檢查索引 1 到 9，並略過索引 6。</p>
+<p>題目沒有明說這 8 個位元要用哪種字元編碼。可以從範例推知：官方範例第一列讀成 <code>01000001₂</code>，換算為十進位是 65；依 ASCII 對應為 <code>A</code>，正好是範例訊息的第一個字元。因此本文按 ASCII 解碼，但要注意這項規則是從範例推得，題目敘述沒有明文交代。</p>
+<p>程式由左至右逐位累積：先把目前值左移一位，再放入新位元。以 <code>01000001</code> 為例，讀完前兩位後目前值是 <code>1</code>；再讀入 <code>0</code> 時，先左移得到 <code>2</code>，再加入 <code>0</code>，後續位元依此類推，最後得到 65。</p>
+<p>輸入的第一條 <code>___________</code> 是紙帶起點；之後每讀到一列就輸出一個字元，直到讀到下一條分隔線。這樣每列都會解碼一次，並保留訊息中的空格、標點和換行字元。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">char</span> <span class="title">decodeRow</span><span class="params">(<span class="type">const</span> string&amp; row)</span> </span>&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> value = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> column = <span class="number">1</span>; column &lt;= <span class="number">9</span>; ++column) &#123;</span><br><span class="line">        <span class="keyword">if</span> (column == <span class="number">6</span>) <span class="keyword">continue</span>;  <span class="comment">// The center dot marks the tape, not a bit.</span></span><br><span class="line">        value = <span class="built_in">static_cast</span>&lt;<span class="type">unsigned</span> <span class="type">char</span>&gt;((value &lt;&lt; <span class="number">1</span>) | (row[column] == <span class="string">&#x27;o&#x27;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> string delimiter = <span class="string">&quot;___________&quot;</span>;</span><br><span class="line">    string row;</span><br><span class="line">    <span class="built_in">getline</span>(cin, row);  <span class="comment">// The first delimiter starts the tape.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">getline</span>(cin, row) &amp;&amp; row != delimiter) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">decodeRow</span>(row);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每列處理固定 8 個資料位元，因此共有 <code>N</code> 列時，時間為 <code>O(N)</code>；程式只保存目前一列和一個位元組，額外空間為 <code>O(1)</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯；以程式產生 0 到 127 的 ASCII 紙帶列，解碼結果逐位元組相符。另用 uDebug 提供的完整紙帶資料解碼，結果與 Accepted Output 相符（將文字欄位正規化的換行形式統一後）。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/108/10878.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10878">uDebug 測資</a></p>
+<p>本篇程式以 C++11 提交 UVa 10878，結果為 Accepted。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10878-decode-the-tape-025/" data-id="cuidCs1G_ITaBZFVqkzlLkjW0" data-title="10878 - Decode the Tape" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-uva-10125-sumsets-027" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2012/10/20/uva-10125-sumsets-027/" class="article-date">
@@ -362,7 +765,7 @@ c:ref:c -> null [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
     </div>
   </div>
 
@@ -379,7 +782,19 @@ c:ref:c -> null [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];
           </li>
         
           <li>
-            <a href="/2012/10/20/uva-10125-sumsets-027/">10125 - Sumsets</a>
+            <a href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/">10415 - Eb Alto Saxophone Player</a>
           </li>
         
       </ul>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>10309 - Turn the Lights Off | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="題目要求每筆測資先給一個名稱，接著給 10×10 棋盤：O 表示燈亮，# 表示燈熄；名稱為 end 時輸入結束。按下一格的開關會反轉該格以及上下左右相鄰格的燈，超出棋盤的方向不作用。題目要找出讓整個棋盤熄燈所需的最少按鍵次數。若無法全部熄燈，或最少次數超過 100，就輸出 -1；每筆輸出包含測資名稱和答案。 下圖用 3×3 小棋盤示範按下中央開關，如何一次熄掉中央與上下左右的燈；對角線上的燈不變。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10309 - Turn the Lights Off">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2013/11/27/uva-10309-turn-the-lights-off-009/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="題目要求每筆測資先給一個名稱，接著給 10×10 棋盤：O 表示燈亮，# 表示燈熄；名稱為 end 時輸入結束。按下一格的開關會反轉該格以及上下左右相鄰格的燈，超出棋盤的方向不作用。題目要找出讓整個棋盤熄燈所需的最少按鍵次數。若無法全部熄燈，或最少次數超過 100，就輸出 -1；每筆輸出包含測資名稱和答案。 下圖用 3×3 小棋盤示範按下中央開關，如何一次熄掉中央與上下左右的燈；對角線上的燈不變。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2013-11-26T16:36:55.000Z">
+<meta property="article:modified_time" content="2026-10-24T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-10309-turn-the-lights-off-009" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/" class="article-date">
+  <time class="dt-published" datetime="2013-11-26T16:36:55.000Z" itemprop="datePublished">2013-11-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      10309 - Turn the Lights Off
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>每筆測資先給一個名稱，接著給 <code>10×10</code> 棋盤：<code>O</code> 表示燈亮，<code>#</code> 表示燈熄；名稱為 <code>end</code> 時輸入結束。按下一格的開關會反轉該格以及上下左右相鄰格的燈，超出棋盤的方向不作用。題目要找出讓整個棋盤熄燈所需的最少按鍵次數。若無法全部熄燈，或最少次數超過 100，就輸出 <code>-1</code>；每筆輸出包含測資名稱和答案。</p>
+<p>下圖用 <code>3×3</code> 小棋盤示範按下中央開關，如何一次熄掉中央與上下左右的燈；對角線上的燈不變。<code>O</code> 代表亮燈，<code>#</code> 代表熄燈；黃底表示亮燈，灰底表示熄燈。</p>
+<div id="graphviz-0"></div>
+
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>解法分成兩步：枚舉第一列的按法，再由上往下推導其餘各列。每個候選方案推完十列後，檢查棋盤是否全暗，從可行方案中取最少按鍵數；沒有可行方案或最少次數超過 100，就輸出 <code>-1</code>。</p>
+<h2 id="為什麼只窮舉第一列"><a href="#為什麼只窮舉第一列" class="headerlink" title="為什麼只窮舉第一列"></a>為什麼只窮舉第一列</h2><p>同一個開關按兩次會抵消，因此只需考慮每個位置按或不按一次。</p>
+<p>不能把「看到亮燈就按」直接套用在第一列，因為第一列的燈還會受下方開關影響；第一列沒有前一列的狀態可用來決定按法，因此要枚舉十個開關的 <code>2^10 = 1024</code> 種組合，而不是枚舉全盤 100 個開關的 <code>2^100</code> 種組合。</p>
+<p>固定第一列後，從第二列開始逐列處理。若上一列某格仍亮著，只有正下方的開關能再影響那格，所以必須按；若已熄滅，就不按。每列的按法因此都由上一列唯一決定，不必再枚舉。</p>
+<p>處理完第十列後，所有前九列都已清除，還要檢查最後一列是否也全暗。若全暗，這組按法可行；在 1024 種第一列按法中取按鍵數最少者，即為答案。</p>
+<p>每個候選第一列只需模擬 100 個位置，因此時間複雜度為 O(2^10 × 100)，額外空間為 O(100)。</p>
+<h2 id="C-11-程式碼"><a href="#C-11-程式碼" class="headerlink" title="C++11 程式碼"></a>C++11 程式碼</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Board = std::array&lt;std::string, <span class="number">10</span>&gt;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">press</span><span class="params">(Board&amp; board, <span class="type">int</span> row, <span class="type">int</span> col)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> rowOffset[<span class="number">5</span>] = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">-1</span>, <span class="number">1</span>&#125;;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> colOffset[<span class="number">5</span>] = &#123;<span class="number">0</span>, <span class="number">-1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> direction = <span class="number">0</span>; direction &lt; <span class="number">5</span>; ++direction) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> nextRow = row + rowOffset[direction];</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> nextCol = col + colOffset[direction];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (nextRow &lt; <span class="number">0</span> || nextRow &gt;= <span class="number">10</span> ||</span><br><span class="line">            nextCol &lt; <span class="number">0</span> || nextCol &gt;= <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">char</span>&amp; light = board[nextRow][nextCol];</span><br><span class="line">        light = (light == <span class="string">&#x27;O&#x27;</span>) ? <span class="string">&#x27;#&#x27;</span> : <span class="string">&#x27;O&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">allLightsOff</span><span class="params">(<span class="type">const</span> Board&amp; board)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> std::string&amp; row : board) &#123;</span><br><span class="line">        <span class="keyword">if</span> (row.<span class="built_in">find</span>(<span class="string">&#x27;O&#x27;</span>) != std::string::npos) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">minimumPresses</span><span class="params">(<span class="type">const</span> Board&amp; initialBoard)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> best = <span class="number">101</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> firstRowPresses = <span class="number">0</span>; firstRowPresses &lt; (<span class="number">1</span> &lt;&lt; <span class="number">10</span>);</span><br><span class="line">         ++firstRowPresses) &#123;</span><br><span class="line">        Board board = initialBoard;</span><br><span class="line">        <span class="type">int</span> pressCount = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> col = <span class="number">0</span>; col &lt; <span class="number">10</span>; ++col) &#123;</span><br><span class="line">            <span class="keyword">if</span> (firstRowPresses &amp; (<span class="number">1</span> &lt;&lt; col)) &#123;</span><br><span class="line">                <span class="built_in">press</span>(board, <span class="number">0</span>, col);</span><br><span class="line">                ++pressCount;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> row = <span class="number">1</span>; row &lt; <span class="number">10</span>; ++row) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> col = <span class="number">0</span>; col &lt; <span class="number">10</span>; ++col) &#123;</span><br><span class="line">                <span class="comment">// This is the only row that can still change the row above.</span></span><br><span class="line">                <span class="keyword">if</span> (board[row - <span class="number">1</span>][col] == <span class="string">&#x27;O&#x27;</span>) &#123;</span><br><span class="line">                    <span class="built_in">press</span>(board, row, col);</span><br><span class="line">                    ++pressCount;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">allLightsOff</span>(board)) &#123;</span><br><span class="line">            best = std::<span class="built_in">min</span>(best, pressCount);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (best &lt;= <span class="number">100</span>) ? best : <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string caseName;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (std::cin &gt;&gt; caseName &amp;&amp; caseName != <span class="string">&quot;end&quot;</span>) &#123;</span><br><span class="line">        Board board;</span><br><span class="line">        <span class="keyword">for</span> (std::string&amp; row : board) &#123;</span><br><span class="line">            std::cin &gt;&gt; row;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; caseName &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; <span class="built_in">minimumPresses</span>(board) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-提交紀錄"><a href="#UVa-提交紀錄" class="headerlink" title="UVa 提交紀錄"></a>UVa 提交紀錄</h2><p>Submission 31353574：C++11，Accepted，0.010 秒。</p>
+<p>題目敘述與範例：<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/103/10309.pdf">UVa 10309 - Turn the Lights Off</a></p>
+<p>參考資料：本篇文章參考 UVa 討論區 lucastan 對 XOR 與逐列推導的說明：<a target="_blank" rel="noopener" href="https://online-judge.uva.es/board/viewtopic.php?f=20&t=678&p=165512">10309 討論串</a>（連結年代久遠，現已失效）。</p>
+<script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script><script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script><textarea id="graphviz-0-code" style="display: none">digraph LightToggle {
+    graph [rankdir=LR, bgcolor="transparent", nodesep=0.65, ranksep=0.8, margin=0.08];
+    node [shape=plain, fontname="Arial", fontsize=12];
+    edge [color="#596579", penwidth=1.5, arrowsize=0.8, fontname="Arial", fontsize=11];
+
+    before [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="10" COLOR="#7B8493">
+        <TR><TD COLSPAN="3" BORDER="0"><B>按下前</B></TD></TR>
+        <TR><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#FFF1C7">O</TD><TD BGCOLOR="#F1F3F5">#</TD></TR>
+        <TR><TD BGCOLOR="#FFF1C7">O</TD><TD BGCOLOR="#FFF1C7">O</TD><TD BGCOLOR="#FFF1C7">O</TD></TR>
+        <TR><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#FFF1C7">O</TD><TD BGCOLOR="#F1F3F5">#</TD></TR>
+    </TABLE>>];
+
+    after [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="10" COLOR="#7B8493">
+        <TR><TD COLSPAN="3" BORDER="0"><B>按下後</B></TD></TR>
+        <TR><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#F1F3F5">#</TD></TR>
+        <TR><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#F1F3F5">#</TD></TR>
+        <TR><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#F1F3F5">#</TD><TD BGCOLOR="#F1F3F5">#</TD></TR>
+    </TABLE>>];
+
+    before -> after [label="按下中央開關"];
+}</textarea><script>  var viz = new Viz();  var code = document.getElementById("graphviz-0-code").value;  viz.renderSVGElement(code)  .then(function(element) {    document.getElementById("graphviz-0").append(element)  });</script>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/11/27/uva-10309-turn-the-lights-off-009/" data-id="cuidOMJoEs7bKYlgIYzPy8X1C" data-title="10309 - Turn the Lights Off" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/12/06/uva-12247-jollo-008/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          12247 - Jollo
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">11336 D:DRAM</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-CLI/">C++/CLI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ZeroJudge/">ZeroJudge</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%B5%B1%E7%A8%8B%E5%BC%8F/">系統程式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/">10415 - Eb Alto Saxophone Player</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
