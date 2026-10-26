@@ -112,7 +112,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10878-decode-the-tape-025/" data-id="cuidVCBnUgiSA9lw81BTt56LY" data-title="10878 - Decode the Tape" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10878-decode-the-tape-025/" data-id="cuidCcscYk-odpuGJWZ01zI-b" data-title="10878 - Decode the Tape" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -165,7 +165,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10167-birthday-cake-026/" data-id="cuid0fQTlrbwLX_yy7NaC6zkC" data-title="10167 - Birthday Cake" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10167-birthday-cake-026/" data-id="cuid-ZQTn3GHOh5gBcsr2FKep" data-title="10167 - Birthday Cake" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -291,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10125-sumsets-027/" data-id="cuidcBF18-jB7zGrua1Xpa6Ln" data-title="10125 - Sumsets" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10125-sumsets-027/" data-id="cuid5DcKt8_Spcy8lTLJpS4JY" data-title="10125 - Sumsets" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -343,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-296-safebreaker-028/" data-id="cuidZiNL6G4p89w-0yhtbhmTC" data-title="296 - Safebreaker" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-296-safebreaker-028/" data-id="cuidFz7xw0TrqIhbrgIT15Tip" data-title="296 - Safebreaker" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -421,7 +421,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-311-packets-029/" data-id="cuidOANn28dzwNvp_kKOO8DSY" data-title="311 - Packets" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-311-packets-029/" data-id="cuidNS8sFFKTOceb32PhPDuX5" data-title="311 - Packets" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -474,7 +474,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-714-copying-books-030/" data-id="cuidG1_PNBHZz_XoaXidSExz0" data-title="714 - Copying Books" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-714-copying-books-030/" data-id="cuidsOCgqYd0jMhjxJafeOn7V" data-title="714 - Copying Books" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -512,53 +512,52 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10464 要將兩個十進位小數相加。題目規定每個數的小數點前、後都可能各有 1000 位，也可能帶負號；輸出時要去掉多餘的前導零與小數末尾零，並讓小數點兩側都至少保留一位數。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/104/10464.pdf">題目敘述</a></p>
-<h2 id="把小數轉成同一個整數尺度"><a href="#把小數轉成同一個整數尺度" class="headerlink" title="把小數轉成同一個整數尺度"></a>把小數轉成同一個整數尺度</h2><p>這裡的 1000 位是題目給的上限。為了避免浮點數誤差，程式不把輸入轉成 <code>double</code>，而是把每個數表示成「乘上 <code>10^1000</code> 後的整數」。做法是把小數點後補零到 1000 位，再移除小數點。例如 <code>12.34</code> 會變成 <code>1234</code> 後接 998 個零，代表 <code>12.34 × 10^1000</code>。如此一來，每個輸入都有相同的小數尺度，可以直接用整數字串加減。</p>
-<p>補到固定 1000 位是簡單的表示方式，不是逐一嘗試數值。因為題目最多只有 1000 位小數，這個字串長度有明確上限；也可以只補到這組輸入中較長的小數位數，但需要另外記錄並對齊尺度。</p>
-<h2 id="正負號與絕對值運算"><a href="#正負號與絕對值運算" class="headerlink" title="正負號與絕對值運算"></a>正負號與絕對值運算</h2><p>先把正負號和絕對值分開處理。這樣加減只需要操作非負的數字字串，減法時先比較大小，就能確保用較大的絕對值減較小的絕對值，借位規則也保持單純。</p>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10464 的解法可以先抓住一個核心：<strong>把兩個小數都轉成同一尺度的帶符號整數字串，完成加減後再放回小數點。</strong> 這樣能精確處理題目允許的長數字，不會有浮點誤差。</p>
+<h2 id="先把小數表示成整數字串"><a href="#先把小數表示成整數字串" class="headerlink" title="先把小數表示成整數字串"></a>先把小數表示成整數字串</h2><p>題目允許每個數的小數點前、後各有 1000 位。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/104/10464.pdf">題目敘述</a> 因此固定把小數位補到 1000 位，相當於將原數乘上 <code>10^1000</code>，再移除小數點。例如 <code>12.34</code> 會表示成 <code>1234</code> 後接 998 個零。整數字串另外記錄正負號。</p>
+<p>接著只需要對整數字串做加法或減法：加法從右向左逐位相加並傳遞進位；減法同樣從右向左處理借位，並先確保較大的絕對值在前。兩個字串長度可以不同，直接從右端對齊即可。</p>
+<h2 id="根據符號決定加減"><a href="#根據符號決定加減" class="headerlink" title="根據符號決定加減"></a>根據符號決定加減</h2><p>同號時直接相加絕對值；異號時比較絕對值，拿大的減小的。結果符號依下表決定：</p>
 <table>
 <thead>
 <tr>
-<th>兩數的符號與大小</th>
-<th>絕對值的運算</th>
+<th>符號與大小</th>
+<th>絕對值運算</th>
 <th>結果符號</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>同為正數</td>
-<td>&#96;</td>
-<td>a</td>
+<td><code>a</code>、<code>b</code> 都是正數</td>
+<td><code>abs(a) + abs(b)</code></td>
+<td>正</td>
 </tr>
 <tr>
-<td>同為負數</td>
-<td>&#96;</td>
-<td>a</td>
+<td><code>a</code>、<code>b</code> 都是負數</td>
+<td><code>abs(a) + abs(b)</code></td>
+<td>負</td>
 </tr>
 <tr>
-<td>異號，且 &#96;</td>
-<td>a</td>
-<td>&gt;</td>
+<td>異號，<code>abs(a) &gt; abs(b)</code></td>
+<td><code>abs(a) - abs(b)</code></td>
+<td>跟 <code>a</code> 相同</td>
 </tr>
 <tr>
-<td>異號，且 &#96;</td>
-<td>a</td>
-<td>&lt;</td>
+<td>異號，<code>abs(a) &lt; abs(b)</code></td>
+<td><code>abs(b) - abs(a)</code></td>
+<td>跟 <code>b</code> 相同</td>
 </tr>
 <tr>
-<td>異號，且 &#96;</td>
-<td>a</td>
-<td>&#x3D;</td>
+<td>異號，<code>abs(a) = abs(b)</code></td>
+<td>零</td>
+<td>輸出 <code>0.0</code></td>
 </tr>
 </tbody></table>
-<p>例如 <code>3.3 + (-1.1)</code> 是異號相加，因為 <code>|3.3| &gt; |−1.1|</code>，所以計算 <code>3.3 - 1.1</code>，結果沿用 <code>3.3</code> 的正號；<code>-1.1 + 3.3</code> 會得到相同數值。若兩個絕對值相同，例如 <code>-2.5 + 2.5</code>，結果固定輸出 <code>0.0</code>，不保留負零。</p>
-<h2 id="字串加減與輸出格式"><a href="#字串加減與輸出格式" class="headerlink" title="字串加減與輸出格式"></a>字串加減與輸出格式</h2><p>加法從字串末位往前逐位相加並保留進位。減法也從末位開始逐位借位，呼叫前已確保被減數的絕對值較大。兩個字串長度不必先補成一樣，運算函式會從右端對齊並處理缺少的高位。</p>
-<p>運算結果仍是乘上 <code>10^1000</code> 的整數。輸出時從右側切出最後 1000 位作為小數部分，移除整數部分的前導零和小數部分的末尾零；若小數部分全為零，保留一個 <code>0</code>。因此 <code>004112.000 + 21.00</code> 會輸出 <code>4133.0</code>，而不是 <code>4133</code>。</p>
+<p>例如 <code>3.3 + (-1.1)</code> 會計算 <code>abs(3.3) - abs(-1.1)</code>，結果沿用 <code>3.3</code> 的正號；<code>-1.1 + 3.3</code> 則沿用 <code>3.3</code> 的正號。絕對值相同時直接輸出 <code>0.0</code>，不產生負零。</p>
+<h2 id="還原小數點並整理輸出"><a href="#還原小數點並整理輸出" class="headerlink" title="還原小數點並整理輸出"></a>還原小數點並整理輸出</h2><p>計算結果仍代表原數乘上 <code>10^1000</code>。從右側切出最後 1000 位作為小數部分，移除整數部分的前導零和小數部分的末尾零；兩部分各至少保留一位。譬如 <code>004112.000 + 21.00</code> 的結果會輸出 <code>4133.0</code>。</p>
 <h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Decimal</span> &#123;</span><br><span class="line">    <span class="type">bool</span> negative;</span><br><span class="line">    string digits;  <span class="comment">// Integer magnitude with the decimal point removed.</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">Decimal <span class="title">parseDecimal</span><span class="params">(string text)</span> </span>&#123;</span><br><span class="line">    Decimal value&#123;<span class="literal">false</span>, <span class="string">&quot;&quot;</span>&#125;;</span><br><span class="line">    <span class="type">size_t</span> pos = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (text[pos] == <span class="string">&#x27;+&#x27;</span> || text[pos] == <span class="string">&#x27;-&#x27;</span>) &#123;</span><br><span class="line">        value.negative = text[pos] == <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">        ++pos;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> point = text.<span class="built_in">find</span>(<span class="string">&#x27;.&#x27;</span>, pos);</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> integerEnd = point == string::npos ? text.<span class="built_in">size</span>() : point;</span><br><span class="line">    value.digits = text.<span class="built_in">substr</span>(pos, integerEnd - pos);</span><br><span class="line">    <span class="keyword">if</span> (value.digits.<span class="built_in">empty</span>()) value.digits = <span class="string">&quot;0&quot;</span>;</span><br><span class="line">    string fraction = point == string::npos ? <span class="string">&quot;&quot;</span> : text.<span class="built_in">substr</span>(point + <span class="number">1</span>);</span><br><span class="line">    fraction.<span class="built_in">append</span>(<span class="number">1000</span> - fraction.<span class="built_in">size</span>(), <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    value.digits += fraction;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> first = value.digits.<span class="built_in">find_first_not_of</span>(<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (first == string::npos) &#123;</span><br><span class="line">        value.digits = <span class="string">&quot;0&quot;</span>;</span><br><span class="line">        value.negative = <span class="literal">false</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        value.digits.<span class="built_in">erase</span>(<span class="number">0</span>, first);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">compareMagnitude</span><span class="params">(<span class="type">const</span> string &amp;a, <span class="type">const</span> string &amp;b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a.<span class="built_in">size</span>() != b.<span class="built_in">size</span>()) <span class="keyword">return</span> a.<span class="built_in">size</span>() &lt; b.<span class="built_in">size</span>() ? <span class="number">-1</span> : <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (a == b) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> a &lt; b ? <span class="number">-1</span> : <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">addMagnitude</span><span class="params">(<span class="type">const</span> string &amp;a, <span class="type">const</span> string &amp;b)</span> </span>&#123;</span><br><span class="line">    string result;</span><br><span class="line">    <span class="type">int</span> carry = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(a.<span class="built_in">size</span>()) - <span class="number">1</span>,</span><br><span class="line">             j = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(b.<span class="built_in">size</span>()) - <span class="number">1</span>; i &gt;= <span class="number">0</span> || j &gt;= <span class="number">0</span> || carry;</span><br><span class="line">         --i, --j) &#123;</span><br><span class="line">        <span class="type">int</span> sum = carry;</span><br><span class="line">        <span class="keyword">if</span> (i &gt;= <span class="number">0</span>) sum += a[i] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span> (j &gt;= <span class="number">0</span>) sum += b[j] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        result.<span class="built_in">push_back</span>(<span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(<span class="string">&#x27;0&#x27;</span> + sum % <span class="number">10</span>));</span><br><span class="line">        carry = sum / <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">reverse</span>(result.<span class="built_in">begin</span>(), result.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Requires a &gt;= b.</span></span><br><span class="line"><span class="function">string <span class="title">subtractMagnitude</span><span class="params">(<span class="type">const</span> string &amp;a, <span class="type">const</span> string &amp;b)</span> </span>&#123;</span><br><span class="line">    string result;</span><br><span class="line">    <span class="type">int</span> borrow = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(a.<span class="built_in">size</span>()) - <span class="number">1</span>,</span><br><span class="line">             j = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(b.<span class="built_in">size</span>()) - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i, --j) &#123;</span><br><span class="line">        <span class="type">int</span> digit = (a[i] - <span class="string">&#x27;0&#x27;</span>) - borrow - (j &gt;= <span class="number">0</span> ? b[j] - <span class="string">&#x27;0&#x27;</span> : <span class="number">0</span>);</span><br><span class="line">        borrow = digit &lt; <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (borrow) digit += <span class="number">10</span>;</span><br><span class="line">        result.<span class="built_in">push_back</span>(<span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(<span class="string">&#x27;0&#x27;</span> + digit));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (result.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; result.<span class="built_in">back</span>() == <span class="string">&#x27;0&#x27;</span>) result.<span class="built_in">pop_back</span>();</span><br><span class="line">    <span class="built_in">reverse</span>(result.<span class="built_in">begin</span>(), result.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">formatResult</span><span class="params">(<span class="type">const</span> string &amp;magnitude, <span class="type">bool</span> negative)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Every input is represented at a common scale of 10^1000.</span></span><br><span class="line">    string digits = <span class="built_in">string</span>(<span class="number">1001</span> &gt; magnitude.<span class="built_in">size</span>() ? <span class="number">1001</span> - magnitude.<span class="built_in">size</span>() : <span class="number">0</span>, <span class="string">&#x27;0&#x27;</span>) + magnitude;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> point = digits.<span class="built_in">size</span>() - <span class="number">1000</span>;</span><br><span class="line">    string integerPart = digits.<span class="built_in">substr</span>(<span class="number">0</span>, point);</span><br><span class="line">    string fractionalPart = digits.<span class="built_in">substr</span>(point);</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> first = integerPart.<span class="built_in">find_first_not_of</span>(<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    integerPart = first == string::npos ? <span class="string">&quot;0&quot;</span> : integerPart.<span class="built_in">substr</span>(first);</span><br><span class="line">    <span class="keyword">while</span> (fractionalPart.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; fractionalPart.<span class="built_in">back</span>() == <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">        fractionalPart.<span class="built_in">pop_back</span>();</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">bool</span> isZero = integerPart == <span class="string">&quot;0&quot;</span> &amp;&amp; fractionalPart == <span class="string">&quot;0&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">string</span>(negative &amp;&amp; !isZero ? <span class="string">&quot;-&quot;</span> : <span class="string">&quot;&quot;</span>) + integerPart + <span class="string">&quot;.&quot;</span> + fractionalPart;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> cases;</span><br><span class="line">    <span class="keyword">if</span> (!(cin &gt;&gt; cases)) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (cases--) &#123;</span><br><span class="line">        string firstText, secondText;</span><br><span class="line">        cin &gt;&gt; firstText &gt;&gt; secondText;</span><br><span class="line">        Decimal a = <span class="built_in">parseDecimal</span>(firstText);</span><br><span class="line">        Decimal b = <span class="built_in">parseDecimal</span>(secondText);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (a.negative == b.negative) &#123;</span><br><span class="line">            cout &lt;&lt; formatResult(<span class="built_in">addMagnitude</span>(a.digits, b.digits), a.negative) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="type">const</span> <span class="type">int</span> order = <span class="built_in">compareMagnitude</span>(a.digits, b.digits);</span><br><span class="line">            <span class="keyword">if</span> (order == <span class="number">0</span>) &#123;</span><br><span class="line">                cout &lt;&lt; <span class="string">&quot;0.0\n&quot;</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (order &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                cout &lt;&lt; formatResult(<span class="built_in">subtractMagnitude</span>(a.digits, b.digits), a.negative) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                cout &lt;&lt; formatResult(<span class="built_in">subtractMagnitude</span>(b.digits, a.digits), b.negative) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10464-big-big-real-numbers-031/" data-id="cuidN0JpvuC1bBdnLMHuFWKiH" data-title="10464 - Big Big Real Numbers" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10464-big-big-real-numbers-031/" data-id="cuidos65zUotM6kQZtUDmJ393" data-title="10464 - Big Big Real Numbers" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
