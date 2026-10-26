@@ -108,7 +108,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10783-odd-sum-036/" data-id="cuid2VeagIDhYal15obQKhuBm" data-title="10783 - Odd Sum" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10783-odd-sum-036/" data-id="cuidXiGfwTw8Zp0PkA03CC9jF" data-title="10783 - Odd Sum" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -156,7 +156,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10008-what-s-cryptanalysis-037/" data-id="cuid1kBynpAxboqsvE_-_BsLx" data-title="10008 - What&#39;s Cryptanalysis" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10008-what-s-cryptanalysis-037/" data-id="cuidynwiYXrrSHiFvTXGE6nmg" data-title="10008 - What&#39;s Cryptanalysis" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -205,7 +205,55 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-575-skew-binary-038/" data-id="cuidflw1-SWFHLDoJO8-pFg1i" data-title="575 - Skew Binary" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-575-skew-binary-038/" data-id="cuidme9TRQ_wDjLi-3RwmPpeX" data-title="575 - Skew Binary" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-579-clockhands-039" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-579-clockhands-039/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T06:00:29.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-579-clockhands-039/">579 - ClockHands</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 579 給定時間 <code>H:M</code>，要輸出時針和分針之間較小的角度，四捨五入至小數點後三位。時間以 <code>0:00</code> 結束；<code>H</code> 為 1 到 12，<code>M</code> 為 00 到 59。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/5/579.pdf">題目敘述</a></p>
+<h2 id="先求兩根指針的位置"><a href="#先求兩根指針的位置" class="headerlink" title="先求兩根指針的位置"></a>先求兩根指針的位置</h2><p>時針每小時轉 <code>30°</code>，每分鐘再前進 <code>0.5°</code>，所以時間 <code>H:M</code> 的時針角度是 <code>30H + 0.5M</code>。分針每分鐘轉 <code>6°</code>，角度是 <code>6M</code>。</p>
+<p>兩角相減並取絕對值，得到一個 <code>0°</code> 到 <code>360°</code> 的角度差 <code>d</code>。兩根指針之間較小的角度是 <code>min(d, 360° - d)</code>。例如 <code>8:10</code> 時，時針在 <code>245°</code>，分針在 <code>60°</code>，角度差為 <code>185°</code>，因此答案是 <code>175°</code>。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> hour, minute;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">&quot;%d:%d&quot;</span>,&amp;hour,&amp;minute)!=EOF)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(hour==<span class="number">0</span>&amp;&amp;minute==<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="type">double</span> angleH , angleM;</span><br><span class="line">        angleH = <span class="number">0.5</span>*minute + hour*<span class="number">30</span>;</span><br><span class="line">        angleM = minute*<span class="number">6</span>;</span><br><span class="line">        <span class="type">double</span> ans = angleH-angleM;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(ans &lt; <span class="number">0</span>)</span><br><span class="line">            ans = -ans;</span><br><span class="line">        <span class="keyword">if</span>(ans &gt; <span class="number">180.0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ans = <span class="number">360</span>-ans;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%.3f\n&quot;</span>,ans);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>文章程式與 archive 中的 Accepted 版本完全相同，因此沒有重新提交 UVa。程式以 C++11 編譯，官方範例輸出正確。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-579-clockhands-039/" data-id="cuidWiLd5tUOoLUmNDR0dl54X" data-title="579 - ClockHands" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
