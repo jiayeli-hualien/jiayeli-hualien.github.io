@@ -112,7 +112,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10878-decode-the-tape-025/" data-id="cuidCcscYk-odpuGJWZ01zI-b" data-title="10878 - Decode the Tape" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10878-decode-the-tape-025/" data-id="cuid00lBhsPBddIySGh5fXTRm" data-title="10878 - Decode the Tape" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -165,7 +165,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10167-birthday-cake-026/" data-id="cuid-ZQTn3GHOh5gBcsr2FKep" data-title="10167 - Birthday Cake" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10167-birthday-cake-026/" data-id="cuiduGszkzpckMDv3T1Baqf4p" data-title="10167 - Birthday Cake" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -291,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10125-sumsets-027/" data-id="cuid5DcKt8_Spcy8lTLJpS4JY" data-title="10125 - Sumsets" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10125-sumsets-027/" data-id="cuidv3psCdKMvYDsIa9GQD0kT" data-title="10125 - Sumsets" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -343,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-296-safebreaker-028/" data-id="cuidFz7xw0TrqIhbrgIT15Tip" data-title="296 - Safebreaker" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-296-safebreaker-028/" data-id="cuidoA2k4fEJYc7QtBN4D0jVs" data-title="296 - Safebreaker" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -421,7 +421,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-311-packets-029/" data-id="cuidNS8sFFKTOceb32PhPDuX5" data-title="311 - Packets" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-311-packets-029/" data-id="cuidJ0QNMNUQKinPsEI60krDP" data-title="311 - Packets" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -474,7 +474,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-714-copying-books-030/" data-id="cuidsOCgqYd0jMhjxJafeOn7V" data-title="714 - Copying Books" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-714-copying-books-030/" data-id="cuid6n2tM5pxe67lVKYAQPdPn" data-title="714 - Copying Books" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -515,7 +515,7 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10464 的解法可以先抓住一個核心：<strong>把兩個小數都轉成同一尺度的帶符號整數字串，完成加減後再放回小數點。</strong> 這樣能精確處理題目允許的長數字，不會有浮點誤差。</p>
 <h2 id="先把小數表示成整數字串"><a href="#先把小數表示成整數字串" class="headerlink" title="先把小數表示成整數字串"></a>先把小數表示成整數字串</h2><p>題目允許每個數的小數點前、後各有 1000 位。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/104/10464.pdf">題目敘述</a> 因此固定把小數位補到 1000 位，相當於將原數乘上 <code>10^1000</code>，再移除小數點。例如 <code>12.34</code> 會表示成 <code>1234</code> 後接 998 個零。整數字串另外記錄正負號。</p>
 <p>接著只需要對整數字串做加法或減法：加法從右向左逐位相加並傳遞進位；減法同樣從右向左處理借位，並先確保較大的絕對值在前。兩個字串長度可以不同，直接從右端對齊即可。</p>
-<h2 id="根據符號決定加減"><a href="#根據符號決定加減" class="headerlink" title="根據符號決定加減"></a>根據符號決定加減</h2><p>同號時直接相加絕對值；異號時比較絕對值，拿大的減小的。結果符號依下表決定：</p>
+<h2 id="根據符號決定加減"><a href="#根據符號決定加減" class="headerlink" title="根據符號決定加減"></a>根據符號決定加減</h2><p>先分開處理符號，是為了讓逐位運算只處理非負的數字。異號相加時先比較絕對值，再用大的減小的，借位過程就不會產生負的中間結果；算完後再依絕對值較大的那一項決定結果符號。同號時則直接相加絕對值。</p>
 <table>
 <thead>
 <tr>
@@ -557,7 +557,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10464-big-big-real-numbers-031/" data-id="cuidos65zUotM6kQZtUDmJ393" data-title="10464 - Big Big Real Numbers" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10464-big-big-real-numbers-031/" data-id="cuidOqxuUfaTCCVpCu__F_PHZ" data-title="10464 - Big Big Real Numbers" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
