@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>417 - Word Index | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="UVa 417 要把長度 1 至 5 的小寫字母字串依序編號。有效單字的字母必須嚴格遞增；排序時先按長度，再按字典序。輸入讀到 EOF；每個單字若有效，輸出它在這份清單中的位置，否則輸出 0。整理版用組合數計算排在目標單字前面的單字數，再加 1 得到編號。 先看編號順序單字長度較短的排在前面；相同長度則依字典序排列： 123456a  -&gt; 1b  -&gt; 2...z  -&gt; 26">
+<meta property="og:type" content="article">
+<meta property="og:title" content="417 - Word Index">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/10/20/uva-417-word-index-021/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="UVa 417 要把長度 1 至 5 的小寫字母字串依序編號。有效單字的字母必須嚴格遞增；排序時先按長度，再按字典序。輸入讀到 EOF；每個單字若有效，輸出它在這份清單中的位置，否則輸出 0。整理版用組合數計算排在目標單字前面的單字數，再加 1 得到編號。 先看編號順序單字長度較短的排在前面；相同長度則依字典序排列： 123456a  -&gt; 1b  -&gt; 2...z  -&gt; 26">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-10-20T15:59:15.000Z">
+<meta property="article:modified_time" content="2026-10-25T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-417-word-index-021" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-417-word-index-021/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:59:15.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      417 - Word Index
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 417 要把長度 1 至 5 的小寫字母字串依序編號。有效單字的字母必須嚴格遞增；排序時先按長度，再按字典序。輸入讀到 EOF；每個單字若有效，輸出它在這份清單中的位置，否則輸出 0。整理版用組合數計算排在目標單字前面的單字數，再加 1 得到編號。</p>
+<h2 id="先看編號順序"><a href="#先看編號順序" class="headerlink" title="先看編號順序"></a>先看編號順序</h2><p>單字長度較短的排在前面；相同長度則依字典序排列：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a  -&gt; 1</span><br><span class="line">b  -&gt; 2</span><br><span class="line">...</span><br><span class="line">z  -&gt; 26</span><br><span class="line">ab -&gt; 27</span><br><span class="line">ac -&gt; 28</span><br></pre></td></tr></table></figure>
+
+<p>因此 <code>ac</code> 前面有 26 個一個字母的單字，以及 <code>ab</code> 這一個兩字母單字，編號是 26 + 1 + 1 &#x3D; 28。最後一個有效單字是 <code>vwxyz</code>，編號為 83681。</p>
+<h2 id="計算排在目標之前的單字"><a href="#計算排在目標之前的單字" class="headerlink" title="計算排在目標之前的單字"></a>計算排在目標之前的單字</h2><p>設目標單字長度為 <code>L</code>。先加上所有較短長度的有效單字數：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C(26, 1) + C(26, 2) + ... + C(26, L - 1)</span><br></pre></td></tr></table></figure>
+
+<p>長度為 <code>k</code> 的有效單字，就是從 26 個字母中選出 <code>k</code> 個；選定後字母順序唯一，所以共有 <code>C(26, k)</code> 種。</p>
+<p>接著計算同長度中排在目標之前的單字。從左到右處理每個位置，將「第一個和目標不同的位置」當成分組：前面的字母維持與目標相同，該位置改用一個更小、但仍大於前一個字母的候選字母。若候選字母後面還有 <code>r</code> 個位置，後綴就要從它後方的字母中選 <code>r</code> 個，因此可組成 <code>C(候選字母之後的字母數, r)</code> 個單字。不同位置代表不同的第一個差異點，把各組數量加總，就會得到所有排在目標之前的同長單字，而且不會重複計數。</p>
+<p>程式以 <code>0</code> 至 <code>25</code> 表示 <code>a</code> 至 <code>z</code>。若候選字母索引是 <code>j</code>，它後方還有 <code>25 - j</code> 個字母；尚未填入的字數則是 <code>remainingPositions</code>。因此程式中的 <code>choose[availableLettersAfter][remainingPositions]</code>，正是在計算可選字母中挑出所需後綴的數量。</p>
+<p>因此，編號等於「所有較短長度的有效單字數」加上「同長度中排在目標之前的單字數」，再加 1（目標單字本身的位置）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">編號 = 較短單字數 + 同長度排在前面的單字數 + 1</span><br></pre></td></tr></table></figure>
+
+<p>以 <code>bde</code> 為例：</p>
+<ul>
+<li>第一個字母若由 <code>b</code> 改成 <code>a</code>，後面還有兩個位置，必須從 <code>b</code> 到 <code>z</code> 的 25 個字母中選兩個，所以這一組有 <code>C(25, 2) = 300</code> 個單字。對應程式中的 <code>candidate = 0</code>、<code>availableLettersAfter = 25</code>、<code>remainingPositions = 2</code>，也就是 <code>choose[25][2]</code>。</li>
+<li>若第一個字母仍是 <code>b</code>，第二個字母可以由 <code>d</code> 改成 <code>c</code>。最後一個字母可從 <code>d</code> 到 <code>z</code> 的 23 個字母中選一個，所以有 <code>C(23, 1) = 23</code> 個單字，對應 <code>choose[23][1]</code>。</li>
+<li>若前兩個字母都維持 <code>bd</code>，第三個字母必須大於 <code>d</code>；最小只能是 <code>e</code>，所以沒有比 <code>bde</code> 更早的有效單字。像 <code>bda</code>、<code>bdc</code> 都不符合字母嚴格遞增的條件。</li>
+</ul>
+<p>因此，同長度中排在 <code>bde</code> 前面的單字共有 <code>300 + 23 = 323</code> 個。較短的單字有 <code>C(26, 1) + C(26, 2) = 26 + 325 = 351</code> 個；套用上面的公式，<code>bde</code> 的編號是 <code>351 + 323 + 1 = 675</code>。</p>
+<p>程式沒有分別建立這兩個計數變數，而是把前兩項都累加到 <code>wordsBefore</code>，最後回傳 <code>wordsBefore + 1</code>。它用 Pascal 三角形預先計算 <code>C(n, k)</code>，遞迴關係為 <code>C(n, k) = C(n - 1, k - 1) + C(n - 1, k)</code>。每個輸入字最多檢查 5 個位置，每個位置至多嘗試 26 個候選字母。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isValidWord</span><span class="params">(<span class="type">const</span> string&amp; word)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (word.<span class="built_in">empty</span>() || word.<span class="built_in">size</span>() &gt; <span class="number">5</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; word.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (word[i] &lt; <span class="string">&#x27;a&#x27;</span> || word[i] &gt; <span class="string">&#x27;z&#x27;</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; word[i - <span class="number">1</span>] &gt;= word[i]) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">wordIndex</span><span class="params">(<span class="type">const</span> string&amp; word, <span class="type">const</span> array&lt;array&lt;<span class="type">int</span>, <span class="number">6</span>&gt;, <span class="number">27</span>&gt;&amp; choose)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> length = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(word.<span class="built_in">size</span>());</span><br><span class="line">    <span class="type">int</span> wordsBefore = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> shorterLength = <span class="number">1</span>; shorterLength &lt; length; ++shorterLength) &#123;</span><br><span class="line">        wordsBefore += choose[<span class="number">26</span>][shorterLength];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> previousLetter = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">0</span>; position &lt; length; ++position) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> currentLetter = word[position] - <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> remainingPositions = length - position - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> candidate = previousLetter + <span class="number">1</span>; candidate &lt; currentLetter; ++candidate) &#123;</span><br><span class="line">            <span class="type">const</span> <span class="type">int</span> availableLettersAfter = <span class="number">25</span> - candidate;</span><br><span class="line">            wordsBefore += choose[availableLettersAfter][remainingPositions];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        previousLetter = currentLetter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> wordsBefore + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    array&lt;array&lt;<span class="type">int</span>, 6&gt;, 27&gt; choose = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> n = <span class="number">0</span>; n &lt;= <span class="number">26</span>; ++n) &#123;</span><br><span class="line">        choose[n][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> n = <span class="number">1</span>; n &lt;= <span class="number">26</span>; ++n) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">1</span>; k &lt;= <span class="number">5</span> &amp;&amp; k &lt;= n; ++k) &#123;</span><br><span class="line">            choose[n][k] = choose[n - <span class="number">1</span>][k - <span class="number">1</span>] + choose[n - <span class="number">1</span>][k];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    string word;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; word) &#123;</span><br><span class="line">        cout &lt;&lt; (<span class="built_in">isValidWord</span>(word) ? <span class="built_in">wordIndex</span>(word, choose) : <span class="number">0</span>) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>預先計算組合數需要 <code>O(26 × 5)</code> 時間與空間；每個輸入單字最多處理 5 個位置、每個位置最多嘗試 26 個字母，時間為 <code>O(26L)</code>，其中 <code>L ≤ 5</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯；官方範例、uDebug 第一組前 20 筆資料與邊界案例輸出相符。另依長度、字典序列舉全部 83,681 個有效單字，程式輸出依序為 1 至 83,681；5 個無效單字都輸出 0。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/4/417.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/417">uDebug 測資</a></p>
+<p>組合數排名的實作概念參考：<a target="_blank" rel="noopener" href="https://diadoacm.blogspot.com/2012/08/acm-417-word-index.html">ACM 417 - Word Index 解題文章</a>。</p>
+<p>本篇程式以 C++11 提交 UVa 417，結果為 Accepted。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-417-word-index-021/" data-id="cuidr0nrDLokxyj24_wA75xru" data-title="417 - Word Index" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/07/31/uva-11507-bender-b-rodri-guez-problem-016/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          11507 - Bender B. Rodríguez Problem
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10415 - Eb Alto Saxophone Player</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-CLI/">C++/CLI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ZeroJudge/">ZeroJudge</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%B5%B1%E7%A8%8B%E5%BC%8F/">系統程式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+          </li>
+        
+          <li>
+            <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/">10114 - Loansome Car Buyer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
