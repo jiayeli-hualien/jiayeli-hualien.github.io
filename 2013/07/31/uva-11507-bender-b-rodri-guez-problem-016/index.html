@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>11507 - Bender B. Rodríguez Problem | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="題目要求題目中的金屬線（metal wire）可以想像成一條可彎折的鐵絲。它的長度為 L，固定端在原點，自由端一開始位於 (L, 0, 0)，因此整條線沿 +x 方向。Bender 從自由端往固定端依序處理 L - 1 個彎折點：No 表示不彎，其他指令表示在該點轉彎 90 度。題目要輸出全部彎折完成後，末段線的方向。 解法概念：追蹤末段方向只要追蹤自由端末段的方向，不必計算自由端最後的位置。用方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="11507 - Bender B. Rodríguez Problem">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2013/07/31/uva-11507-bender-b-rodri-guez-problem-016/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="題目要求題目中的金屬線（metal wire）可以想像成一條可彎折的鐵絲。它的長度為 L，固定端在原點，自由端一開始位於 (L, 0, 0)，因此整條線沿 +x 方向。Bender 從自由端往固定端依序處理 L - 1 個彎折點：No 表示不彎，其他指令表示在該點轉彎 90 度。題目要輸出全部彎折完成後，末段線的方向。 解法概念：追蹤末段方向只要追蹤自由端末段的方向，不必計算自由端最後的位置。用方">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2013-07-31T12:47:30.000Z">
+<meta property="article:modified_time" content="2026-10-25T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-11507-bender-b-rodri-guez-problem-016" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/07/31/uva-11507-bender-b-rodri-guez-problem-016/" class="article-date">
+  <time class="dt-published" datetime="2013-07-31T12:47:30.000Z" itemprop="datePublished">2013-07-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      11507 - Bender B. Rodríguez Problem
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>題目中的金屬線（metal wire）可以想像成一條可彎折的鐵絲。它的長度為 <code>L</code>，固定端在原點，自由端一開始位於 <code>(L, 0, 0)</code>，因此整條線沿 <code>+x</code> 方向。Bender 從自由端往固定端依序處理 <code>L - 1</code> 個彎折點：<code>No</code> 表示不彎，其他指令表示在該點轉彎 90 度。題目要輸出全部彎折完成後，末段線的方向。</p>
+<h2 id="解法概念：追蹤末段方向"><a href="#解法概念：追蹤末段方向" class="headerlink" title="解法概念：追蹤末段方向"></a>解法概念：追蹤末段方向</h2><p>只要追蹤自由端末段的方向，不必計算自由端最後的位置。用方向向量 <code>d = (x, y, z)</code> 表示目前末段的方向，初始朝 <code>+x</code>，所以 <code>d = (1, 0, 0)</code>。<code>No</code> 不改變方向；其他指令則根據目前方向更新向量。</p>
+<p>以 <code>L = 3</code>、指令依序為 <code>+y</code>、<code>-y</code> 為例，圖中逐步追蹤末段方向；處理完兩個指令後，方向仍是 <code>+x</code>。</p>
+<p>題目只要求末段方向，因此圖只呈現計算時追蹤的向量狀態，不畫整條線的位置座標。箭頭表示依輸入順序處理指令，也就是從自由端往固定端。</p>
+<div id="graphviz-0"></div>
+
+<p>圖中示範了方向狀態如何依序更新；接下來把四種彎折指令整理成一般的向量規則。</p>
+<h2 id="彎折指令的向量規則"><a href="#彎折指令的向量規則" class="headerlink" title="彎折指令的向量規則"></a>彎折指令的向量規則</h2><p>假設彎折前的方向向量是 <code>d = (x, y, z)</code>，彎折後是 <code>d&#39; = (x&#39;, y&#39;, z&#39;)</code>。各指令依下列規則更新分量；右側的 <code>x</code>、<code>y</code>、<code>z</code> 都是彎折前的值：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>彎折後的向量 <code>d&#39;</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>+y</code></td>
+<td><code>(-y, x, z)</code></td>
+</tr>
+<tr>
+<td><code>-y</code></td>
+<td><code>(y, -x, z)</code></td>
+</tr>
+<tr>
+<td><code>+z</code></td>
+<td><code>(-z, y, x)</code></td>
+</tr>
+<tr>
+<td><code>-z</code></td>
+<td><code>(z, y, -x)</code></td>
+</tr>
+</tbody></table>
+<p>以 <code>+y</code> 為例，彎折前朝 <code>+x</code> 的分量會轉向 <code>+y</code>，朝 <code>+y</code> 的分量會轉向 <code>-x</code>，而 z 分量不變。因此彎折前的 <code>d = (x, y, z)</code> 會變成 <code>d&#39; = (-y, x, z)</code>，也就是 <code>x&#39; = -y</code>、<code>y&#39; = x</code>、<code>z&#39; = z</code>。公式右側都是彎折前的分量。這些更新在數學上等價於 90 度旋轉，但程式不必建立旋轉矩陣，也不需要浮點數。</p>
+<p>因為初始方向是座標軸方向，而每次彎折只會交換分量並改變正負號，方向始終是以下六種之一：<code>+x</code>、<code>-x</code>、<code>+y</code>、<code>-y</code>、<code>+z</code>、<code>-z</code>。換句話說，三個分量中只有一個是 <code>1</code> 或 <code>-1</code>，另外兩個是 <code>0</code>。因此可以把這六個方向編號，預先整理每種方向遇到各指令後會變成什麼方向。</p>
+<p>下表就是把上面的向量規則列舉成六種方向的轉換表。列是彎折前的方向，欄是本次指令，交叉處是彎折後的方向。例如目前朝 <code>+z</code> 時，向量是 <code>(0, 0, 1)</code>；套用 <code>+y</code> 規則仍是 <code>(0, 0, 1)</code>，所以方向不變。</p>
+<table>
+<thead>
+<tr>
+<th>目前方向</th>
+<th><code>+y</code></th>
+<th><code>-y</code></th>
+<th><code>+z</code></th>
+<th><code>-z</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>+x</code></td>
+<td><code>+y</code></td>
+<td><code>-y</code></td>
+<td><code>+z</code></td>
+<td><code>-z</code></td>
+</tr>
+<tr>
+<td><code>-x</code></td>
+<td><code>-y</code></td>
+<td><code>+y</code></td>
+<td><code>-z</code></td>
+<td><code>+z</code></td>
+</tr>
+<tr>
+<td><code>+y</code></td>
+<td><code>-x</code></td>
+<td><code>+x</code></td>
+<td><code>+y</code></td>
+<td><code>+y</code></td>
+</tr>
+<tr>
+<td><code>-y</code></td>
+<td><code>+x</code></td>
+<td><code>-x</code></td>
+<td><code>-y</code></td>
+<td><code>-y</code></td>
+</tr>
+<tr>
+<td><code>+z</code></td>
+<td><code>+z</code></td>
+<td><code>+z</code></td>
+<td><code>-x</code></td>
+<td><code>+x</code></td>
+</tr>
+<tr>
+<td><code>-z</code></td>
+<td><code>-z</code></td>
+<td><code>-z</code></td>
+<td><code>+x</code></td>
+<td><code>-x</code></td>
+</tr>
+</tbody></table>
+<h2 id="程式如何套用轉移表"><a href="#程式如何套用轉移表" class="headerlink" title="程式如何套用轉移表"></a>程式如何套用轉移表</h2><p>程式不必真的存三個分量，而是以 <code>0</code> 到 <code>5</code> 分別代表 <code>+x</code>、<code>-x</code>、<code>+y</code>、<code>-y</code>、<code>+z</code>、<code>-z</code>。<code>nextDirection</code> 將向量規則整理成查表：列索引是目前方向，欄索引是 <code>+y</code>、<code>-y</code>、<code>+z</code>、<code>-z</code>。每讀到一個非 <code>No</code> 指令，就查表更新方向；全部處理完後，從名稱表輸出結果。</p>
+<p>每筆測資讀取 <code>L - 1</code> 個指令，時間複雜度為 <code>O(L)</code>，除固定大小的轉移表外只使用常數額外空間。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">getTurnIndex</span><span class="params">(<span class="type">const</span> string&amp; turn)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (turn == <span class="string">&quot;+y&quot;</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (turn == <span class="string">&quot;-y&quot;</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (turn == <span class="string">&quot;+z&quot;</span>) <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (turn == <span class="string">&quot;-z&quot;</span>) <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* directionName[] = &#123;<span class="string">&quot;+x&quot;</span>, <span class="string">&quot;-x&quot;</span>, <span class="string">&quot;+y&quot;</span>, <span class="string">&quot;-y&quot;</span>, <span class="string">&quot;+z&quot;</span>, <span class="string">&quot;-z&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Rows are the current directions; columns are +y, -y, +z, -z.</span></span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> nextDirection[<span class="number">6</span>][<span class="number">4</span>] = &#123;</span><br><span class="line">        &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;,</span><br><span class="line">        &#123;<span class="number">3</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">4</span>&#125;,</span><br><span class="line">        &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>&#125;,</span><br><span class="line">        &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>&#125;,</span><br><span class="line">        &#123;<span class="number">4</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</span><br><span class="line">        &#123;<span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">1</span>&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> length;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; length &amp;&amp; length != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">int</span> direction = <span class="number">0</span>;  <span class="comment">// The wire initially points along +x.</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> bend = <span class="number">1</span>; bend &lt; length; ++bend) &#123;</span><br><span class="line">            string turn;</span><br><span class="line">            cin &gt;&gt; turn;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (turn == <span class="string">&quot;No&quot;</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> turnIndex = <span class="built_in">getTurnIndex</span>(turn);</span><br><span class="line">            <span class="keyword">if</span> (turnIndex != <span class="number">-1</span>) &#123;</span><br><span class="line">                direction = nextDirection[direction][turnIndex];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        cout &lt;&lt; directionName[direction] &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><ul>
+<li>UVa 官方範例通過。</li>
+<li>uDebug 第二組公開測資（24 組彎折組合）通過；第一組 100 筆的轉移結果也與 Accepted Output 相符。</li>
+<li>本機以 C++11 編譯後，與獨立的整數向量旋轉參考程式比對 19,531 組案例：涵蓋 6 次彎折以內的所有指令序列，另含 <code>L = 100000</code> 的長案例，結果一致。</li>
+<li>UVa submission <strong>31353786</strong>：C++11，Accepted，0.010 秒。</li>
+</ul>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/115/11507.pdf">UVa 11507 題目敘述</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/11507">uDebug 公開測資</a></li>
+</ul>
+<script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script><script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script><textarea id="graphviz-0-code" style="display: none">digraph BenderDirectionStates {
+    graph [rankdir=LR, bgcolor="transparent", margin=0.08, nodesep=0.3];
+    node [shape=box, style="rounded,filled", fillcolor="#F1F5F9", color="#94A3B8", fontname="Arial", fontsize=12, margin="0.14,0.1"];
+    edge [fontname="Arial", fontsize=11, color="#475569", arrowsize=0.8];
+
+    initial [label="初始末段方向 d₀\n+x = (1, 0, 0)"];
+    after_first [label="第 1 步後末段方向 d₁\n+y = (0, 1, 0)"];
+    after_second [label="第 2 步後末段方向 d₂\n+x = (1, 0, 0)"];
+
+    initial -> after_first [label="原 x = 2 處\n指令 +y"];
+    after_first -> after_second [label="原 x = 1 處\n指令 -y"];
+}</textarea><script>  var viz = new Viz();  var code = document.getElementById("graphviz-0-code").value;  viz.renderSVGElement(code)  .then(function(element) {    document.getElementById("graphviz-0").append(element)  });</script>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/07/31/uva-11507-bender-b-rodri-guez-problem-016/" data-id="cuidCcaG8QyjiN73-eo4XXbTp" data-title="11507 - Bender B. Rodríguez Problem" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          10114 - Loansome Car Buyer
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10415 - Eb Alto Saxophone Player</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-CLI/">C++/CLI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ZeroJudge/">ZeroJudge</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%B5%B1%E7%A8%8B%E5%BC%8F/">系統程式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+          </li>
+        
+          <li>
+            <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/">10114 - Loansome Car Buyer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

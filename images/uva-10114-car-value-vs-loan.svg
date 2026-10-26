@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 520" role="img" aria-labelledby="title desc">
+  <title id="title">UVa 10114 範例：車價與尚欠金額</title>
+  <desc id="desc">第 0 月立即折舊後，車價低於欠款。逐月底比較兩條線，第 4 月月底車價首次高於尚欠金額，因此答案是 4 months。縱軸截取於 12,800 到 15,200 美元。</desc>
+  <style>
+    text { font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; fill: #344054; }
+    .grid { stroke: #d8dee8; stroke-width: 1; }
+    .axis { stroke: #667085; stroke-width: 1.4; }
+    .tick { font-size: 13px; }
+    .label { font-size: 14px; }
+    .note { font-size: 12px; fill: #596579; }
+    .car { stroke: #2563eb; }
+    .debt { stroke: #d97706; }
+  </style>
+
+  <text x="420" y="30" text-anchor="middle" font-size="18" font-weight="600">範例：車價與尚欠金額</text>
+
+  <g class="label">
+    <line x1="268" y1="55" x2="300" y2="55" class="car" stroke-width="3" />
+    <circle cx="284" cy="55" r="4" fill="#2563eb" />
+    <text x="308" y="60">車價</text>
+    <line x1="390" y1="55" x2="422" y2="55" class="debt" stroke-width="3" />
+    <circle cx="406" cy="55" r="4" fill="#d97706" />
+    <text x="430" y="60">尚欠金額</text>
+  </g>
+
+  <rect x="676" y="76" width="36" height="326" fill="#2563eb" opacity="0.06" />
+  <text x="694" y="76" text-anchor="middle" font-size="13" font-weight="600" fill="#2563eb">第 4 月首次符合</text>
+
+  <g class="grid">
+    <line x1="100" y1="98" x2="712" y2="98" />
+    <line x1="100" y1="166" x2="712" y2="166" />
+    <line x1="100" y1="234" x2="712" y2="234" />
+    <line x1="100" y1="302" x2="712" y2="302" />
+    <line x1="100" y1="370" x2="712" y2="370" />
+  </g>
+
+  <g class="axis">
+    <line x1="100" y1="76" x2="100" y2="402" />
+    <line x1="100" y1="402" x2="712" y2="402" />
+  </g>
+
+  <g class="tick" text-anchor="end">
+    <text x="88" y="103">$15,000</text>
+    <text x="88" y="171">$14,500</text>
+    <text x="88" y="239">$14,000</text>
+    <text x="88" y="307">$13,500</text>
+    <text x="88" y="375">$13,000</text>
+  </g>
+
+  <g class="tick" text-anchor="middle">
+    <text x="100" y="424">0</text>
+    <text x="253" y="424">1</text>
+    <text x="406" y="424">2</text>
+    <text x="559" y="424">3</text>
+    <text x="712" y="424">4</text>
+  </g>
+
+  <text x="406" y="451" text-anchor="middle" class="label">月份</text>
+  <text x="25" y="240" text-anchor="middle" class="label" transform="rotate(-90 25 240)">金額（美元）</text>
+
+  <polyline points="100,241 253,298 406,353 559,357 712,360" fill="none" class="car" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  <polyline points="100,98 253,166 406,234 559,302 712,370" fill="none" class="debt" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+
+  <g fill="#2563eb" stroke="#ffffff" stroke-width="2">
+    <circle cx="100" cy="241" r="5" />
+    <circle cx="253" cy="298" r="5" />
+    <circle cx="406" cy="353" r="5" />
+    <circle cx="559" cy="357" r="5" />
+    <circle cx="712" cy="360" r="6" />
+  </g>
+  <g fill="#d97706" stroke="#ffffff" stroke-width="2">
+    <circle cx="100" cy="98" r="5" />
+    <circle cx="253" cy="166" r="5" />
+    <circle cx="406" cy="234" r="5" />
+    <circle cx="559" cy="302" r="5" />
+    <circle cx="712" cy="370" r="6" />
+  </g>
+
+  <text x="690" y="497" text-anchor="middle" class="note">縱軸從 $12,800 起，並非從 0 開始。</text>
+</svg>

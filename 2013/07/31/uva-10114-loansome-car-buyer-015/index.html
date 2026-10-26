@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>10114 - Loansome Car Buyer | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="題目要做什麼已知頭期款、貸款金額、貸款期數和各月份的折舊率，找出經過幾個完整月後，車價首次高於剩餘貸款。輸出這個月數；答案為 1 時用單數 month，其餘用 months。 每個月更新車價與貸款車子剛離開車行時，原始價值是「頭期款 + 貸款金額」。題目把這個尚未經過一個月的時點記為第 0 月：此時立即套用第 0 月的折舊率，但還沒有繳分期款。第 1 月則是經過第一個月後；之後每個月底套用當月折舊">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10114 - Loansome Car Buyer">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2013/07/31/uva-10114-loansome-car-buyer-015/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="題目要做什麼已知頭期款、貸款金額、貸款期數和各月份的折舊率，找出經過幾個完整月後，車價首次高於剩餘貸款。輸出這個月數；答案為 1 時用單數 month，其餘用 months。 每個月更新車價與貸款車子剛離開車行時，原始價值是「頭期款 + 貸款金額」。題目把這個尚未經過一個月的時點記為第 0 月：此時立即套用第 0 月的折舊率，但還沒有繳分期款。第 1 月則是經過第一個月後；之後每個月底套用當月折舊">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://jiayeli-hualien.github.io/images/uva-10114-car-value-vs-loan.svg">
+<meta property="article:published_time" content="2013-07-31T13:06:18.000Z">
+<meta property="article:modified_time" content="2026-10-24T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jiayeli-hualien.github.io/images/uva-10114-car-value-vs-loan.svg">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-10114-loansome-car-buyer-015" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/" class="article-date">
+  <time class="dt-published" datetime="2013-07-31T13:06:18.000Z" itemprop="datePublished">2013-07-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      10114 - Loansome Car Buyer
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要做什麼"><a href="#題目要做什麼" class="headerlink" title="題目要做什麼"></a>題目要做什麼</h2><p>已知頭期款、貸款金額、貸款期數和各月份的折舊率，找出經過幾個完整月後，車價首次高於剩餘貸款。輸出這個月數；答案為 1 時用單數 <code>month</code>，其餘用 <code>months</code>。</p>
+<h2 id="每個月更新車價與貸款"><a href="#每個月更新車價與貸款" class="headerlink" title="每個月更新車價與貸款"></a>每個月更新車價與貸款</h2><p>車子剛離開車行時，原始價值是「頭期款 + 貸款金額」。題目把這個尚未經過一個月的時點記為第 0 月：此時立即套用第 0 月的折舊率，但還沒有繳分期款。第 1 月則是經過第一個月後；之後每個月底套用當月折舊率，再繳一次分期款。貸款沒有利息，因此每期付款是 <code>貸款金額 / 貸款期數</code>。程式沿用題目定義的月份編號，不是任意從 0 開始編號。</p>
+<p>折舊率是從當下車價扣除的比例。例如折舊率為 10%，新車價就是「原車價 × (1 - 0.10)」，程式以 <code>carValue *= 1.0 - rate</code> 更新。</p>
+<p>題目保證第 0 月有折舊紀錄；後續紀錄按月份遞增。若某月沒有新紀錄，就沿用最近一筆折舊率。從第 0 月開始逐月更新兩個數值，第一次出現「尚欠金額 &lt; 車子價值」時，當月就是答案。題目要求嚴格小於；兩者相等時還不能停。</p>
+<p>車價和欠款可能低於 1 美元，計算時不可逐月四捨五入；程式保留 <code>double</code> 的小數值直接比較。</p>
+<p>設貸款期數為 <code>n</code>、折舊紀錄數為 <code>m</code>。程式逐月模擬 <code>n + 1</code> 個時點，並只向前掃描折舊紀錄，因此時間複雜度為 O(n + m)，額外空間複雜度為 O(m)。</p>
+<h2 id="範例"><a href="#範例" class="headerlink" title="範例"></a>範例</h2><p>第一筆範例的車子初始價值為 <code>15,500</code>，第 0 月立即折舊 10%，車價變成 <code>13,950</code>，但仍欠 <code>15,000</code>。第 1、2 月各折舊 3%，第 3、4 月各折舊 0.2%；每月底同時繳 <code>500</code> 元。第 4 月月底車價約為 <code>13,073.10528</code>，尚欠 <code>13,000</code>，第一次低於車價，所以輸出 <code>4 months</code>。</p>
+<p>下圖中的第 0 月是立即折舊後、繳款前的數值；第 1 至 4 月則是每月底更新後的數值。第 4 月月底車價首次高於欠款。縱軸有截斷，方便看出兩者的差距。</p>
+<p><img src="/images/uva-10114-car-value-vs-loan.svg" alt="範例中每月底的車價與尚欠金額折線圖"></p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">DepreciationRecord</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> month;</span><br><span class="line">    <span class="type">double</span> rate;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">monthsUntilCarIsWorthMore</span><span class="params">(<span class="type">int</span> duration, <span class="type">double</span> downPayment,</span></span></span><br><span class="line"><span class="params"><span class="function">                              <span class="type">double</span> loanAmount,</span></span></span><br><span class="line"><span class="params"><span class="function">                              <span class="type">const</span> vector&lt;DepreciationRecord&gt;&amp; records)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">double</span> monthlyPayment = loanAmount / duration;</span><br><span class="line">    <span class="type">double</span> carValue = downPayment + loanAmount;</span><br><span class="line">    <span class="type">double</span> amountOwed = loanAmount;</span><br><span class="line">    <span class="type">size_t</span> recordIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> month = <span class="number">0</span>; month &lt;= duration; ++month)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (recordIndex + <span class="number">1</span> &lt; records.<span class="built_in">size</span>() &amp;&amp;</span><br><span class="line">               records[recordIndex + <span class="number">1</span>].month &lt;= month)</span><br><span class="line">        &#123;</span><br><span class="line">            ++recordIndex;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Month 0 depreciation applies immediately; later rates apply monthly.</span></span><br><span class="line">        carValue *= <span class="number">1.0</span> - records[recordIndex].rate;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (month &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            amountOwed -= monthlyPayment;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (amountOwed &lt; carValue)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> month;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> duration;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> duration;</span><br><span class="line">    <span class="type">double</span> downPayment;</span><br><span class="line">    <span class="type">double</span> loanAmount;</span><br><span class="line">    <span class="type">int</span> recordCount;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; duration &gt;&gt; downPayment &gt;&gt; loanAmount &gt;&gt; recordCount &amp;&amp;</span><br><span class="line">           duration &gt;= <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">vector&lt;DepreciationRecord&gt; <span class="title">records</span><span class="params">(recordCount)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (DepreciationRecord&amp; record : records)</span><br><span class="line">        &#123;</span><br><span class="line">            cin &gt;&gt; record.month &gt;&gt; record.rate;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> months = <span class="built_in">monthsUntilCarIsWorthMore</span>(</span><br><span class="line">            duration, downPayment, loanAmount, records);</span><br><span class="line"></span><br><span class="line">        cout &lt;&lt; months &lt;&lt; (months == <span class="number">1</span> ? <span class="string">&quot; month\n&quot;</span> : <span class="string">&quot; months\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-提交結果"><a href="#UVa-提交結果" class="headerlink" title="UVa 提交結果"></a>UVa 提交結果</h2><p>UVa submission <strong>31353743</strong>，C++11，Accepted，執行時間 0.000 秒。程式以 UCRT64 g++ 編譯，官方範例與 uDebug 測資的輸出都相符。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/101/10114.pdf">UVa 10114 題目敘述</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10114">uDebug 10114 測資與 Accepted Output</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/07/31/uva-10114-loansome-car-buyer-015/" data-id="cuidRIktr-RRenlJMeyLtZCDN" data-title="10114 - Loansome Car Buyer" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          11336 D:DRAM
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/07/31/uva-11507-bender-b-rodri-guez-problem-016/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">11507 - Bender B. Rodríguez Problem</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-CLI/">C++/CLI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ZeroJudge/">ZeroJudge</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%B5%B1%E7%A8%8B%E5%BC%8F/">系統程式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+          </li>
+        
+          <li>
+            <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/">10114 - Loansome Car Buyer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

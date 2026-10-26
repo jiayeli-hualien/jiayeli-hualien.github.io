@@ -444,6 +444,219 @@ c:ref:c -> null [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];
 
 
   
+    <article id="post-uva-10114-loansome-car-buyer-015" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/" class="article-date">
+  <time class="dt-published" datetime="2013-07-31T13:06:18.000Z" itemprop="datePublished">2013-07-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2013/07/31/uva-10114-loansome-car-buyer-015/">10114 - Loansome Car Buyer</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要做什麼"><a href="#題目要做什麼" class="headerlink" title="題目要做什麼"></a>題目要做什麼</h2><p>已知頭期款、貸款金額、貸款期數和各月份的折舊率，找出經過幾個完整月後，車價首次高於剩餘貸款。輸出這個月數；答案為 1 時用單數 <code>month</code>，其餘用 <code>months</code>。</p>
+<h2 id="每個月更新車價與貸款"><a href="#每個月更新車價與貸款" class="headerlink" title="每個月更新車價與貸款"></a>每個月更新車價與貸款</h2><p>車子剛離開車行時，原始價值是「頭期款 + 貸款金額」。題目把這個尚未經過一個月的時點記為第 0 月：此時立即套用第 0 月的折舊率，但還沒有繳分期款。第 1 月則是經過第一個月後；之後每個月底套用當月折舊率，再繳一次分期款。貸款沒有利息，因此每期付款是 <code>貸款金額 / 貸款期數</code>。程式沿用題目定義的月份編號，不是任意從 0 開始編號。</p>
+<p>折舊率是從當下車價扣除的比例。例如折舊率為 10%，新車價就是「原車價 × (1 - 0.10)」，程式以 <code>carValue *= 1.0 - rate</code> 更新。</p>
+<p>題目保證第 0 月有折舊紀錄；後續紀錄按月份遞增。若某月沒有新紀錄，就沿用最近一筆折舊率。從第 0 月開始逐月更新兩個數值，第一次出現「尚欠金額 &lt; 車子價值」時，當月就是答案。題目要求嚴格小於；兩者相等時還不能停。</p>
+<p>車價和欠款可能低於 1 美元，計算時不可逐月四捨五入；程式保留 <code>double</code> 的小數值直接比較。</p>
+<p>設貸款期數為 <code>n</code>、折舊紀錄數為 <code>m</code>。程式逐月模擬 <code>n + 1</code> 個時點，並只向前掃描折舊紀錄，因此時間複雜度為 O(n + m)，額外空間複雜度為 O(m)。</p>
+<h2 id="範例"><a href="#範例" class="headerlink" title="範例"></a>範例</h2><p>第一筆範例的車子初始價值為 <code>15,500</code>，第 0 月立即折舊 10%，車價變成 <code>13,950</code>，但仍欠 <code>15,000</code>。第 1、2 月各折舊 3%，第 3、4 月各折舊 0.2%；每月底同時繳 <code>500</code> 元。第 4 月月底車價約為 <code>13,073.10528</code>，尚欠 <code>13,000</code>，第一次低於車價，所以輸出 <code>4 months</code>。</p>
+<p>下圖中的第 0 月是立即折舊後、繳款前的數值；第 1 至 4 月則是每月底更新後的數值。第 4 月月底車價首次高於欠款。縱軸有截斷，方便看出兩者的差距。</p>
+<p><img src="/images/uva-10114-car-value-vs-loan.svg" alt="範例中每月底的車價與尚欠金額折線圖"></p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">DepreciationRecord</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> month;</span><br><span class="line">    <span class="type">double</span> rate;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">monthsUntilCarIsWorthMore</span><span class="params">(<span class="type">int</span> duration, <span class="type">double</span> downPayment,</span></span></span><br><span class="line"><span class="params"><span class="function">                              <span class="type">double</span> loanAmount,</span></span></span><br><span class="line"><span class="params"><span class="function">                              <span class="type">const</span> vector&lt;DepreciationRecord&gt;&amp; records)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">double</span> monthlyPayment = loanAmount / duration;</span><br><span class="line">    <span class="type">double</span> carValue = downPayment + loanAmount;</span><br><span class="line">    <span class="type">double</span> amountOwed = loanAmount;</span><br><span class="line">    <span class="type">size_t</span> recordIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> month = <span class="number">0</span>; month &lt;= duration; ++month)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (recordIndex + <span class="number">1</span> &lt; records.<span class="built_in">size</span>() &amp;&amp;</span><br><span class="line">               records[recordIndex + <span class="number">1</span>].month &lt;= month)</span><br><span class="line">        &#123;</span><br><span class="line">            ++recordIndex;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Month 0 depreciation applies immediately; later rates apply monthly.</span></span><br><span class="line">        carValue *= <span class="number">1.0</span> - records[recordIndex].rate;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (month &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            amountOwed -= monthlyPayment;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (amountOwed &lt; carValue)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> month;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> duration;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> duration;</span><br><span class="line">    <span class="type">double</span> downPayment;</span><br><span class="line">    <span class="type">double</span> loanAmount;</span><br><span class="line">    <span class="type">int</span> recordCount;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; duration &gt;&gt; downPayment &gt;&gt; loanAmount &gt;&gt; recordCount &amp;&amp;</span><br><span class="line">           duration &gt;= <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">vector&lt;DepreciationRecord&gt; <span class="title">records</span><span class="params">(recordCount)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (DepreciationRecord&amp; record : records)</span><br><span class="line">        &#123;</span><br><span class="line">            cin &gt;&gt; record.month &gt;&gt; record.rate;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> months = <span class="built_in">monthsUntilCarIsWorthMore</span>(</span><br><span class="line">            duration, downPayment, loanAmount, records);</span><br><span class="line"></span><br><span class="line">        cout &lt;&lt; months &lt;&lt; (months == <span class="number">1</span> ? <span class="string">&quot; month\n&quot;</span> : <span class="string">&quot; months\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-提交結果"><a href="#UVa-提交結果" class="headerlink" title="UVa 提交結果"></a>UVa 提交結果</h2><p>UVa submission <strong>31353743</strong>，C++11，Accepted，執行時間 0.000 秒。程式以 UCRT64 g++ 編譯，官方範例與 uDebug 測資的輸出都相符。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/101/10114.pdf">UVa 10114 題目敘述</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10114">uDebug 10114 測資與 Accepted Output</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/07/31/uva-10114-loansome-car-buyer-015/" data-id="cuidRIktr-RRenlJMeyLtZCDN" data-title="10114 - Loansome Car Buyer" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-11507-bender-b-rodri-guez-problem-016" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/07/31/uva-11507-bender-b-rodri-guez-problem-016/" class="article-date">
+  <time class="dt-published" datetime="2013-07-31T12:47:30.000Z" itemprop="datePublished">2013-07-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2013/07/31/uva-11507-bender-b-rodri-guez-problem-016/">11507 - Bender B. Rodríguez Problem</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>題目中的金屬線（metal wire）可以想像成一條可彎折的鐵絲。它的長度為 <code>L</code>，固定端在原點，自由端一開始位於 <code>(L, 0, 0)</code>，因此整條線沿 <code>+x</code> 方向。Bender 從自由端往固定端依序處理 <code>L - 1</code> 個彎折點：<code>No</code> 表示不彎，其他指令表示在該點轉彎 90 度。題目要輸出全部彎折完成後，末段線的方向。</p>
+<h2 id="解法概念：追蹤末段方向"><a href="#解法概念：追蹤末段方向" class="headerlink" title="解法概念：追蹤末段方向"></a>解法概念：追蹤末段方向</h2><p>只要追蹤自由端末段的方向，不必計算自由端最後的位置。用方向向量 <code>d = (x, y, z)</code> 表示目前末段的方向，初始朝 <code>+x</code>，所以 <code>d = (1, 0, 0)</code>。<code>No</code> 不改變方向；其他指令則根據目前方向更新向量。</p>
+<p>以 <code>L = 3</code>、指令依序為 <code>+y</code>、<code>-y</code> 為例，圖中逐步追蹤末段方向；處理完兩個指令後，方向仍是 <code>+x</code>。</p>
+<p>題目只要求末段方向，因此圖只呈現計算時追蹤的向量狀態，不畫整條線的位置座標。箭頭表示依輸入順序處理指令，也就是從自由端往固定端。</p>
+<div id="graphviz-0"></div>
+
+<p>圖中示範了方向狀態如何依序更新；接下來把四種彎折指令整理成一般的向量規則。</p>
+<h2 id="彎折指令的向量規則"><a href="#彎折指令的向量規則" class="headerlink" title="彎折指令的向量規則"></a>彎折指令的向量規則</h2><p>假設彎折前的方向向量是 <code>d = (x, y, z)</code>，彎折後是 <code>d&#39; = (x&#39;, y&#39;, z&#39;)</code>。各指令依下列規則更新分量；右側的 <code>x</code>、<code>y</code>、<code>z</code> 都是彎折前的值：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>彎折後的向量 <code>d&#39;</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>+y</code></td>
+<td><code>(-y, x, z)</code></td>
+</tr>
+<tr>
+<td><code>-y</code></td>
+<td><code>(y, -x, z)</code></td>
+</tr>
+<tr>
+<td><code>+z</code></td>
+<td><code>(-z, y, x)</code></td>
+</tr>
+<tr>
+<td><code>-z</code></td>
+<td><code>(z, y, -x)</code></td>
+</tr>
+</tbody></table>
+<p>以 <code>+y</code> 為例，彎折前朝 <code>+x</code> 的分量會轉向 <code>+y</code>，朝 <code>+y</code> 的分量會轉向 <code>-x</code>，而 z 分量不變。因此彎折前的 <code>d = (x, y, z)</code> 會變成 <code>d&#39; = (-y, x, z)</code>，也就是 <code>x&#39; = -y</code>、<code>y&#39; = x</code>、<code>z&#39; = z</code>。公式右側都是彎折前的分量。這些更新在數學上等價於 90 度旋轉，但程式不必建立旋轉矩陣，也不需要浮點數。</p>
+<p>因為初始方向是座標軸方向，而每次彎折只會交換分量並改變正負號，方向始終是以下六種之一：<code>+x</code>、<code>-x</code>、<code>+y</code>、<code>-y</code>、<code>+z</code>、<code>-z</code>。換句話說，三個分量中只有一個是 <code>1</code> 或 <code>-1</code>，另外兩個是 <code>0</code>。因此可以把這六個方向編號，預先整理每種方向遇到各指令後會變成什麼方向。</p>
+<p>下表就是把上面的向量規則列舉成六種方向的轉換表。列是彎折前的方向，欄是本次指令，交叉處是彎折後的方向。例如目前朝 <code>+z</code> 時，向量是 <code>(0, 0, 1)</code>；套用 <code>+y</code> 規則仍是 <code>(0, 0, 1)</code>，所以方向不變。</p>
+<table>
+<thead>
+<tr>
+<th>目前方向</th>
+<th><code>+y</code></th>
+<th><code>-y</code></th>
+<th><code>+z</code></th>
+<th><code>-z</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>+x</code></td>
+<td><code>+y</code></td>
+<td><code>-y</code></td>
+<td><code>+z</code></td>
+<td><code>-z</code></td>
+</tr>
+<tr>
+<td><code>-x</code></td>
+<td><code>-y</code></td>
+<td><code>+y</code></td>
+<td><code>-z</code></td>
+<td><code>+z</code></td>
+</tr>
+<tr>
+<td><code>+y</code></td>
+<td><code>-x</code></td>
+<td><code>+x</code></td>
+<td><code>+y</code></td>
+<td><code>+y</code></td>
+</tr>
+<tr>
+<td><code>-y</code></td>
+<td><code>+x</code></td>
+<td><code>-x</code></td>
+<td><code>-y</code></td>
+<td><code>-y</code></td>
+</tr>
+<tr>
+<td><code>+z</code></td>
+<td><code>+z</code></td>
+<td><code>+z</code></td>
+<td><code>-x</code></td>
+<td><code>+x</code></td>
+</tr>
+<tr>
+<td><code>-z</code></td>
+<td><code>-z</code></td>
+<td><code>-z</code></td>
+<td><code>+x</code></td>
+<td><code>-x</code></td>
+</tr>
+</tbody></table>
+<h2 id="程式如何套用轉移表"><a href="#程式如何套用轉移表" class="headerlink" title="程式如何套用轉移表"></a>程式如何套用轉移表</h2><p>程式不必真的存三個分量，而是以 <code>0</code> 到 <code>5</code> 分別代表 <code>+x</code>、<code>-x</code>、<code>+y</code>、<code>-y</code>、<code>+z</code>、<code>-z</code>。<code>nextDirection</code> 將向量規則整理成查表：列索引是目前方向，欄索引是 <code>+y</code>、<code>-y</code>、<code>+z</code>、<code>-z</code>。每讀到一個非 <code>No</code> 指令，就查表更新方向；全部處理完後，從名稱表輸出結果。</p>
+<p>每筆測資讀取 <code>L - 1</code> 個指令，時間複雜度為 <code>O(L)</code>，除固定大小的轉移表外只使用常數額外空間。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">getTurnIndex</span><span class="params">(<span class="type">const</span> string&amp; turn)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (turn == <span class="string">&quot;+y&quot;</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (turn == <span class="string">&quot;-y&quot;</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (turn == <span class="string">&quot;+z&quot;</span>) <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (turn == <span class="string">&quot;-z&quot;</span>) <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* directionName[] = &#123;<span class="string">&quot;+x&quot;</span>, <span class="string">&quot;-x&quot;</span>, <span class="string">&quot;+y&quot;</span>, <span class="string">&quot;-y&quot;</span>, <span class="string">&quot;+z&quot;</span>, <span class="string">&quot;-z&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Rows are the current directions; columns are +y, -y, +z, -z.</span></span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> nextDirection[<span class="number">6</span>][<span class="number">4</span>] = &#123;</span><br><span class="line">        &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;,</span><br><span class="line">        &#123;<span class="number">3</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">4</span>&#125;,</span><br><span class="line">        &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>&#125;,</span><br><span class="line">        &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>&#125;,</span><br><span class="line">        &#123;<span class="number">4</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</span><br><span class="line">        &#123;<span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">1</span>&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> length;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; length &amp;&amp; length != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">int</span> direction = <span class="number">0</span>;  <span class="comment">// The wire initially points along +x.</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> bend = <span class="number">1</span>; bend &lt; length; ++bend) &#123;</span><br><span class="line">            string turn;</span><br><span class="line">            cin &gt;&gt; turn;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (turn == <span class="string">&quot;No&quot;</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> turnIndex = <span class="built_in">getTurnIndex</span>(turn);</span><br><span class="line">            <span class="keyword">if</span> (turnIndex != <span class="number">-1</span>) &#123;</span><br><span class="line">                direction = nextDirection[direction][turnIndex];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        cout &lt;&lt; directionName[direction] &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><ul>
+<li>UVa 官方範例通過。</li>
+<li>uDebug 第二組公開測資（24 組彎折組合）通過；第一組 100 筆的轉移結果也與 Accepted Output 相符。</li>
+<li>本機以 C++11 編譯後，與獨立的整數向量旋轉參考程式比對 19,531 組案例：涵蓋 6 次彎折以內的所有指令序列，另含 <code>L = 100000</code> 的長案例，結果一致。</li>
+<li>UVa submission <strong>31353786</strong>：C++11，Accepted，0.010 秒。</li>
+</ul>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/115/11507.pdf">UVa 11507 題目敘述</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/11507">uDebug 公開測資</a></li>
+</ul>
+<script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script><script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script><textarea id="graphviz-0-code" style="display: none">digraph BenderDirectionStates {
+    graph [rankdir=LR, bgcolor="transparent", margin=0.08, nodesep=0.3];
+    node [shape=box, style="rounded,filled", fillcolor="#F1F5F9", color="#94A3B8", fontname="Arial", fontsize=12, margin="0.14,0.1"];
+    edge [fontname="Arial", fontsize=11, color="#475569", arrowsize=0.8];
+
+    initial [label="初始末段方向 d₀\n+x = (1, 0, 0)"];
+    after_first [label="第 1 步後末段方向 d₁\n+y = (0, 1, 0)"];
+    after_second [label="第 2 步後末段方向 d₂\n+x = (1, 0, 0)"];
+
+    initial -> after_first [label="原 x = 2 處\n指令 +y"];
+    after_first -> after_second [label="原 x = 1 處\n指令 -y"];
+}</textarea><script>  var viz = new Viz();  var code = document.getElementById("graphviz-0-code").value;  viz.renderSVGElement(code)  .then(function(element) {    document.getElementById("graphviz-0").append(element)  });</script>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/07/31/uva-11507-bender-b-rodri-guez-problem-016/" data-id="cuidCcaG8QyjiN73-eo4XXbTp" data-title="11507 - Bender B. Rodríguez Problem" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-uva-10415-eb-alto-saxophone-player-024" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" class="article-date">
@@ -765,7 +978,7 @@ c:ref:c -> null [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
     </div>
   </div>
 
@@ -794,7 +1007,7 @@ c:ref:c -> null [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];
           </li>
         
           <li>
-            <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/">10415 - Eb Alto Saxophone Player</a>
+            <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/">10114 - Loansome Car Buyer</a>
           </li>
         
       </ul>
