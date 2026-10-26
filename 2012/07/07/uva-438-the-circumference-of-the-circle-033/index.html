@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>438 - The Circumference of the Circle | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="UVa 438 給三個不共線的平面座標點，要求計算通過這三點的圓周長，答案四捨五入到小數點後兩位。題目敘述 解法直接由三角形三邊長和面積求圓周長，不必先求圓心。設三邊長為 a、b、c，面積為 Δ，外接圓半徑為 R： R &#x3D; a × b × c &#x2F; (4 × Δ) 所以圓周長為： C &#x3D; 2 × π × R &#x3D; π × a × b × c &#x2F; (2 × Δ) 用座標計算三角形面積由兩條邊向量的叉積可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="438 - The Circumference of the Circle">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/07/07/uva-438-the-circumference-of-the-circle-033/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="UVa 438 給三個不共線的平面座標點，要求計算通過這三點的圓周長，答案四捨五入到小數點後兩位。題目敘述 解法直接由三角形三邊長和面積求圓周長，不必先求圓心。設三邊長為 a、b、c，面積為 Δ，外接圓半徑為 R： R &#x3D; a × b × c &#x2F; (4 × Δ) 所以圓周長為： C &#x3D; 2 × π × R &#x3D; π × a × b × c &#x2F; (2 × Δ) 用座標計算三角形面積由兩條邊向量的叉積可">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-07-07T06:22:28.000Z">
+<meta property="article:modified_time" content="2026-10-26T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-438-the-circumference-of-the-circle-033" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-438-the-circumference-of-the-circle-033/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T06:22:28.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      438 - The Circumference of the Circle
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 438 給三個不共線的平面座標點，要求計算通過這三點的圓周長，答案四捨五入到小數點後兩位。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/4/438.pdf">題目敘述</a></p>
+<p>解法直接由三角形三邊長和面積求圓周長，不必先求圓心。設三邊長為 <code>a</code>、<code>b</code>、<code>c</code>，面積為 <code>Δ</code>，外接圓半徑為 <code>R</code>：</p>
+<p><code>R = a × b × c / (4 × Δ)</code></p>
+<p>所以圓周長為：</p>
+<p><code>C = 2 × π × R = π × a × b × c / (2 × Δ)</code></p>
+<h2 id="用座標計算三角形面積"><a href="#用座標計算三角形面積" class="headerlink" title="用座標計算三角形面積"></a>用座標計算三角形面積</h2><p>由兩條邊向量的叉積可得 <code>2 × Δ</code>：</p>
+<p><code>abs((B - A) × (C - A)) = 2 × Δ</code></p>
+<p>因此公式也可寫成 <code>C = π × a × b × c / abs((B - A) × (C - A))</code>。程式分別用距離公式求三邊，並以座標叉積求分母。題目保證三點不共線，所以分母不為零。</p>
+<p>例如三點 <code>(0, -0.5)</code>、<code>(0.5, 0)</code>、<code>(0, 0.5)</code> 位於半徑 <code>0.5</code> 的圓上，圓周長是 <code>π</code>，輸出 <code>3.14</code>。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    <span class="type">long</span> <span class="type">double</span> x;</span><br><span class="line">    <span class="type">long</span> <span class="type">double</span> y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">long</span> <span class="type">double</span> <span class="title">distance</span><span class="params">(<span class="type">const</span> Point&amp; a, <span class="type">const</span> Point&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">hypot</span>(a.x - b.x, a.y - b.y);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">long</span> <span class="type">double</span> pi = <span class="number">3.141592653589793238462643383279502884L</span>;</span><br><span class="line">    Point a, b, c;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; a.x &gt;&gt; a.y &gt;&gt; b.x &gt;&gt; b.y &gt;&gt; c.x &gt;&gt; c.y) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">long</span> <span class="type">double</span> ab = <span class="built_in">distance</span>(a, b);</span><br><span class="line">        <span class="type">const</span> <span class="type">long</span> <span class="type">double</span> bc = <span class="built_in">distance</span>(b, c);</span><br><span class="line">        <span class="type">const</span> <span class="type">long</span> <span class="type">double</span> ca = <span class="built_in">distance</span>(c, a);</span><br><span class="line">        <span class="type">const</span> <span class="type">long</span> <span class="type">double</span> twiceArea = <span class="built_in">fabsl</span>(</span><br><span class="line">            (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Circumference = pi * (ab * bc * ca) / (2 * triangle area).</span></span><br><span class="line">        <span class="comment">// The absolute cross product is exactly twice the triangle area.</span></span><br><span class="line">        <span class="type">const</span> <span class="type">long</span> <span class="type">double</span> circumference = pi * ab * bc * ca / twiceArea;</span><br><span class="line">        cout &lt;&lt; fixed &lt;&lt; <span class="built_in">setprecision</span>(<span class="number">2</span>) &lt;&lt; circumference &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>這份程式以 C++11 提交至 UVa，結果為 <strong>Accepted</strong>（submission <strong>31355597</strong>，0.000 秒）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-438-the-circumference-of-the-circle-033/" data-id="cuid1IYNUS7tZzBSxrPjp-qhn" data-title="438 - The Circumference of the Circle" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/10/20/uva-10464-big-big-real-numbers-031/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          10464 - Big Big Real Numbers
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+          </li>
+        
+          <li>
+            <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/">10114 - Loansome Car Buyer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
