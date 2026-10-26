@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>759 - The Return of the Roman Empire | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="UVa 759 要把輸入的羅馬數字轉成十進位數值；格式不合法時，則輸出 This is not a valid number。本解法先建立「羅馬字串 → 十進位數值」對照表，輸入時查表：找到就取得數值，找不到就判為無效。本程式採用 1 到 3999 的標準羅馬數字範圍；題目沒有另外說明數值上限，而這個範圍只有 3999 種表示，適合預先建表。 為什麼本題採用建表直接解析並算出羅馬數字代表的數值並不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="759 - The Return of the Roman Empire">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/10/20/uva-759-the-return-of-the-roman-empire-023/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="UVa 759 要把輸入的羅馬數字轉成十進位數值；格式不合法時，則輸出 This is not a valid number。本解法先建立「羅馬字串 → 十進位數值」對照表，輸入時查表：找到就取得數值，找不到就判為無效。本程式採用 1 到 3999 的標準羅馬數字範圍；題目沒有另外說明數值上限，而這個範圍只有 3999 種表示，適合預先建表。 為什麼本題採用建表直接解析並算出羅馬數字代表的數值並不">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-10-20T15:53:02.000Z">
+<meta property="article:modified_time" content="2026-10-25T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-759-the-return-of-the-roman-empire-023" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-759-the-return-of-the-roman-empire-023/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:53:02.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      759 - The Return of the Roman Empire
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 759 要把輸入的羅馬數字轉成十進位數值；格式不合法時，則輸出 <code>This is not a valid number</code>。本解法先建立「羅馬字串 → 十進位數值」對照表，輸入時查表：找到就取得數值，找不到就判為無效。本程式採用 1 到 3999 的標準羅馬數字範圍；題目沒有另外說明數值上限，而這個範圍只有 3999 種表示，適合預先建表。</p>
+<h2 id="為什麼本題採用建表"><a href="#為什麼本題採用建表" class="headerlink" title="為什麼本題採用建表"></a>為什麼本題採用建表</h2><p>直接解析並算出羅馬數字代表的數值並不難，較費心的是確認輸入符合標準格式。標準寫法只允許 <code>IV</code>、<code>IX</code>、<code>XL</code>、<code>XC</code>、<code>CD</code>、<code>CM</code> 這六種減法組合，因此 <code>IC</code> 不合法。若只用「較小的符號出現在較大的符號前面就相減，否則相加」這個簡化規則，<code>IC</code> 仍會被算成 99；但標準的 99 寫法是 <code>XCIX</code>。這說明只算出數值，還不能判斷輸入是否有效。</p>
+<p>直接解析也可行。常見做法是從左到右比較相鄰符號，只有前述六種合法組合才相減，其餘情況相加。若要靠解析過程直接拒絕所有錯誤格式，還得檢查符號的重複次數和排列順序。如果不想逐條實作這些限制，也可以先用較寬鬆的加減規則算出候選數值，再把它轉回標準寫法與原輸入比對；兩者相同才接受。由於本程式只處理 1 到 3999，可以預先產生這些標準寫法，查表時就能同時取得數值並確認格式正確。</p>
+<p>因此，本解法用一次固定的初始化和少量空間，換取較直接的格式檢查。採用建表是為了簡化實作，不是為了降低時間複雜度。</p>
+<h2 id="建立標準表示的對照表"><a href="#建立標準表示的對照表" class="headerlink" title="建立標準表示的對照表"></a>建立標準表示的對照表</h2><p>標準羅馬數字依符號數值由大到小組合；遇到 900、400、90、40、9、4 時，分別使用對應的減法組合。例如，1998 可拆成 <code>M</code>（1000）、<code>CM</code>（900）、<code>XC</code>（90）和 <code>VIII</code>（8），合起來是 <code>MCMXCVIII</code>。</p>
+<p>程式依序處理範圍內的每個數值。對每個數值，都從最大的符號組合開始嘗試；只要剩餘數值不小於該符號的數值，就把符號加到字串中，再扣掉相應數值。重複這個步驟直到數值歸零，最後將產生的羅馬字串和原數值存入 <code>map</code>。</p>
+<h2 id="查表並處理無效輸入"><a href="#查表並處理無效輸入" class="headerlink" title="查表並處理無效輸入"></a>查表並處理無效輸入</h2><p>程式使用 <code>cin &gt;&gt; numeral</code> 讀取輸入，因此空白行和字串前後的空白都會被略過。若對照表中找得到該字串，就輸出對應數值；否則輸出題目要求的錯誤訊息。</p>
+<p>查詢使用 <code>map::find</code>。若改用 <code>valueOf[numeral]</code>，<code>map</code> 的 <code>operator[]</code> 會在查不到時新增一筆預設值為 0 的資料；<code>find</code> 只負責查詢，不會改動表格。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">toRoman</span><span class="params">(<span class="type">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">int</span> values[] = &#123;<span class="number">1000</span>, <span class="number">900</span>, <span class="number">500</span>, <span class="number">400</span>, <span class="number">100</span>, <span class="number">90</span>, <span class="number">50</span>, <span class="number">40</span>, <span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">1</span>&#125;;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> string symbols[] = &#123;<span class="string">&quot;M&quot;</span>, <span class="string">&quot;CM&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;CD&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;XC&quot;</span>, <span class="string">&quot;L&quot;</span>, <span class="string">&quot;XL&quot;</span>, <span class="string">&quot;X&quot;</span>, <span class="string">&quot;IX&quot;</span>, <span class="string">&quot;V&quot;</span>, <span class="string">&quot;IV&quot;</span>, <span class="string">&quot;I&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">    string numeral;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">13</span>; ++i) &#123;</span><br><span class="line">        <span class="keyword">while</span> (value &gt;= values[i]) &#123;</span><br><span class="line">            numeral += symbols[i];</span><br><span class="line">            value -= values[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> numeral;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    map&lt;string, <span class="type">int</span>&gt; valueOf;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> value = <span class="number">1</span>; value &lt;= <span class="number">3999</span>; ++value) &#123;</span><br><span class="line">        valueOf[<span class="built_in">toRoman</span>(value)] = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    string numeral;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; numeral) &#123;</span><br><span class="line">        map&lt;string, <span class="type">int</span>&gt;::const_iterator found = valueOf.<span class="built_in">find</span>(numeral);</span><br><span class="line">        <span class="keyword">if</span> (found == valueOf.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;This is not a valid number\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; found-&gt;second &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>令 <code>K = 3999</code> 為表格筆數、<code>L</code> 為輸入字串長度。三種查表方式的取捨如下：</p>
+<table>
+<thead>
+<tr>
+<th>容器</th>
+<th>查詢成本</th>
+<th>特性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>map</code></td>
+<td><code>O(L log K)</code></td>
+<td>寫法直接、查詢成本穩定；查詢時需沿樹走訪。</td>
+</tr>
+<tr>
+<td><code>unordered_map</code></td>
+<td>平均 <code>O(L)</code>，最壞 <code>O(KL)</code></td>
+<td>先計算字串 hash 再查 bucket；有 bucket 管理成本，小表不一定較快。</td>
+</tr>
+<tr>
+<td>排序後的 <code>vector</code></td>
+<td><code>O(L log K)</code></td>
+<td>建表後排序一次，再用 <code>lower_bound</code> 查詢；資料連續，可能較有利於快取，但程式需處理排序和二分搜尋。</td>
+</tr>
+</tbody></table>
+<p>以上複雜度不代表實際速度，也沒有固定的筆數門檻。對本題只有 3999 個短字串，<code>map</code> 已足夠簡單、快速；除非實測發現查詢成為瓶頸，否則不必再微調容器。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯，通過官方範例、空白行與空白字元處理案例；也逐一測試 1 到 3999 的全部標準表示，並確認 <code>CCM</code>、<code>IC</code>、<code>MMMM</code>、<code>MMMMM</code> 會回報無效。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/7/759.pdf">UVa 題目敘述</a></p>
+<p>本篇程式以 C++11 提交 UVa 759，結果為 Accepted。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-759-the-return-of-the-roman-empire-023/" data-id="cuidAs24--6-v49fGVF5p2Jg_" data-title="759 - The Return of the Roman Empire" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/10/20/uva-10894-problem-h-save-hridoy-022/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          10894 - Save Hridoy
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10415 - Eb Alto Saxophone Player</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-CLI/">C++/CLI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ZeroJudge/">ZeroJudge</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%B5%B1%E7%A8%8B%E5%BC%8F/">系統程式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+          </li>
+        
+          <li>
+            <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/">10114 - Loansome Car Buyer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
