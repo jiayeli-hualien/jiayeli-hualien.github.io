@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>10613 - Mushroom Misery //真菌增生!? | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  我是在演算法筆記上看到這題的。 &nbsp; 題目的大意就是，給你N，有個N*N的範圍。接著長出了許多真菌，分別給你圓心與半徑，要計算出被覆蓋的方格數量。方格數量接近CPU 1秒能處理的計算量的極限。 &nbsp; &nbsp; &nbsp; 然後從UVA官方討論區看到解法如下： 將圓切成矩形 &amp;n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10613 - Mushroom Misery &#x2F;&#x2F;真菌增生!?">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/05/02/uva-10613-mushroom-misery-089/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  我是在演算法筆記上看到這題的。 &nbsp; 題目的大意就是，給你N，有個N*N的範圍。接著長出了許多真菌，分別給你圓心與半徑，要計算出被覆蓋的方格數量。方格數量接近CPU 1秒能處理的計算量的極限。 &nbsp; &nbsp; &nbsp; 然後從UVA官方討論區看到解法如下： 將圓切成矩形 &amp;n">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://7.share.photo.xuite.net/abcd6891/1789d15/5102758/219391087_o.jpg">
+<meta property="og:image" content="http://7.share.photo.xuite.net/abcd6891/1789d85/5102758/219391199_o.jpg">
+<meta property="og:image" content="http://7.share.photo.xuite.net/abcd6891/1789d8b/5102758/219391461_o.jpg">
+<meta property="article:published_time" content="2012-05-02T12:15:27.000Z">
+<meta property="article:modified_time" content="2026-10-26T23:49:00.369Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://7.share.photo.xuite.net/abcd6891/1789d15/5102758/219391087_o.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-10613-mushroom-misery-089" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/05/02/uva-10613-mushroom-misery-089/" class="article-date">
+  <time class="dt-published" datetime="2012-05-02T12:15:27.000Z" itemprop="datePublished">2012-05-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      10613 - Mushroom Misery //真菌增生!?
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>我是在<a target="_blank" rel="noopener" href="http://www.csie.ntnu.edu.tw/~u91029/">演算法筆記</a>上看到這題的。</p>
+<p>&nbsp;</p>
+<p>題目的大意就是，給你N，有個N*N的範圍。接著長出了許多真菌，分別給你圓心與半徑，要計算出被覆蓋的方格數量。方格數量接近CPU 1秒能處理的計算量的極限。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>然後從<a target="_blank" rel="noopener" href="http://online-judge.uva.es/board/viewtopic.php?f=28&amp;t=5141">UVA官方討論區</a>看到解法如下：</p>
+<p style="padding-left: 30px;">將圓切成矩形</p>
+<p style="padding-left: 30px;">&nbsp;</p>
+<p>　　顧名思義就是把圓形變矩形，我的作法是先將圓形變成一條一條的長方形，之後使用演算法筆記當中的「舉例：宴會中訪客數目的極大值（ Interval Partitioning Problem ）」，排序進出順序，並將「無矩形覆蓋方格變成有矩形覆蓋方格，再變回無矩形覆蓋方格」的發生點抓出來，透過相減得到覆蓋格數。如圖示，詳細運作過程可看演算法筆記。</p>
+<p>&nbsp;</p>
+<p><img border="0" src="http://7.share.photo.xuite.net/abcd6891/1789d15/5102758/219391087_o.jpg" /></p>
+<p>&nbsp;</p>
+<p>那麼如何取出in跟out的地點呢?</p>
+<p>&nbsp;</p>
+<p>設半徑為r，先找某個離圓心很近的水平線，向外延伸 r 格，之後利用畢氏定理與高斯符號求出左右延伸的範圍。</p>
+<p><img border="0" src="http://7.share.photo.xuite.net/abcd6891/1789d85/5102758/219391199_o.jpg" /></p>
+<p><img border="0" src="http://7.share.photo.xuite.net/abcd6891/1789d8b/5102758/219391461_o.jpg" /></p>
+<p>更細一步講，我將整個圓分成上區、下區、mid區去計算，另外還有許多差一格、超出邊界之類的實作細節就不贅述了。</p>
+<p>&nbsp;</p>
+<p>總結：</p>
+<ol>
+<li>將圓切成很多條長方形</li>
+<li>一行一行處理in out的點，統計覆蓋格數</li>
+</ol>
+<div></div>
+<div></div>
+<div>供參考用的範例程式碼：</div>
+<div>Online syntax highlighting 表現有點奇怪，連非Key word也被上色跟粗體化了。</div>
+<div></div>
+<div></div>
+<pre style="color: #000000; background: #ffffff;"><span style="color: #7f0055;">#</span><span style="color: #7f0055;">include</span><span style="color: #2a00ff;">&lt;</span><span style="color: #3f3fbf;">iostream</span><span style="color: #2a00ff;">&gt;</span>
+<span style="color: #7f0055;">#</span><span style="color: #7f0055;">include</span><span style="color: #2a00ff;">&lt;</span><span style="color: #3f3fbf;">algorithm</span><span style="color: #2a00ff;">&gt;</span>
+<span style="color: #7f0055;">#</span><span style="color: #7f0055;">include</span><span style="color: #2a00ff;">&lt;</span><span style="color: #3f3fbf;">cstdio</span><span style="color: #2a00ff;">&gt;</span>
+<span style="color: #7f0055;">#</span><span style="color: #7f0055;">include</span><span style="color: #2a00ff;">&lt;</span><span style="color: #3f3fbf;">cstdlib</span><span style="color: #2a00ff;">&gt;</span>
+<span style="color: #7f0055;">#</span><span style="color: #7f0055;">include</span><span style="color: #2a00ff;">&lt;</span><span style="color: #3f3fbf;">cmath</span><span style="color: #2a00ff;">&gt;</span>
+<span style="color: #3f7f59;">//#define DEBUG</span>
+<span style="color: #7f0055; font-weight: bold;">using</span> <span style="color: #7f0055; font-weight: bold;">namespace</span> std;
+<span style="color: #7f0055; font-weight: bold;">int</span> acc = 0;
+<span style="color: #7f0055; font-weight: bold;">int</span> flow[2000000];
+<span style="color: #7f0055; font-weight: bold;">bool</span> cmpF(<span style="color: #7f0055; font-weight: bold;">int</span> a, <span style="color: #7f0055; font-weight: bold;">int</span> b)
+{
+    <span style="color: #7f0055; font-weight: bold;">if</span>(<span style="color: #7f0055; font-weight: bold;">abs</span>(a)==<span style="color: #7f0055; font-weight: bold;">abs</span>(b))
+        <span style="color: #7f0055; font-weight: bold;">return</span> a&gt;0;<span style="color: #3f7f59;">//negative value last out</span>
+    <span style="color: #7f0055; font-weight: bold;">else</span>
+        <span style="color: #7f0055; font-weight: bold;">return</span> <span style="color: #7f0055; font-weight: bold;">abs</span>(a)&lt;<span style="color: #7f0055; font-weight: bold;">abs</span>(b);<span style="color: #3f7f59;">//small time value first out</span>
+}
+
+<p><span style="color: #7f0055; font-weight: bold;">struct</span> <span style="color: #7f0055; font-weight: bold;">RECT</span><br>{<br>    <span style="color: #7f0055; font-weight: bold;">int</span> h;<br>    <span style="color: #7f0055; font-weight: bold;">int</span> in, out;<span style="color: #3f7f59;">&#x2F;&#x2F;L bound, R bound</span><br>}squence[2000000];</p>
+<p><span style="color: #7f0055; font-weight: bold;">bool</span> cmp(<span style="color: #7f0055; font-weight: bold;">RECT</span> A, <span style="color: #7f0055; font-weight: bold;">RECT</span> B)<br>{<br>    <span style="color: #7f0055; font-weight: bold;">return</span> A.h&lt;B.h;<br>}</p>
+<p><span style="color: #7f0055; font-weight: bold;">void</span> addRect(<span style="color: #7f0055; font-weight: bold;">int</span> h, <span style="color: #7f0055; font-weight: bold;">int</span> i, <span style="color: #7f0055; font-weight: bold;">int</span> o)<br>{<br>    squence[acc].h &#x3D; h;<br>    squence[acc].in &#x3D; i;<br>    squence[acc].out &#x3D; o;<br>    acc++;<br>    <span style="color: #7f0055; font-weight: bold;">return</span>;<br>}</p>
+<p><span style="color: #7f0055; font-weight: bold;">int</span> computeIn(<span style="color: #7f0055; font-weight: bold;">double</span> X, <span style="color: #7f0055; font-weight: bold;">double</span> Y, <span style="color: #7f0055; font-weight: bold;">double</span> R,<span style="color: #7f0055; font-weight: bold;">int</span> i)<span style="color: #3f7f59;">&#x2F;&#x2F;left bound</span><br>{<br>    <span style="color: #7f0055; font-weight: bold;">return</span> <span style="color: #7f0055; font-weight: bold;">max</span>(0,(<span style="color: #7f0055; font-weight: bold;">int</span>)<span style="color: #7f0055; font-weight: bold;">floor</span>(X-<span style="color: #7f0055; font-weight: bold;">sqrt</span>(R<em>R-(Y-i)</em>(Y-i))));<br>}</p>
+<p><span style="color: #7f0055; font-weight: bold;">int</span> computeOut(<span style="color: #7f0055; font-weight: bold;">double</span> X, <span style="color: #7f0055; font-weight: bold;">double</span> Y, <span style="color: #7f0055; font-weight: bold;">double</span> R,<span style="color: #7f0055; font-weight: bold;">int</span> i,<span style="color: #7f0055; font-weight: bold;">int</span> size)<span style="color: #3f7f59;">&#x2F;&#x2F;right bound</span><br>{<br>    <span style="color: #7f0055; font-weight: bold;">return</span> <span style="color: #7f0055; font-weight: bold;">min</span>((<span style="color: #7f0055; font-weight: bold;">int</span>)<span style="color: #7f0055; font-weight: bold;">ceil</span>(X+<span style="color: #7f0055; font-weight: bold;">sqrt</span>(R<em>R-(Y-i)</em>(Y-i))),size);<br>}</p>
+<p><span style="color: #7f0055; font-weight: bold;">int</span> computeFlow(<span style="color: #7f0055; font-weight: bold;">int</span> fn)<br>{<br>    <span style="color: #7f0055; font-weight: bold;">int</span> ans &#x3D; 0;<br>    <span style="color: #7f0055; font-weight: bold;">int</span> innumber &#x3D; 0, lastIn &#x3D; 0;</p>
+<pre><code>&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;for&lt;/span&gt;(&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;int&lt;/span&gt; i=0; i&amp;lt;fn; i++)
+{
+
+    &lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;if&lt;/span&gt;(flow[i]&amp;gt;=0)
+    {
+        innumber++;
+        &lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;if&lt;/span&gt;(innumber==1)&lt;span style=&quot;color: #3f7f59;&quot;&gt;//0-&amp;gt;1 recored&lt;/span&gt;
+            lastIn = flow[i];
+    }
+    &lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;else&lt;/span&gt;
+    {
+        innumber--;
+        &lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;if&lt;/span&gt;(innumber==0)&lt;span style=&quot;color: #3f7f59;&quot;&gt;//1-&amp;gt;0 ans+&lt;/span&gt;
+            ans+= (-flow[i]-lastIn);
+    }
+
+}
+
+&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;return&lt;/span&gt; ans;
+</code></pre>
+<p>}</p>
+<p><span style="color: #7f0055; font-weight: bold;">void</span> divideToRect(<span style="color: #7f0055; font-weight: bold;">double</span> X, <span style="color: #7f0055; font-weight: bold;">double</span> Y, <span style="color: #7f0055; font-weight: bold;">double</span> R,<span style="color: #7f0055; font-weight: bold;">int</span> size)<br>{<br>    <span style="color: #3f7f59;">&#x2F;&#x2F;note the square computed only in 0~size</span></p>
+<pre><code>&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;int&lt;/span&gt; s = &lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;max&lt;/span&gt;(0,(&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;int&lt;/span&gt;)&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;floor&lt;/span&gt;(Y-R)), d = &lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;min&lt;/span&gt;(size,(&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;int&lt;/span&gt;)&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;ceil&lt;/span&gt;(Y+R)), mid = (&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;int&lt;/span&gt;)&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;floor&lt;/span&gt;(Y);
+&lt;span style=&quot;color: #3f7f59;&quot;&gt;//part1 h = i Range:but compute use i+1 s&amp;lt;=i&amp;lt;mid&lt;/span&gt;
+&lt;span style=&quot;color: #3f7f59;&quot;&gt;//part2 h = i Range:+-R i=mid&lt;/span&gt;
+&lt;span style=&quot;color: #3f7f59;&quot;&gt;//part3 h = i Range:compute use i (mid+1)&amp;lt;=i&amp;lt;d&lt;/span&gt;
+&lt;span style=&quot;color: #3f7f59;&quot;&gt;//part1&lt;/span&gt;
+&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;for&lt;/span&gt;(&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;int&lt;/span&gt; i=s; i&amp;lt;mid; i++)
+    addRect(i,computeIn(X,Y,R,i+1),computeOut(X,Y,R,i+1,size));
+&lt;span style=&quot;color: #3f7f59;&quot;&gt;//part2&lt;/span&gt;
+addRect(mid,&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;max&lt;/span&gt;(0,(&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;int&lt;/span&gt;)&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;floor&lt;/span&gt;(X-R)),&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;min&lt;/span&gt;(size,(&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;int&lt;/span&gt;)&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;ceil&lt;/span&gt;(X+R)));
+&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;for&lt;/span&gt;(&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;int&lt;/span&gt; i=mid+1; i&amp;lt;d;i++)
+    addRect(i,computeIn(X,Y,R,i),computeOut(X,Y,R,i,size));
+</code></pre>
+<p>}</p>
+<p><span style="color: #7f0055; font-weight: bold;">using</span> <span style="color: #7f0055; font-weight: bold;">namespace</span> std;<br><span style="color: #7f0055; font-weight: bold;">int</span> <span style="color: #7f0055; font-weight: bold;">main</span>()<br>{<br>    <span style="color: #7f0055; font-weight: bold;">int</span> T,n,size;<br>    <span style="color: #7f0055; font-weight: bold;">scanf</span>(<span style="color: #2a00ff;">“</span><span style="color: #2a00ff;">%d</span><span style="color: #2a00ff;">“</span>,&amp;T);<br>    <span style="color: #7f0055; font-weight: bold;">for</span>(<span style="color: #7f0055; font-weight: bold;">int</span> r&#x3D;0; r&lt;T; r++)<br>    {<br>        acc &#x3D; 0;<span style="color: #3f7f59;">&#x2F;&#x2F;clear squence</span><br>        <span style="color: #7f0055; font-weight: bold;">scanf</span>(<span style="color: #2a00ff;">“</span><span style="color: #2a00ff;">%d</span><span style="color: #2a00ff;"> </span><span style="color: #2a00ff;">%d</span><span style="color: #2a00ff;">“</span>,&amp;size,&amp;n);<br>        <span style="color: #7f0055; font-weight: bold;">double</span> X,Y,R;<br>        <span style="color: #7f0055; font-weight: bold;">for</span>(<span style="color: #7f0055; font-weight: bold;">int</span> i&#x3D;0; i&lt;n; i++)<br>        {<br>            <span style="color: #7f0055; font-weight: bold;">scanf</span>(<span style="color: #2a00ff;">“</span><span style="color: #2a00ff;">%lf</span><span style="color: #2a00ff;"> </span><span style="color: #2a00ff;">%lf</span><span style="color: #2a00ff;"> </span><span style="color: #2a00ff;">%lf</span><span style="color: #2a00ff;">“</span>, &amp;X, &amp;Y, &amp;R);<br>            divideToRect(X,Y,R,size);<br>        }<br>        <span style="color: #7f0055; font-weight: bold;">sort</span>(squence, squence+acc, cmp);<br><span style="color: #7f0055;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><span style="color: #7f0055;">ifdef</span><span style="color: #7f0055;"> DEBUG</span></p>
+<pre><code>    &lt;span style=&quot;color: #3f7f59;&quot;&gt;//display squence for testing&lt;/span&gt;
+    &lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;printf&lt;/span&gt;(&lt;span style=&quot;color: #2a00ff;&quot;&gt;&quot;&lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;case &lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;%d&lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;\n&lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;&quot;&lt;/span&gt;,r);
+    &lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;for&lt;/span&gt;(&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;int&lt;/span&gt; i=0; i&amp;lt;acc; i++)
+        &lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;printf&lt;/span&gt;(&lt;span style=&quot;color: #2a00ff;&quot;&gt;&quot;&lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;h &lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;%d&lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt; i &lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;%d&lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt; o &lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;%d&lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;\n&lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;&quot;&lt;/span&gt;,squence[i].h, squence[i].in, squence[i].out);
+</code></pre>
+<p><span style="color: #7f0055;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><span style="color: #7f0055;">endif</span><br>        <span style="color: #7f0055; font-weight: bold;">int</span> maxH &#x3D; squence[acc-1].h;<br>        <span style="color: #7f0055; font-weight: bold;">int</span> h &#x3D; 0, ans &#x3D; 0, fn &#x3D; 0;<br>        <span style="color: #7f0055; font-weight: bold;">int</span> run &#x3D; 0;<br>        <span style="color: #7f0055; font-weight: bold;">while</span>(run &lt; acc)<br>        {<br>            <span style="color: #3f7f59;">&#x2F;&#x2F;put in flow</span><br>            fn &#x3D; 0;<br>            <span style="color: #7f0055; font-weight: bold;">while</span>(h&#x3D;&#x3D;squence[run].h&amp;&amp;run&lt;acc)<br>            {<br>                flow[fn++] &#x3D; squence[run].in;<br>                flow[fn++] &#x3D; -squence[run].out;<br>                run++;<br>            }<br>            <span style="color: #7f0055; font-weight: bold;">sort</span>(flow, flow+fn, cmpF);<br><span style="color: #7f0055;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><span style="color: #7f0055;">ifdef</span><span style="color: #7f0055;"> DEBUG</span><br>            <span style="color: #7f0055; font-weight: bold;">for</span>(<span style="color: #7f0055; font-weight: bold;">int</span> i&#x3D;0; i&lt;fn; i++)<br>                <span style="color: #7f0055; font-weight: bold;">printf</span>(<span style="color: #2a00ff;">“</span><span style="color: #2a00ff;">%d</span><span style="color: #2a00ff;"> </span><span style="color: #2a00ff;">“</span>,flow[i]);<br>            <span style="color: #7f0055; font-weight: bold;">putchar</span>(<span style="color: #2a00ff;">‘\n’</span>);<br><span style="color: #7f0055;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#</span><span style="color: #7f0055;">endif</span><span style="color: #7f0055;"> DEBUG</span></p>
+<pre><code>        ans += computeFlow(fn);
+        h++;
+    }
+
+    &lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;printf&lt;/span&gt;(&lt;span style=&quot;color: #2a00ff;&quot;&gt;&quot;&lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;%d&lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;\n&lt;/span&gt;&lt;span style=&quot;color: #2a00ff;&quot;&gt;&quot;&lt;/span&gt;,ans);
+
+}
+&lt;span style=&quot;color: #7f0055; font-weight: bold;&quot;&gt;return&lt;/span&gt; 0;
+</code></pre>
+<p>}<br></pre></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/05/02/uva-10613-mushroom-misery-089/" data-id="cuidR-9Tok4i2auetasGM_ON3" data-title="10613 - Mushroom Misery //真菌增生!?" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/07/02/uva-10738-uva-10738-riemann-vs-mertens-088/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          UVa 10738 - Riemann vs Mertens
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/12/uva-972-problem-a-horizon-line-090/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">972 Problem A - Horizon Line</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">九月 2011</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/10/26/uva-278-knight-bipartite-matching/">UVa 278：用二分圖最大匹配計算騎士數</a>
+          </li>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Leaf&#39;s Programming Note">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/page/8/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-uva-344-roman-digititis-077" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-344-roman-digititis-077/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T04:32:05.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-344-roman-digititis-077/">344 - Roman Digititis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>轉羅馬數字只能暴力硬做，建表輔助避免重複計算</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">int</span> table[<span class="number">101</span>][<span class="number">5</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="comment">//i v x l c 1 5 10 50 100</span></span><br><span class="line"><span class="comment">//0 1 2 3 4 0 1 2 3 4</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">trans</span><span class="params">(<span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> on = n;</span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">100</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        table[on][<span class="number">4</span>] += <span class="number">1</span>;<span class="comment">//c</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(n&gt;=<span class="number">10</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(n/<span class="number">10</span>==<span class="number">9</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                table[on][<span class="number">2</span>] += <span class="number">1</span>;<span class="comment">//x</span></span><br><span class="line">                table[on][<span class="number">4</span>] += <span class="number">1</span>;<span class="comment">//c</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">if</span>(n/<span class="number">10</span>==<span class="number">4</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                table[on][<span class="number">2</span>] += <span class="number">1</span>;<span class="comment">//x</span></span><br><span class="line">                table[on][<span class="number">3</span>] += <span class="number">1</span>;<span class="comment">//l</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(n/<span class="number">10</span>&gt;=<span class="number">5</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    table[on][<span class="number">3</span>] += <span class="number">1</span>;<span class="comment">//l</span></span><br><span class="line">                    n-=<span class="number">50</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                table[on][<span class="number">2</span>] += n/<span class="number">10</span>;<span class="comment">//x</span></span><br><span class="line">            &#125;</span><br><span class="line">            n = n%<span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(n==<span class="number">9</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            table[on][<span class="number">0</span>] += <span class="number">1</span>;<span class="comment">//i</span></span><br><span class="line">            table[on][<span class="number">2</span>] += <span class="number">1</span>;<span class="comment">//x</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">if</span>(n==<span class="number">4</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            table[on][<span class="number">0</span>] += <span class="number">1</span>;<span class="comment">//i</span></span><br><span class="line">            table[on][<span class="number">1</span>] += <span class="number">1</span>;<span class="comment">//v</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(n&gt;=<span class="number">5</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                table[on][<span class="number">1</span>] += <span class="number">1</span>;</span><br><span class="line">                n-=<span class="number">5</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            table[on][<span class="number">0</span>] += n;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">getSum</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=<span class="number">100</span>; i++)</span><br><span class="line">        <span class="built_in">trans</span>(i);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>; i&lt;=<span class="number">100</span>; i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;<span class="number">5</span>; j++)</span><br><span class="line">            table[i][j] = table[i][j] + table[i<span class="number">-1</span>][j];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">getSum</span>();</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;i)!=EOF)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(i==<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d: %d i, %d v, %d x, %d l, %d c\n&quot;</span></span><br><span class="line">                ,i,table[i][<span class="number">0</span>],table[i][<span class="number">1</span>],table[i][<span class="number">2</span>],table[i][<span class="number">3</span>],table[i][<span class="number">4</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-344-roman-digititis-077/" data-id="cuidQ7J1-aHL_wBZHSU2a-Iz4" data-title="344 - Roman Digititis" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-494-kindergarten-counting-game-078" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-494-kindergarten-counting-game-078/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T04:29:13.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-494-kindergarten-counting-game-078/">494 - Kindergarten Counting Game</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>算單字</p>
+<p>甚麼方法都行，抓出單字的特徵</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> line[<span class="number">1000</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">gets</span>(line))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> count = <span class="number">0</span>;<span class="comment">//if type 0-&gt;1 ++</span></span><br><span class="line">        <span class="type">int</span> type = <span class="number">0</span>;<span class="comment">//0 not letter 1 letter</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; line[i]; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">isalpha</span>(line[i]))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(type==<span class="number">0</span>)</span><br><span class="line">                    count ++;</span><br><span class="line">                type = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                type = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-494-kindergarten-counting-game-078/" data-id="cuidlRisVckGQXyFBYHfrepQi" data-title="494 - Kindergarten Counting Game" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-272-tex-quotes-079" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-272-tex-quotes-079/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T04:01:18.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-272-tex-quotes-079/">272 - TEX Quotes</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>一次左括弧，一次右括弧</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEBUG</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> line[<span class="number">1000</span>];</span><br><span class="line">    <span class="type">char</span> quote[<span class="number">2</span>] = &#123;<span class="string">&#x27;`&#x27;</span>,<span class="string">&#x27;\&#x27;&#x27;</span>&#125;;</span><br><span class="line">    <span class="type">int</span> state = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">gets</span>(line))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; line[i]; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(line[i] == <span class="string">&#x27;&quot;&#x27;</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">putchar</span>(quote[state]);</span><br><span class="line">                <span class="built_in">putchar</span>(quote[state]);</span><br><span class="line">                state = (state<span class="number">+1</span>)%<span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">putchar</span>(line[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">putchar</span>(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-272-tex-quotes-079/" data-id="cuidBjX4JXbtusCKXTbyY52I6" data-title="272 - TEX Quotes" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-458-the-decoder-080" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-458-the-decoder-080/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T03:59:28.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-458-the-decoder-080/">458 - The Decoder</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>ASCII CODE</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> test[<span class="number">10000</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">gets</span>(test))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; test[i];i++)</span><br><span class="line">            test[i] -= <span class="number">7</span>;</span><br><span class="line">        <span class="built_in">puts</span>(test);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-458-the-decoder-080/" data-id="cuidC7_oJni9JZFbvXelVi8Gg" data-title="458 - The Decoder" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10055-hashmat-the-brave-warrior-081" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-10055-hashmat-the-brave-warrior-081/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T03:57:44.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-10055-hashmat-the-brave-warrior-081/">10055 - Hashmat the Brave Warrior</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>溢位</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> <span class="type">int</span> a,b;</span><br><span class="line">    <span class="keyword">while</span>(cin &gt;&gt; a &gt;&gt; b)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a&gt;b)</span><br><span class="line">            cout &lt;&lt; a-b &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            cout &lt;&lt; b-a &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10055-hashmat-the-brave-warrior-081/" data-id="cuidBQ7h7N0nKwLlC5zuc7Y-M" data-title="10055 - Hashmat the Brave Warrior" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10071-back-to-high-school-physics-082" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-10071-back-to-high-school-physics-082/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T03:57:15.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-10071-back-to-high-school-physics-082/">10071 - Back to High School Physics</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>設粒子以等加速度 <code>a</code> 運動，初速度為 <code>u</code>。經過 <code>t</code> 秒時，速度為 <code>v</code>，所以：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v = u + at</span><br></pre></td></tr></table></figure>
+
+<p>經過 <code>2t</code> 秒的位移為：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s(2t) = 2ut + a × (2t)^2 / 2</span><br><span class="line">      = 2ut + 2at^2</span><br><span class="line">      = 2t(u + at) = 2vt</span><br></pre></td></tr></table></figure>
+
+<p>因此每筆輸入輸出 <code>2 * v * t</code>。<code>v</code> 可以是負數，代表位移方向與正方向相反。題目範圍內結果介於 <code>-40000</code> 和 <code>40000</code>，使用 <code>int</code> 足夠。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> v, t;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;v, &amp;t) == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="number">2</span> * v * t);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10071-back-to-high-school-physics-082/" data-id="cuidzb7awd7JvKGaVWAfLYv0F" data-title="10071 - Back to High School Physics" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10963-the-swallowing-ground-083" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-10963-the-swallowing-ground-083/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T03:54:43.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-10963-the-swallowing-ground-083/">10963 - The Swallowing Ground</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> T = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;T);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> run=<span class="number">0</span>; run&lt;T; run++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> n = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line"></span><br><span class="line">        <span class="type">bool</span> ans = <span class="literal">true</span>;</span><br><span class="line">        <span class="type">int</span> y1,y2,gap;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>,&amp;y1,&amp;y2);</span><br><span class="line">        gap = <span class="built_in">abs</span>(y1-y2);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>,&amp;y1,&amp;y2);</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">abs</span>(y1-y2)!=gap)</span><br><span class="line">                ans = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(ans)</span><br><span class="line">            <span class="built_in">puts</span>(<span class="string">&quot;yes&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">puts</span>(<span class="string">&quot;no&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(run!=T<span class="number">-1</span>)</span><br><span class="line">            <span class="built_in">putchar</span>(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10963-the-swallowing-ground-083/" data-id="cuidvTX6ZodjPFuae0zl4H71Y" data-title="10963 - The Swallowing Ground" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10696-f91-084" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-10696-f91-084/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T03:54:30.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-10696-f91-084/">10696 - f91</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>遞迴時間太久，用直接解。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">    <span class="keyword">while</span>(n)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(n&gt;=<span class="number">101</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;f91(%d) = %d\n&quot;</span>,n,n<span class="number">-10</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;f91(%d) = 91\n&quot;</span>,n);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10696-f91-084/" data-id="cuidPcojNxg1clHOWw5J7K5Vu" data-title="10696 - f91" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10082-wertyu-085" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-10082-wertyu-085/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T03:46:49.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-10082-wertyu-085/">10082 - WERTYU</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>硬做就可以了</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">char</span> <span class="title">trans</span><span class="params">(<span class="type">char</span> in)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span>(in)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;1&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;`&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;2&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;W&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;Q&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;S&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;X&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;Z&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;3&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;2&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;E&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;W&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;D&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;S&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;C&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;X&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;4&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;3&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;R&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;E&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;F&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;D&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;V&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;C&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;5&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;4&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;T&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;R&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;G&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;F&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;B&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;V&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;6&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;5&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;Y&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;T&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;H&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;G&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;N&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;B&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;7&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;6&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;U&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;Y&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;J&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;H&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;M&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;N&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;8&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;7&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;I&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;U&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;K&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;J&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;,&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;M&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;9&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;8&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;O&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;I&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;L&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;K&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;.&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;,&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;0&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;9&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;P&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;O&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;;&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;L&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;/&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;.&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;-&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;[&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;P&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;\&#x27;&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;;&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;=&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;]&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;[&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span><span class="string">&#x27;\\&#x27;</span>: <span class="keyword">return</span><span class="string">&#x27;]&#x27;</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">return</span> in;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> input[<span class="number">10000</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">gets</span>(input))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; input[i]; i++)</span><br><span class="line">            input[i] = <span class="built_in">trans</span>(input[i]);</span><br><span class="line">        <span class="built_in">puts</span>(input);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10082-wertyu-085/" data-id="cuid4QYbdoZYF53dpNfFuTalj" data-title="10082 - WERTYU" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-11369-shopaholic-086" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-11369-shopaholic-086/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T03:41:25.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-11369-shopaholic-086/">11369 - Shopaholic</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>根據直覺解，排序、跳三的倍數</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> t;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="type">int</span> good[<span class="number">20000</span>];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;t);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> r=<span class="number">0</span>; r&lt;t; r++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++)</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;good[i]);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">sort</span>(good, good+n);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*for(int i=0; i&lt;n; i++)</span></span><br><span class="line"><span class="comment">            printf(&quot; %d&quot;,good[i]);*/</span></span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=n<span class="number">-3</span>; i&gt;=<span class="number">0</span>; i-=<span class="number">3</span>)</span><br><span class="line">            ans += good[i];</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,ans);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-11369-shopaholic-086/" data-id="cuidv69MFmWVyrFKENL2XXzL1" data-title="11369 - Shopaholic" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/7/">&laquo; 上一頁</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/9/">下一頁 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">九月 2011</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/10/26/uva-278-knight-bipartite-matching/">UVa 278：用二分圖最大匹配計算騎士數</a>
+          </li>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

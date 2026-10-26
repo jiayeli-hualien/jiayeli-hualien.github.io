@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>UVa 10267 - Graphical Editor | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  UVa 10267 - Graphical Editor 題目 原文列出的參考資料：  C++ Blog：Graphical Editor Chchwy Blog UVa 討論區  解法畫布大小為 M 欄、N 列，初始像素都是白色 O；座標從左上角開始，x 是欄、y 是列。L、V、H 和 K 分別用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UVa 10267 - Graphical Editor">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2011/09/22/uva-10267-uva-10267-graphical-editor-102/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  UVa 10267 - Graphical Editor 題目 原文列出的參考資料：  C++ Blog：Graphical Editor Chchwy Blog UVa 討論區  解法畫布大小為 M 欄、N 列，初始像素都是白色 O；座標從左上角開始，x 是欄、y 是列。L、V、H 和 K 分別用">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2011-09-21T16:38:31.000Z">
+<meta property="article:modified_time" content="2026-10-26T23:49:00.371Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-10267-uva-10267-graphical-editor-102" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/09/22/uva-10267-uva-10267-graphical-editor-102/" class="article-date">
+  <time class="dt-published" datetime="2011-09-21T16:38:31.000Z" itemprop="datePublished">2011-09-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      UVa 10267 - Graphical Editor
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/102/10267.pdf">UVa 10267 - Graphical Editor 題目</a></p>
+<p>原文列出的參考資料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.cppblog.com/rakerichard/archive/2010/01/24/106345.html">C++ Blog：Graphical Editor</a></li>
+<li><a target="_blank" rel="noopener" href="http://chchwy.blogspot.com/2009/04/uva-10196-check-check.html">Chchwy Blog</a></li>
+<li><a target="_blank" rel="noopener" href="http://online-judge.uva.es/board/viewtopic.php?f=17&t=1155&start=60">UVa 討論區</a></li>
+</ul>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>畫布大小為 M 欄、N 列，初始像素都是白色 <code>O</code>；座標從左上角開始，<code>x</code> 是欄、<code>y</code> 是列。<code>L</code>、<code>V</code>、<code>H</code> 和 <code>K</code> 分別用來塗單一像素、畫垂直線、畫水平線及填滿矩形。<code>S</code> 輸出檔名和目前畫布，<code>X</code> 結束操作。</p>
+<p><code>F x y C</code> 以指定像素為起點，將所有同色且透過上下左右相鄰連通的像素改成顏色 <code>C</code>。程式用佇列做廣度優先搜尋；像素改色時就視為已拜訪，避免重複入列。如果起點已是目標顏色，直接結束填色即可。</p>
+<p><code>V</code> 和 <code>H</code> 的端點可能以任一順序輸入，程式先整理成遞增順序再逐格畫線。<code>K</code> 的座標由題目定義為左上角和右下角，因此直接畫出包含兩端點的矩形。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX_M 256</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX_N 256</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*參考</span></span><br><span class="line"><span class="comment">http://www.cppblog.com/rakerichard/archive/2010/01/24/106345.html</span></span><br><span class="line"><span class="comment">http://chchwy.blogspot.com/2009/04/uva-10196-check-check.html</span></span><br><span class="line"><span class="comment">http://online-judge.uva.es/board/viewtopic.php?f=17&amp;t=1155&amp;start=60</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> x;</span><br><span class="line">    <span class="type">int</span> y;</span><br><span class="line">&#125;queue[MAX_M*MAX_N<span class="number">+1</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> graph[MAX_N][MAX_M] = &#123;<span class="string">&#x27;\0&#x27;</span>&#125;;</span><br><span class="line"><span class="type">int</span> M = <span class="number">0</span>, N = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">chose</span><span class="params">(<span class="type">char</span> input[])</span></span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> input[<span class="number">1000</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">gets</span>(input))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(input[<span class="number">0</span>]==<span class="string">&#x27;X&#x27;</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="built_in">chose</span>(input);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> *b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> t = *a;</span><br><span class="line">    *a = *b;</span><br><span class="line">    *b = t;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">creat</span><span class="params">(<span class="type">char</span> nums[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">sscanf</span>(nums,<span class="string">&quot;%d %d&quot;</span>,&amp;M,&amp;N);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=N; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>; j&lt;=M;j++)</span><br><span class="line">            graph[i][j] = <span class="string">&#x27;O&#x27;</span>;</span><br><span class="line">        graph[i][M<span class="number">+1</span>] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">clear</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i&lt;=N; i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>; j&lt;=M; j++)</span><br><span class="line">            graph[i][j] = <span class="string">&#x27;O&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">show</span><span class="params">(<span class="type">char</span> name[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">puts</span>(name);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i&lt;=N; i++)</span><br><span class="line">        <span class="built_in">puts</span>(graph[i]<span class="number">+1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">colors</span><span class="params">(<span class="type">char</span> com[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> x,y;</span><br><span class="line">    <span class="type">char</span> color;</span><br><span class="line">    <span class="built_in">sscanf</span>(com,<span class="string">&quot;%d %d %c&quot;</span>,&amp;x,&amp;y,&amp;color);</span><br><span class="line">    graph[y][x] = color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">draws_vertical</span><span class="params">(<span class="type">char</span> com[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> x,y1,y2;</span><br><span class="line">    <span class="type">char</span> color;</span><br><span class="line">    <span class="built_in">sscanf</span>(com,<span class="string">&quot;%d %d %d %c&quot;</span>,&amp;x,&amp;y1,&amp;y2,&amp;color);</span><br><span class="line">    <span class="keyword">if</span>(y1&gt;y2)</span><br><span class="line">        <span class="built_in">swap</span>(&amp;y1,&amp;y2);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = y1; i&lt;=y2; i++)</span><br><span class="line">        graph[i][x] = color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">draws_horizontal</span><span class="params">(<span class="type">char</span> com[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> x1,x2,y;</span><br><span class="line">    <span class="type">char</span> color;</span><br><span class="line">    <span class="built_in">sscanf</span>(com,<span class="string">&quot;%d %d %d %c&quot;</span>,&amp;x1,&amp;x2,&amp;y,&amp;color);</span><br><span class="line">    <span class="keyword">if</span>(x1&gt;x2)</span><br><span class="line">        <span class="built_in">swap</span>(&amp;x1,&amp;x2);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = x1; j&lt;=x2; j++)</span><br><span class="line">        graph[y][j] = color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">draws_rectangle</span><span class="params">(<span class="type">char</span> com[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> x1,x2,y1,y2;</span><br><span class="line">    <span class="type">char</span> color;</span><br><span class="line">    <span class="built_in">sscanf</span>(com,<span class="string">&quot;%d %d %d %d %c&quot;</span>,&amp;x1,&amp;y1,&amp;x2,&amp;y2,&amp;color);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=y1; i&lt;=y2; i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=x1; j&lt;=x2; j++)</span><br><span class="line">            graph[i][j] = color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fill</span><span class="params">(<span class="type">char</span> com[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> x,y;</span><br><span class="line">    <span class="type">char</span> color;</span><br><span class="line">    <span class="built_in">sscanf</span>(com,<span class="string">&quot;%d %d %c&quot;</span>,&amp;x,&amp;y,&amp;color);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> write = <span class="number">0</span>, read = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> direct[<span class="number">4</span>][<span class="number">2</span>] = &#123;&#123;<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">-1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">0</span>,<span class="number">1</span>&#125;,&#123;<span class="number">0</span>,<span class="number">-1</span>&#125;&#125;;</span><br><span class="line">    <span class="type">char</span> target = graph[y][x];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(target==color)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    queue[write].x = x;</span><br><span class="line">    queue[write].y = y;</span><br><span class="line">    graph[y][x] = color;</span><br><span class="line">    write++;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(write &gt; read)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> sx = queue[read].x, sy = queue[read].y;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">4</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> tx = sx + direct[i][<span class="number">0</span>], ty = sy + direct[i][<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(graph[ty][tx] == target)</span><br><span class="line">            &#123;</span><br><span class="line">                queue[write].x = tx;</span><br><span class="line">                queue[write].y = ty;</span><br><span class="line"></span><br><span class="line">                write++;</span><br><span class="line">                graph[ty][tx] = color;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        read++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">chose</span><span class="params">(<span class="type">char</span> input[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span>(input[<span class="number">0</span>])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;I&#x27;</span>:</span><br><span class="line">            <span class="built_in">creat</span>(input<span class="number">+2</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;C&#x27;</span>:</span><br><span class="line">            <span class="built_in">clear</span>();</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;L&#x27;</span>:</span><br><span class="line">            <span class="built_in">colors</span>(input<span class="number">+2</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;V&#x27;</span>:</span><br><span class="line">            <span class="built_in">draws_vertical</span>(input<span class="number">+2</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;H&#x27;</span>:</span><br><span class="line">            <span class="built_in">draws_horizontal</span>(input<span class="number">+2</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;K&#x27;</span>:</span><br><span class="line">            <span class="built_in">draws_rectangle</span>(input<span class="number">+2</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;F&#x27;</span>:</span><br><span class="line">            <span class="built_in">fill</span>(input<span class="number">+2</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;S&#x27;</span>:</span><br><span class="line">            <span class="built_in">show</span>(input<span class="number">+2</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span> : <span class="keyword">break</span>;<span class="comment">//ignore</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2011/09/22/uva-10267-uva-10267-graphical-editor-102/" data-id="cuidoQDkgoaf_uzSE37PD4r4Z" data-title="UVa 10267 - Graphical Editor" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2011/09/22/uva-10033-uva-10033-interpreter-101/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          UVa 10033 - Interpreter
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2011/09/20/uva-706-uva-706-lcd-display-103/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">UVa 706 - LCD Display</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">九月 2011</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/10/26/uva-278-knight-bipartite-matching/">UVa 278：用二分圖最大匹配計算騎士數</a>
+          </li>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

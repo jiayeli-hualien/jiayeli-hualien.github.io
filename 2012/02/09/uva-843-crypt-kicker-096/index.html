@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>843 - Crypt Kicker//密碼 回溯法 | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  題目中譯 http:&#x2F;&#x2F;rubyacm.blogspot.com&#x2F;2011&#x2F;10&#x2F;843-crypt-kicker.html 參考程式碼 C++http:&#x2F;&#x2F;helvidios.blogspot.com&#x2F;2011&#x2F;12&#x2F;843-crypt-kicker.html JAVAhttp:&#x2F;&#x2F;peizhii">
+<meta property="og:type" content="article">
+<meta property="og:title" content="843 - Crypt Kicker&#x2F;&#x2F;密碼 回溯法">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/02/09/uva-843-crypt-kicker-096/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  題目中譯 http:&#x2F;&#x2F;rubyacm.blogspot.com&#x2F;2011&#x2F;10&#x2F;843-crypt-kicker.html 參考程式碼 C++http:&#x2F;&#x2F;helvidios.blogspot.com&#x2F;2011&#x2F;12&#x2F;843-crypt-kicker.html JAVAhttp:&#x2F;&#x2F;peizhii">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-02-09T11:50:42.000Z">
+<meta property="article:modified_time" content="2026-10-26T23:49:00.370Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-843-crypt-kicker-096" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/02/09/uva-843-crypt-kicker-096/" class="article-date">
+  <time class="dt-published" datetime="2012-02-09T11:50:42.000Z" itemprop="datePublished">2012-02-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      843 - Crypt Kicker//密碼 回溯法
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>題目中譯</p>
+<p><a target="_blank" rel="noopener" href="http://rubyacm.blogspot.com/2011/10/843-crypt-kicker.html">http://rubyacm.blogspot.com/2011/10/843-crypt-kicker.html</a></p>
+<p>參考程式碼</p>
+<p>C++<a target="_blank" rel="noopener" href="http://helvidios.blogspot.com/2011/12/843-crypt-kicker.html">http://helvidios.blogspot.com/2011/12/843-crypt-kicker.html</a></p>
+<p>JAVA<a target="_blank" rel="noopener" href="http://peizhiinfo.iteye.com/blog/1237448">http://peizhiinfo.iteye.com/blog/1237448</a></p>
+<p>回溯法</p>
+<p>演算法筆記<a target="_blank" rel="noopener" href="http://www.csie.ntnu.edu.tw/~u91029/Backtracking.html">http://www.csie.ntnu.edu.tw/~u91029/Backtracking.html</a></p>
+<p>解題:</p>
+<p>找一種組合，使密碼裡的所有單字對應到字典裡的單字。限制條件:每個字母都是一對一的關係，如果a對應到b則a不可以對應到c，其他字也不能對應到b。</p>
+<p>題目的input表示每個單字的長度不會超過16，字典單字總數不超過1000，每行密文長度不超過80。意思就是說用暴力法解OK。</p>
+<p>1.把字典存起來。</p>
+<p>2.讀入一行密文。將密文拆成單字。</p>
+<p>3.使用回溯法嘗試各種可能，把密文的所有單字對應到字典裡的單字。</p>
+<p>甚麼是對應?</p>
+<p>使用範例輸入</p>
+<p>bjvg xsb hxsn xsb qymm xsb rqat xsb pnetfn</p>
+<p>例如hxsn必須對應到dick時</p>
+<p><code>h -&gt; d</code> 會發現，d 已被 b 使用，所以無法對應。</p>
+<p>另外x已對應到a，這種狀況也會造成無法對應。</p>
+<p>例能對應的情況</p>
+<p>目前bjvg已對應到dick</p>
+<p>xsb需要對應到and時，x、s尚未有對應的字母(都對應*)。</p>
+<p>b對應d，剛好符合xsb要對應到and。</p>
+<p><code>x -&gt; a</code></p>
+<p><code>s -&gt; n</code></p>
+<p><code>b -&gt; d</code></p>
+<p>三個都可以建立。</p>
+<p>回溯法函數的想法是：</p>
+<p>1.嘗試所有可能。例如遇到hxsn時，嘗試所有長度為4的字串。</p>
+<ol start="2">
+<li>若找到可以對應的字則處理下一個密文單字。→ 若從下一步退回來，嘗試其他長度為 4 的字串，直到嘗試所有字串。</li>
+</ol>
+<p>3.嘗試完所有可能，退回上一步。</p>
+<p>備份與恢復</p>
+<p>回溯法必須記錄目前的狀況，方便以後向後退時能夠繼續嘗試其他可能。</p>
+<p>程式碼：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="comment">//reference:</span></span><br><span class="line"><span class="comment">//http://helvidios.blogspot.com/2011/12/843-crypt-kicker.html</span></span><br><span class="line"><span class="comment">//http://peizhiinfo.iteye.com/blog/1237448</span></span><br><span class="line">string dictionary[<span class="number">16</span>][<span class="number">1000</span>];<span class="comment">//length and index</span></span><br><span class="line"><span class="type">int</span> number[<span class="number">16</span>] = &#123;<span class="number">0</span>&#125;;<span class="comment">//0~15 for length 1~16</span></span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="type">char</span> decode[<span class="number">26</span>];</span><br><span class="line"><span class="type">bool</span> used[<span class="number">26</span>];</span><br><span class="line"></span><br><span class="line">string encrypt_word[<span class="number">80</span>];</span><br><span class="line"><span class="type">int</span> en_number;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">backtrack</span><span class="params">(<span class="type">int</span> completed)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">output</span><span class="params">(string line)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> length = line.<span class="built_in">length</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(line[i] == <span class="string">&#x27; &#x27;</span>)</span><br><span class="line">            <span class="built_in">putchar</span>(<span class="string">&#x27; &#x27;</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">putchar</span>(decode[line[i]-<span class="string">&#x27;a&#x27;</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">putchar</span>(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//讀入字典 最多一千字 </span></span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    string input;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cin &gt;&gt; input;</span><br><span class="line">        <span class="type">int</span> length = input.<span class="built_in">length</span>();</span><br><span class="line">        dictionary[length<span class="number">-1</span>][number[length<span class="number">-1</span>]++] = input;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//輸出測試 每字最多長度16 </span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    for(int i=0; i&lt;16; i++)</span></span><br><span class="line"><span class="comment">        for(int j=0; j&lt;number[i];j++)</span></span><br><span class="line"><span class="comment">            cout &lt;&lt; i+1 &lt;&lt; &quot; &quot; &lt;&lt; dictionary[i][j] &lt;&lt; endl;</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">    string line;</span><br><span class="line">    <span class="comment">//避開換行 </span></span><br><span class="line">    <span class="built_in">getchar</span>();</span><br><span class="line">    <span class="comment">//讀入密文 </span></span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">getline</span>(cin,line))</span><br><span class="line">    &#123;</span><br><span class="line"> <span class="comment">//       cout &lt;&lt; line &lt;&lt; endl;</span></span><br><span class="line">        <span class="function">stringstream <span class="title">read</span><span class="params">(line)</span></span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">26</span>; i++)<span class="comment">//初始化表 </span></span><br><span class="line">        &#123;</span><br><span class="line">            decode[i] = <span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">            used[i] = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//將密文拆解成單字 </span></span><br><span class="line">        en_number = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(read &gt;&gt; encrypt_word[en_number])</span><br><span class="line">            en_number++;</span><br><span class="line"><span class="comment">/*        </span></span><br><span class="line"><span class="comment">        //輸出測試 </span></span><br><span class="line"><span class="comment">        cout &lt;&lt; en_number &lt;&lt; endl;</span></span><br><span class="line"><span class="comment">        for(int i=0; i&lt;en_number; i++)</span></span><br><span class="line"><span class="comment">            cout &lt;&lt; encrypt_word[i].length() &lt;&lt; &quot; &quot; &lt;&lt; encrypt_word[i] &lt;&lt; endl;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">        <span class="comment">//配對</span></span><br><span class="line">        <span class="built_in">backtrack</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//輸出 </span></span><br><span class="line">        <span class="built_in">output</span>(line);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//system(&quot;pause&quot;);</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">backtrack</span><span class="params">(<span class="type">int</span> completed)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//停止訊號 </span></span><br><span class="line">    <span class="keyword">if</span>(completed &gt;= en_number)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> temp_decode[<span class="number">26</span>];</span><br><span class="line">    <span class="type">bool</span> temp_used[<span class="number">26</span>];</span><br><span class="line">    <span class="comment">//用stack紀錄更變順序好麻煩  先用暴力存 </span></span><br><span class="line">    <span class="comment">//backup</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">26</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp_decode[i] = decode[i];</span><br><span class="line">        temp_used[i] = used[i];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> group = (encrypt_word[completed].<span class="built_in">length</span>()<span class="number">-1</span>), num = number[group];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> run = <span class="number">0</span>; run &lt; num; run++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">bool</span> match = <span class="literal">true</span>;</span><br><span class="line">        <span class="comment">//比對 相同長度的字串 </span></span><br><span class="line">        <span class="comment">//dictionary[group][run]        </span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> index = <span class="number">0</span>; index &lt;=group &amp;&amp; match; index++)<span class="comment">//長度範圍 </span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">char</span> x = encrypt_word[completed][index];</span><br><span class="line">            <span class="type">char</span> y = dictionary[group][run][index];</span><br><span class="line">  <span class="comment">/*          </span></span><br><span class="line"><span class="comment">            cout &lt;&lt; &quot;配對&quot; &lt;&lt; x &lt;&lt; y &lt;&lt; endl; </span></span><br><span class="line"><span class="comment">            cout &lt;&lt; &quot;table&quot; &lt;&lt; endl;</span></span><br><span class="line"><span class="comment">            for(int i=0; i&lt;26; i++)</span></span><br><span class="line"><span class="comment">                printf(&quot;[%c,%c]&quot;,i+&#x27;a&#x27;,decode[i]);</span></span><br><span class="line"><span class="comment">            putchar(&#x27;\n&#x27;);</span></span><br><span class="line"><span class="comment">  */</span>          </span><br><span class="line">            <span class="keyword">if</span>(decode[x - <span class="string">&#x27;a&#x27;</span>] == <span class="string">&#x27;*&#x27;</span>)<span class="comment">//未被使用 可修改 </span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//檢查碰撞</span></span><br><span class="line">                <span class="keyword">if</span>(!used[y - <span class="string">&#x27;a&#x27;</span>]) </span><br><span class="line">                &#123;</span><br><span class="line">                    decode[x - <span class="string">&#x27;a&#x27;</span>] = y;</span><br><span class="line">                    used[y - <span class="string">&#x27;a&#x27;</span>] = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;<span class="comment">//沒救了</span></span><br><span class="line">                    match = <span class="literal">false</span>; </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span><span class="comment">//已被使用 檢查是否相同 </span></span><br><span class="line">                <span class="keyword">if</span>(decode[x - <span class="string">&#x27;a&#x27;</span>] != y)<span class="comment">//不一樣就出局 </span></span><br><span class="line">                    match = <span class="literal">false</span>;  </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//建立配對 檢查下一個密文 </span></span><br><span class="line">        <span class="keyword">if</span>(match)</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">backtrack</span>(completed<span class="number">+1</span>))<span class="comment">//如果得到停止訊號 停止 </span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;<span class="comment">// 傳回停止訊號 </span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//復原 </span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">26</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            decode[i] = temp_decode[i];</span><br><span class="line">            used[i] = temp_used[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">//配對失敗 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/02/09/uva-843-crypt-kicker-096/" data-id="cuid7Eo_cffUOsyO4dY0p1mgu" data-title="843 - Crypt Kicker//密碼 回溯法" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/02/10/uva-10205-stack-em-up-095/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          10205 - Stack &#39;em Up//題目翻譯
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/02/06/uva-10050-hartals-097/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10050 - Hartals</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">九月 2011</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/10/26/uva-278-knight-bipartite-matching/">UVa 278：用二分圖最大匹配計算騎士數</a>
+          </li>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

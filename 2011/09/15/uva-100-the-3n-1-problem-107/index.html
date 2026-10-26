@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>100 The 3n + 1 problem | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  UVa 100 - The 3n + 1 Problem 題目 解法對每個輸入範圍，逐一計算其中整數的 cycle length，並找出最大值。cycle length 是從起始數字開始，依規則反覆轉換直到得到 1 的數字個數，起點和最後的 1 都要計入。輸出時保留輸入的 i、j 順序，即使計算範圍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="100 The 3n + 1 problem">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2011/09/15/uva-100-the-3n-1-problem-107/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  UVa 100 - The 3n + 1 Problem 題目 解法對每個輸入範圍，逐一計算其中整數的 cycle length，並找出最大值。cycle length 是從起始數字開始，依規則反覆轉換直到得到 1 的數字個數，起點和最後的 1 都要計入。輸出時保留輸入的 i、j 順序，即使計算範圍">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2011-09-15T02:53:41.000Z">
+<meta property="article:modified_time" content="2026-10-26T23:49:00.372Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-100-the-3n-1-problem-107" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/09/15/uva-100-the-3n-1-problem-107/" class="article-date">
+  <time class="dt-published" datetime="2011-09-15T02:53:41.000Z" itemprop="datePublished">2011-09-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      100 The 3n + 1 problem
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/1/100.pdf">UVa 100 - The 3n + 1 Problem 題目</a></p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>對每個輸入範圍，逐一計算其中整數的 cycle length，並找出最大值。cycle length 是從起始數字開始，依規則反覆轉換直到得到 1 的數字個數，起點和最後的 1 都要計入。輸出時保留輸入的 <code>i</code>、<code>j</code> 順序，即使計算範圍時先交換端點。</p>
+<p>偶數除以 2，奇數乘以 3 再加 1。程式用查表快取已算出的 cycle length；若序列走到快取中已有結果的數字，就將已走過的步數加上該快取值。未命中的數字則繼續依規則計算。</p>
+<p>這份程式以 <code>long long</code> 儲存序列中的暫存值。UVa 題目對正式輸入範圍另保證運算不會超出 32 位元整數；因此原文以超過 32 位元的數字說明「必須使用 <code>long long</code>」並不適用於這個 UVa 題目範圍。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> table[<span class="number">1000001</span>] = &#123;<span class="number">0</span>,<span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">count3np1</span><span class="params">(<span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> <span class="type">int</span> temp = n;</span><br><span class="line">    <span class="type">int</span> times = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(table[temp]!=<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> table[temp];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(temp!=<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(temp&amp;<span class="number">1</span>==<span class="number">1</span>)<span class="comment">//odd</span></span><br><span class="line">        &#123;</span><br><span class="line">            temp = <span class="number">3</span>*temp<span class="number">+1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(temp&lt;=<span class="number">1000000</span>)</span><br><span class="line">            <span class="keyword">if</span>(table[temp]!=<span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                    table[n] = table[temp] + times;</span><br><span class="line">                    <span class="keyword">return</span> table[n];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            temp = temp/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(temp&lt;=<span class="number">1000000</span>)</span><br><span class="line">            <span class="keyword">if</span>(table[temp]!=<span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                    table[n] = table[temp] + times;</span><br><span class="line">                    <span class="keyword">return</span> table[n];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        times++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    table[n] = times;</span><br><span class="line">    <span class="keyword">return</span> times;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> a,b;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>,&amp;a,&amp;b)!=EOF)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> m=a,n=b;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(a&gt;b)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> temp;</span><br><span class="line">            temp = a;</span><br><span class="line">            a = b;</span><br><span class="line">            b = temp;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> max = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=a; i&lt;=b; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> temp = <span class="built_in">count3np1</span>(i);</span><br><span class="line">            <span class="keyword">if</span>(temp&gt;max)</span><br><span class="line">                max = temp;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d %d %d\n&quot;</span>,m,n,max);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2011/09/15/uva-100-the-3n-1-problem-107/" data-id="cuidDdQMipFiPboK953xwZqMm" data-title="100 The 3n + 1 problem" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2011/09/15/uva-101-the-blocks-problem-106/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          101 The Blocks Problem
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2011/09/14/uva-102-ecological-bin-packing-108/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">102 Ecological Bin Packing</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">九月 2011</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/10/26/uva-278-knight-bipartite-matching/">UVa 278：用二分圖最大匹配計算騎士數</a>
+          </li>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -71,10 +71,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-uva-10783-odd-sum-036" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-uva-759-the-return-of-the-roman-empire-023" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2012/07/07/uva-10783-odd-sum-036/" class="article-date">
-  <time class="dt-published" datetime="2012-07-07T06:11:24.000Z" itemprop="datePublished">2012-07-07</time>
+    <a href="/2012/10/20/uva-759-the-return-of-the-roman-empire-023/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:53:02.000Z" itemprop="datePublished">2012-10-20</time>
 </a>
     
   <div class="article-category">
@@ -89,7 +89,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2012/07/07/uva-10783-odd-sum-036/">10783 - Odd Sum</a>
+      <a class="p-name article-title" href="/2012/10/20/uva-759-the-return-of-the-roman-empire-023/">759 - The Return of the Roman Empire</a>
     </h1>
   
 
@@ -97,18 +97,49 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10783 要求計算閉區間 <code>[a, b]</code> 中所有奇數的總和。輸入先給測資數 <code>T</code>，接著每筆提供 <code>a</code>、<code>b</code>（<code>0 ≤ a ≤ b ≤ 100</code>）；每筆輸出 <code>Case i: sum</code>。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/107/10783.pdf">題目敘述</a></p>
-<h2 id="用前綴和計算區間總和"><a href="#用前綴和計算區間總和" class="headerlink" title="用前綴和計算區間總和"></a>用前綴和計算區間總和</h2><p>定義 <code>oddPrefix[i]</code> 為小於 <code>i</code> 的奇數總和。以 <code>[3, 9]</code> 為例，<code>oddPrefix[10]</code> 是 <code>1 + 3 + 5 + 7 + 9 = 25</code>，<code>oddPrefix[3]</code> 是 <code>1</code>，相減後得到區間內的總和 <code>24</code>。</p>
-<p>所以 <code>[a, b]</code> 的答案是 <code>oddPrefix[b + 1] - oddPrefix[a]</code>。用 <code>b + 1</code> 納入右端點；這個寫法也能直接處理 <code>a = 0</code>，不必存取 <code>a - 1</code>。</p>
-<p>前綴和只需從 0 到 100 建立一次。每格先複製前一格的總和，遇到奇數再加上它；每筆測資就能用一次相減在常數時間內回答。</p>
-<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// oddPrefix[i] is the sum of odd numbers less than i.</span></span><br><span class="line"><span class="type">int</span> oddPrefix[<span class="number">102</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> x = <span class="number">0</span>; x &lt;= <span class="number">100</span>; ++x) &#123;</span><br><span class="line">        oddPrefix[x + <span class="number">1</span>] = oddPrefix[x];</span><br><span class="line">        <span class="comment">// Even numbers keep the copied sum; odd numbers add to it.</span></span><br><span class="line">        <span class="keyword">if</span> (x % <span class="number">2</span> == <span class="number">1</span>) &#123;</span><br><span class="line">            oddPrefix[x + <span class="number">1</span>] += x;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> cases, a, b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;cases);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= cases; ++i) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Case %d: %d\n&quot;</span>, i, oddPrefix[b + <span class="number">1</span>] - oddPrefix[a]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 759 要把輸入的羅馬數字轉成十進位數值；格式不合法時，則輸出 <code>This is not a valid number</code>。本解法先建立「羅馬字串 → 十進位數值」對照表，輸入時查表：找到就取得數值，找不到就判為無效。本程式採用 1 到 3999 的標準羅馬數字範圍；題目沒有另外說明數值上限，而這個範圍只有 3999 種表示，適合預先建表。</p>
+<h2 id="為什麼本題採用建表"><a href="#為什麼本題採用建表" class="headerlink" title="為什麼本題採用建表"></a>為什麼本題採用建表</h2><p>直接解析並算出羅馬數字代表的數值並不難，較費心的是確認輸入符合標準格式。標準寫法只允許 <code>IV</code>、<code>IX</code>、<code>XL</code>、<code>XC</code>、<code>CD</code>、<code>CM</code> 這六種減法組合，因此 <code>IC</code> 不合法。若只用「較小的符號出現在較大的符號前面就相減，否則相加」這個簡化規則，<code>IC</code> 仍會被算成 99；但標準的 99 寫法是 <code>XCIX</code>。這說明只算出數值，還不能判斷輸入是否有效。</p>
+<p>直接解析也可行。常見做法是從左到右比較相鄰符號，只有前述六種合法組合才相減，其餘情況相加。若要靠解析過程直接拒絕所有錯誤格式，還得檢查符號的重複次數和排列順序。如果不想逐條實作這些限制，也可以先用較寬鬆的加減規則算出候選數值，再把它轉回標準寫法與原輸入比對；兩者相同才接受。由於本程式只處理 1 到 3999，可以預先產生這些標準寫法，查表時就能同時取得數值並確認格式正確。</p>
+<p>因此，本解法用一次固定的初始化和少量空間，換取較直接的格式檢查。採用建表是為了簡化實作，不是為了降低時間複雜度。</p>
+<h2 id="建立標準表示的對照表"><a href="#建立標準表示的對照表" class="headerlink" title="建立標準表示的對照表"></a>建立標準表示的對照表</h2><p>標準羅馬數字依符號數值由大到小組合；遇到 900、400、90、40、9、4 時，分別使用對應的減法組合。例如，1998 可拆成 <code>M</code>（1000）、<code>CM</code>（900）、<code>XC</code>（90）和 <code>VIII</code>（8），合起來是 <code>MCMXCVIII</code>。</p>
+<p>程式依序處理範圍內的每個數值。對每個數值，都從最大的符號組合開始嘗試；只要剩餘數值不小於該符號的數值，就把符號加到字串中，再扣掉相應數值。重複這個步驟直到數值歸零，最後將產生的羅馬字串和原數值存入 <code>map</code>。</p>
+<h2 id="查表並處理無效輸入"><a href="#查表並處理無效輸入" class="headerlink" title="查表並處理無效輸入"></a>查表並處理無效輸入</h2><p>程式使用 <code>cin &gt;&gt; numeral</code> 讀取輸入，因此空白行和字串前後的空白都會被略過。若對照表中找得到該字串，就輸出對應數值；否則輸出題目要求的錯誤訊息。</p>
+<p>查詢使用 <code>map::find</code>。若改用 <code>valueOf[numeral]</code>，<code>map</code> 的 <code>operator[]</code> 會在查不到時新增一筆預設值為 0 的資料；<code>find</code> 只負責查詢，不會改動表格。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">toRoman</span><span class="params">(<span class="type">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">int</span> values[] = &#123;<span class="number">1000</span>, <span class="number">900</span>, <span class="number">500</span>, <span class="number">400</span>, <span class="number">100</span>, <span class="number">90</span>, <span class="number">50</span>, <span class="number">40</span>, <span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">1</span>&#125;;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> string symbols[] = &#123;<span class="string">&quot;M&quot;</span>, <span class="string">&quot;CM&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;CD&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;XC&quot;</span>, <span class="string">&quot;L&quot;</span>, <span class="string">&quot;XL&quot;</span>, <span class="string">&quot;X&quot;</span>, <span class="string">&quot;IX&quot;</span>, <span class="string">&quot;V&quot;</span>, <span class="string">&quot;IV&quot;</span>, <span class="string">&quot;I&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">    string numeral;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">13</span>; ++i) &#123;</span><br><span class="line">        <span class="keyword">while</span> (value &gt;= values[i]) &#123;</span><br><span class="line">            numeral += symbols[i];</span><br><span class="line">            value -= values[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> numeral;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    map&lt;string, <span class="type">int</span>&gt; valueOf;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> value = <span class="number">1</span>; value &lt;= <span class="number">3999</span>; ++value) &#123;</span><br><span class="line">        valueOf[<span class="built_in">toRoman</span>(value)] = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    string numeral;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; numeral) &#123;</span><br><span class="line">        map&lt;string, <span class="type">int</span>&gt;::const_iterator found = valueOf.<span class="built_in">find</span>(numeral);</span><br><span class="line">        <span class="keyword">if</span> (found == valueOf.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;This is not a valid number\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; found-&gt;second &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>文章中的程式以 C++11 重新提交至 UVa，結果為 <strong>Accepted</strong>（submission <strong>31355667</strong>）。</p>
+<p>令 <code>K = 3999</code> 為表格筆數、<code>L</code> 為輸入字串長度。三種查表方式的取捨如下：</p>
+<table>
+<thead>
+<tr>
+<th>容器</th>
+<th>查詢成本</th>
+<th>特性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>map</code></td>
+<td><code>O(L log K)</code></td>
+<td>寫法直接、查詢成本穩定；查詢時需沿樹走訪。</td>
+</tr>
+<tr>
+<td><code>unordered_map</code></td>
+<td>平均 <code>O(L)</code>，最壞 <code>O(KL)</code></td>
+<td>先計算字串 hash 再查 bucket；有 bucket 管理成本，小表不一定較快。</td>
+</tr>
+<tr>
+<td>排序後的 <code>vector</code></td>
+<td><code>O(L log K)</code></td>
+<td>建表後排序一次，再用 <code>lower_bound</code> 查詢；資料連續，可能較有利於快取，但程式需處理排序和二分搜尋。</td>
+</tr>
+</tbody></table>
+<p>以上複雜度不代表實際速度，也沒有固定的筆數門檻。對本題只有 3999 個短字串，<code>map</code> 已足夠簡單、快速；除非實測發現查詢成為瓶頸，否則不必再微調容器。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯，通過官方範例、空白行與空白字元處理案例；也逐一測試 1 到 3999 的全部標準表示，並確認 <code>CCM</code>、<code>IC</code>、<code>MMMM</code>、<code>MMMMM</code> 會回報無效。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/7/759.pdf">UVa 題目敘述</a></p>
+<p>本篇程式以 C++11 提交 UVa 759，結果為 Accepted。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10783-odd-sum-036/" data-id="cuidXiGfwTw8Zp0PkA03CC9jF" data-title="10783 - Odd Sum" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-759-the-return-of-the-roman-empire-023/" data-id="cuidF8FLHDDMxBZdmJrUP0z8w" data-title="759 - The Return of the Roman Empire" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -120,10 +151,10 @@
 
 
   
-    <article id="post-uva-10008-what-s-cryptanalysis-037" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-uva-10415-eb-alto-saxophone-player-024" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2012/07/07/uva-10008-what-s-cryptanalysis-037/" class="article-date">
-  <time class="dt-published" datetime="2012-07-07T06:06:27.000Z" itemprop="datePublished">2012-07-07</time>
+    <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:45:00.000Z" itemprop="datePublished">2012-10-20</time>
 </a>
     
   <div class="article-category">
@@ -138,7 +169,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2012/07/07/uva-10008-what-s-cryptanalysis-037/">10008 - What&#39;s Cryptanalysis</a>
+      <a class="p-name article-title" href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/">10415 - Eb Alto Saxophone Player</a>
     </h1>
   
 
@@ -146,17 +177,86 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10008 給定一段文字，要求統計每個英文字母出現的次數。大小寫視為同一個字母，空格、標點和數字都忽略；輸出只列出至少出現一次的字母，依次數由多到少排列，次數相同時按字母順序排列。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/100/10008.pdf">題目敘述</a></p>
-<h2 id="統計-26-個字母再排序"><a href="#統計-26-個字母再排序" class="headerlink" title="統計 26 個字母再排序"></a>統計 26 個字母再排序</h2><p>固定使用 26 個計數器記錄 <code>A</code> 到 <code>Z</code> 的出現次數。讀取每一整行，逐字檢查：大寫字母用 <code>ch - &#39;A&#39;</code> 找到位置，小寫字母用 <code>ch - &#39;a&#39;</code> 找到相同位置，其他字元不計數。</p>
-<p>統計完成後，只把出現過的字母放入清單，再依「次數遞減、字母遞增」排序並輸出。若共有 <code>L</code> 個輸入字元，時間複雜度為 <code>O(L + 26 log 26)</code>；計數器和排序清單最多各存 26 個項目。</p>
-<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;limits&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">LetterCount</span> &#123;</span><br><span class="line">    <span class="type">char</span> letter;</span><br><span class="line">    <span class="type">int</span> count;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> lineCount;</span><br><span class="line">    <span class="keyword">if</span> (!(cin &gt;&gt; lineCount)) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    cin.<span class="built_in">ignore</span>(numeric_limits&lt;streamsize&gt;::<span class="built_in">max</span>(), <span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    array&lt;<span class="type">int</span>, 26&gt; frequency = &#123;&#125;;</span><br><span class="line">    string line;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; lineCount; ++i) &#123;</span><br><span class="line">        <span class="built_in">getline</span>(cin, line);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">char</span> ch : line) &#123;</span><br><span class="line">            <span class="keyword">if</span> (ch &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">                ++frequency[ch - <span class="string">&#x27;A&#x27;</span>];</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ch &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">                ++frequency[ch - <span class="string">&#x27;a&#x27;</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    vector&lt;LetterCount&gt; letters;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (frequency[i] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            letters.<span class="built_in">push_back</span>(&#123;<span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(<span class="string">&#x27;A&#x27;</span> + i), frequency[i]&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">sort</span>(letters.<span class="built_in">begin</span>(), letters.<span class="built_in">end</span>(), [](<span class="type">const</span> LetterCount&amp; left,</span><br><span class="line">                                            <span class="type">const</span> LetterCount&amp; right) &#123;</span><br><span class="line">        <span class="keyword">if</span> (left.count != right.count) <span class="keyword">return</span> left.count &gt; right.count;</span><br><span class="line">        <span class="keyword">return</span> left.letter &lt; right.letter;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> LetterCount&amp; item : letters) &#123;</span><br><span class="line">        cout &lt;&lt; item.letter &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; item.count &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10415 給一段由 14 種音符組成的樂曲，要求分別計算十根手指按下按鍵的次數。對每個音符，某根手指只有在「這個音符需要它、前一個音符不需要它」時才算按下一次；每首樂曲的第一個音符則視為前一刻沒有手指按著。輸出十個計數，順序是手指 1 到 10。</p>
+<h2 id="用前後音符的按鍵狀態計數"><a href="#用前後音符的按鍵狀態計數" class="headerlink" title="用前後音符的按鍵狀態計數"></a>用前後音符的按鍵狀態計數</h2><p>先把每個音符表示成十根手指的按鍵狀態。以下表格中的數字是手指編號：</p>
+<table>
+<thead>
+<tr>
+<th>音符</th>
+<th>需要按住的手指</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>c</code></td>
+<td>2、3、4、7、8、9、10</td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td>2、3、4、7、8、9</td>
+</tr>
+<tr>
+<td><code>e</code></td>
+<td>2、3、4、7、8</td>
+</tr>
+<tr>
+<td><code>f</code></td>
+<td>2、3、4、7</td>
+</tr>
+<tr>
+<td><code>g</code></td>
+<td>2、3、4</td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td>2、3</td>
+</tr>
+<tr>
+<td><code>b</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>C</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>D</code></td>
+<td>1、2、3、4、7、8、9</td>
+</tr>
+<tr>
+<td><code>E</code></td>
+<td>1、2、3、4、7、8</td>
+</tr>
+<tr>
+<td><code>F</code></td>
+<td>1、2、3、4、7</td>
+</tr>
+<tr>
+<td><code>G</code></td>
+<td>1、2、3、4</td>
+</tr>
+<tr>
+<td><code>A</code></td>
+<td>1、2、3</td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td>1、2</td>
+</tr>
+</tbody></table>
+<p>例如樂曲 <code>abC</code>：第一個音符 <code>a</code> 需要手指 2、3，因此兩者各計一次。切換到 <code>b</code> 時仍需要手指 2，沒有新按下；再切換到 <code>C</code> 時需要手指 3，而前一個音符 <code>b</code> 沒有用到手指 3，所以手指 3 再計一次。結果是手指 2 按 1 次、手指 3 按 2 次，其餘為 0。</p>
+<p>程式用長度 10 的布林陣列保存前一個音符與目前音符的狀態。每讀到一個音符，就依照對照表建立目前狀態；若某個位置目前為 <code>true</code>、前一狀態為 <code>false</code>，便增加該手指的計數。處理完後，將目前狀態存為前一狀態。</p>
+<p>程式用 <code>notes</code> 與 <code>fingering</code> 兩組同索引資料保存對照：<code>notes</code> 中某個音符的位置，就是它在 <code>fingering</code> 中的按鍵字串。按鍵字串以陣列索引 <code>0</code> 到 <code>9</code> 表示手指 1 到 10，所以字元 <code>&#39;0&#39;</code> 代表手指 1；例如音符 <code>c</code> 的字串是 <code>&quot;1236789&quot;</code>，代表手指 2、3、4、7、8、9、10。</p>
+<p>每首曲子都重新把計數和前一狀態設為 0。題目允許空曲子，所以每個測資必須用 <code>getline</code> 讀取一整行；空行會輸出十個 0。讀入測資數後，先用一次 <code>getline</code> 消耗該行剩餘的換行字元，再逐行讀取曲子。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> string notes = <span class="string">&quot;cdefgabCDEFGAB&quot;</span>;</span><br><span class="line">    <span class="type">const</span> string fingering[] = &#123;</span><br><span class="line">        <span class="string">&quot;1236789&quot;</span>, <span class="string">&quot;123678&quot;</span>, <span class="string">&quot;12367&quot;</span>, <span class="string">&quot;1236&quot;</span>, <span class="string">&quot;123&quot;</span>, <span class="string">&quot;12&quot;</span>, <span class="string">&quot;1&quot;</span>,</span><br><span class="line">        <span class="string">&quot;2&quot;</span>, <span class="string">&quot;0123678&quot;</span>, <span class="string">&quot;012367&quot;</span>, <span class="string">&quot;01236&quot;</span>, <span class="string">&quot;0123&quot;</span>, <span class="string">&quot;012&quot;</span>, <span class="string">&quot;01&quot;</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> testCases;</span><br><span class="line">    cin &gt;&gt; testCases;</span><br><span class="line">    string song;</span><br><span class="line">    <span class="built_in">getline</span>(cin, song);  <span class="comment">// Consume the rest of the first line.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (testCases--) &#123;</span><br><span class="line">        <span class="built_in">getline</span>(cin, song);  <span class="comment">// An empty line represents an empty song.</span></span><br><span class="line"></span><br><span class="line">        array&lt;<span class="type">int</span>, 10&gt; presses = &#123;&#125;;</span><br><span class="line">        array&lt;<span class="type">bool</span>, 10&gt; previous = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> note : song) &#123;</span><br><span class="line">            <span class="type">const</span> <span class="type">size_t</span> noteIndex = notes.<span class="built_in">find</span>(note);</span><br><span class="line">            array&lt;<span class="type">bool</span>, 10&gt; current = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">char</span> finger : fingering[noteIndex]) &#123;</span><br><span class="line">                current[finger - <span class="string">&#x27;0&#x27;</span>] = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> finger = <span class="number">0</span>; finger &lt; <span class="number">10</span>; ++finger) &#123;</span><br><span class="line">                <span class="keyword">if</span> (current[finger] &amp;&amp; !previous[finger]) &#123;</span><br><span class="line">                    ++presses[finger];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            previous = current;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        cout &lt;&lt; presses[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> finger = <span class="number">1</span>; finger &lt; <span class="number">10</span>; ++finger) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; presses[finger];</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>這份 C++11 程式提交至 UVa 後獲得 <strong>Accepted</strong>（submission <strong>31355637</strong>，0.000 秒）。本機以官方範例比對，並檢查了大小寫混合、空白行及非字母字元。</p>
+<p>每個音符查出所需手指後，檢查十個位置一次；一首最多 200 個音符，因此每首曲子的時間為 <code>O(10L)</code>，其中 <code>L ≤ 200</code>。額外狀態只保存十根手指，空間為 <code>O(10)</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯，官方範例與 uDebug 提供的 12 筆資料全部相符；另測試空曲子、同音符連續出現、以及不同測資之間的狀態重設。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/104/10415.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10415">uDebug 測資</a></p>
+<p>本篇程式以 C++11 提交 UVa 10415，結果為 Accepted。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10008-what-s-cryptanalysis-037/" data-id="cuidynwiYXrrSHiFvTXGE6nmg" data-title="10008 - What&#39;s Cryptanalysis" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" data-id="cuidmb-WE3idYgnnvvHx7uLrb" data-title="10415 - Eb Alto Saxophone Player" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -168,10 +268,10 @@
 
 
   
-    <article id="post-uva-575-skew-binary-038" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-uva-10878-decode-the-tape-025" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2012/07/07/uva-575-skew-binary-038/" class="article-date">
-  <time class="dt-published" datetime="2012-07-07T06:02:28.000Z" itemprop="datePublished">2012-07-07</time>
+    <a href="/2012/10/20/uva-10878-decode-the-tape-025/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:43:55.000Z" itemprop="datePublished">2012-10-20</time>
 </a>
     
   <div class="article-category">
@@ -186,7 +286,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2012/07/07/uva-575-skew-binary-038/">575 - Skew Binary</a>
+      <a class="p-name article-title" href="/2012/10/20/uva-10878-decode-the-tape-025/">10878 - Decode the Tape</a>
     </h1>
   
 
@@ -194,18 +294,22 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 575 要把 skew binary 數字轉成十進位。從右邊數第 <code>k</code> 位的權重是 <code>2^(k + 1) - 1</code>，位數可以是 <code>0</code>、<code>1</code>，最右側的非零位也可能是 <code>2</code>。輸入每行一個數字，<code>0</code> 表示結束；每個數字的十進位值不超過 <code>2^31 - 1</code>。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/5/575.pdf">題目敘述</a></p>
-<h2 id="由右向左累加位值"><a href="#由右向左累加位值" class="headerlink" title="由右向左累加位值"></a>由右向左累加位值</h2><p>各位的權重依序是 <code>1, 3, 7, 15, ...</code>，每一項都等於前一項乘 2 再加 1。因此從最右位開始，逐位乘上目前權重並加進答案，再更新權重即可。</p>
-<p>例如 <code>10120</code> 的計算是 <code>1 × 31 + 0 × 15 + 1 × 7 + 2 × 3 + 0 × 1 = 44</code>。程式用 64 位元無號整數保存權重和答案，並以 <code>0</code> 作為輸入終止標記。</p>
-<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdint&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">toDecimal</span><span class="params">(<span class="type">const</span> string&amp; skew)</span> </span>&#123;</span><br><span class="line">    <span class="type">uint64_t</span> value = <span class="number">0</span>;</span><br><span class="line">    <span class="type">uint64_t</span> placeValue = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = skew.<span class="built_in">size</span>(); i &gt; <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> digit = skew[i - <span class="number">1</span>] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        value += digit * placeValue;</span><br><span class="line">        placeValue = placeValue * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    string skew;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; skew &amp;&amp; skew != <span class="string">&quot;0&quot;</span>) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">toDecimal</span>(skew) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10878 要把紙帶上的孔洞還原成文字。每列代表一個字元；程式從每列的 8 個資料位元重建字元，並在讀到第二條 <code>___________</code> 時停止。</p>
+<h2 id="每列轉成一個字元"><a href="#每列轉成一個字元" class="headerlink" title="每列轉成一個字元"></a>每列轉成一個字元</h2><p>每列左右兩端的 <code>|</code> 是紙帶邊界，中間的 <code>.</code> 用來標示中心位置。略過邊界和點號後，剩下的位置由左至右代表位元 7 到位元 0。讀到 <code>o</code> 就把該位設為 1，讀到空白則設為 0。</p>
+<p>程式以從 0 開始的字串索引讀取固定欄位：左右邊界在 <code>row[0]</code> 和 <code>row[10]</code>，中央的 <code>.</code> 在 <code>row[6]</code>；資料位元位於 <code>row[1]</code> 到 <code>row[5]</code>，以及 <code>row[7]</code> 到 <code>row[9]</code>。因此迴圈檢查索引 1 到 9，並略過索引 6。</p>
+<p>題目沒有明說這 8 個位元要用哪種字元編碼。可以從範例推知：官方範例第一列讀成 <code>01000001₂</code>，換算為十進位是 65；依 ASCII 對應為 <code>A</code>，正好是範例訊息的第一個字元。因此本文按 ASCII 解碼，但要注意這項規則是從範例推得，題目敘述沒有明文交代。</p>
+<p>程式由左至右逐位累積：先把目前值左移一位，再放入新位元。以 <code>01000001</code> 為例，讀完前兩位後目前值是 <code>1</code>；再讀入 <code>0</code> 時，先左移得到 <code>2</code>，再加入 <code>0</code>，後續位元依此類推，最後得到 65。</p>
+<p>輸入的第一條 <code>___________</code> 是紙帶起點；之後每讀到一列就輸出一個字元，直到讀到下一條分隔線。這樣每列都會解碼一次，並保留訊息中的空格、標點和換行字元。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">char</span> <span class="title">decodeRow</span><span class="params">(<span class="type">const</span> string&amp; row)</span> </span>&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> value = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> column = <span class="number">1</span>; column &lt;= <span class="number">9</span>; ++column) &#123;</span><br><span class="line">        <span class="keyword">if</span> (column == <span class="number">6</span>) <span class="keyword">continue</span>;  <span class="comment">// The center dot marks the tape, not a bit.</span></span><br><span class="line">        value = <span class="built_in">static_cast</span>&lt;<span class="type">unsigned</span> <span class="type">char</span>&gt;((value &lt;&lt; <span class="number">1</span>) | (row[column] == <span class="string">&#x27;o&#x27;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> string delimiter = <span class="string">&quot;___________&quot;</span>;</span><br><span class="line">    string row;</span><br><span class="line">    <span class="built_in">getline</span>(cin, row);  <span class="comment">// The first delimiter starts the tape.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">getline</span>(cin, row) &amp;&amp; row != delimiter) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">decodeRow</span>(row);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>每個輸入位數只處理一次，時間複雜度為 <code>O(D)</code>，其中 <code>D</code> 是位數；額外空間用來保存目前的輸入字串。</p>
-<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>這份 C++11 程式提交至 UVa 後獲得 <strong>Accepted</strong>（submission <strong>31355652</strong>，0.000 秒）；本機輸出與官方範例一致。</p>
+<p>每列處理固定 8 個資料位元，因此共有 <code>N</code> 列時，時間為 <code>O(N)</code>；程式只保存目前一列和一個位元組，額外空間為 <code>O(1)</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯；以程式產生 0 到 127 的 ASCII 紙帶列，解碼結果逐位元組相符。另用 uDebug 提供的完整紙帶資料解碼，結果與 Accepted Output 相符（將文字欄位正規化的換行形式統一後）。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/108/10878.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10878">uDebug 測資</a></p>
+<p>本篇程式以 C++11 提交 UVa 10878，結果為 Accepted。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-575-skew-binary-038/" data-id="cuidme9TRQ_wDjLi-3RwmPpeX" data-title="575 - Skew Binary" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10878-decode-the-tape-025/" data-id="cuid6_b8-WITi42g1QnSgdix9" data-title="10878 - Decode the Tape" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -217,10 +321,10 @@
 
 
   
-    <article id="post-uva-579-clockhands-039" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-uva-10167-birthday-cake-026" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2012/07/07/uva-579-clockhands-039/" class="article-date">
-  <time class="dt-published" datetime="2012-07-07T06:00:29.000Z" itemprop="datePublished">2012-07-07</time>
+    <a href="/2012/10/20/uva-10167-birthday-cake-026/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:40:42.000Z" itemprop="datePublished">2012-10-20</time>
 </a>
     
   <div class="article-category">
@@ -235,7 +339,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2012/07/07/uva-579-clockhands-039/">579 - ClockHands</a>
+      <a class="p-name article-title" href="/2012/10/20/uva-10167-birthday-cake-026/">10167 - Birthday Cake</a>
     </h1>
   
 
@@ -243,17 +347,471 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 579 給定時間 <code>H:M</code>，要輸出時針和分針之間較小的角度，四捨五入至小數點後三位。時間以 <code>0:00</code> 結束；<code>H</code> 為 1 到 12，<code>M</code> 為 00 到 59。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/5/579.pdf">題目敘述</a></p>
-<h2 id="先求兩根指針的位置"><a href="#先求兩根指針的位置" class="headerlink" title="先求兩根指針的位置"></a>先求兩根指針的位置</h2><p>時針每小時轉 <code>30°</code>，每分鐘再前進 <code>0.5°</code>，所以時間 <code>H:M</code> 的時針角度是 <code>30H + 0.5M</code>。分針每分鐘轉 <code>6°</code>，角度是 <code>6M</code>。</p>
-<p>兩角相減並取絕對值，得到一個 <code>0°</code> 到 <code>360°</code> 的角度差 <code>d</code>。兩根指針之間較小的角度是 <code>min(d, 360° - d)</code>。例如 <code>8:10</code> 時，時針在 <code>245°</code>，分針在 <code>60°</code>，角度差為 <code>185°</code>，因此答案是 <code>175°</code>。</p>
-<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> hour, minute;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">&quot;%d:%d&quot;</span>,&amp;hour,&amp;minute)!=EOF)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(hour==<span class="number">0</span>&amp;&amp;minute==<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="type">double</span> angleH , angleM;</span><br><span class="line">        angleH = <span class="number">0.5</span>*minute + hour*<span class="number">30</span>;</span><br><span class="line">        angleM = minute*<span class="number">6</span>;</span><br><span class="line">        <span class="type">double</span> ans = angleH-angleM;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(ans &lt; <span class="number">0</span>)</span><br><span class="line">            ans = -ans;</span><br><span class="line">        <span class="keyword">if</span>(ans &gt; <span class="number">180.0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ans = <span class="number">360</span>-ans;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%.3f\n&quot;</span>,ans);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10167 要用直線把圓形蛋糕切成形狀相同的兩半。蛋糕上有 <code>2N</code> 顆櫻桃，切開後每一半都要有 <code>N</code> 顆，切割線上也不能有櫻桃。要讓兩半形狀相同，切割線必須通過圓心 <code>(0, 0)</code>。將切割線寫成 <code>Ax + By = 0</code>，就能根據每顆櫻桃的 <code>Ax + By</code> 正負判斷它位於哪一側，再搜尋符合條件的整數係數 <code>A</code>、<code>B</code>。</p>
+<h2 id="用內積判斷櫻桃在哪一側"><a href="#用內積判斷櫻桃在哪一側" class="headerlink" title="用內積判斷櫻桃在哪一側"></a>用內積判斷櫻桃在哪一側</h2><p>一般直線可寫成 <code>Ax + By = C</code>。本題的切割線必須通過原點 <code>(0, 0)</code>，因此 <code>C = 0</code>，直線方程式是 <code>Ax + By = 0</code>。向量 <code>(A, B)</code> 是這條直線的法向量，也就是垂直於直線的向量。對每顆櫻桃的座標 <code>(x, y)</code>，計算它與 <code>(A, B)</code> 的內積 <code>(A, B) · (x, y) = Ax + By</code>。這個內積值大於 0 表示櫻桃在法向量所指的一側，小於 0 表示在另一側；等於 0 則表示櫻桃在線上，這組係數不能使用。</p>
+<p>例如官方範例的 <code>N = 2</code>，四顆櫻桃的座標是 <code>(-20, 20)</code>、<code>(-30, 20)</code>、<code>(-10, -50)</code>、<code>(10, -5)</code>。取 <code>(A, B) = (0, 1)</code> 時，切割線是 <code>y = 0</code>，內積值就是各點的 <code>y</code> 座標。前兩顆位於直線上方，後兩顆位於下方，因此兩側各有兩顆櫻桃。</p>
+<p>下圖把這個切割方式畫在圓形蛋糕上：綠色箭頭是法向量 <code>(A, B) = (0, 1)</code>，與水平切割線 <code>y = 0</code> 垂直。藍色點在直線上方，橘色點在下方；右側列出每顆櫻桃的座標和內積值，方便對照正負號與位置。</p>
+<p><img src="/images/uva-10167-birthday-cake-sample.svg" alt="UVa 10167 官方範例：切割線 y &#x3D; 0，列出櫻桃座標與內積值"></p>
+<h2 id="搜尋係數"><a href="#搜尋係數" class="headerlink" title="搜尋係數"></a>搜尋係數</h2><p>題目保證每組輸入至少有一組解，且 <code>A</code>、<code>B</code> 都在 <code>[-500, 500]</code>；兩者不能同時為 0，否則方程式不代表一條直線。又因為 <code>N ≤ 50</code>，最多只有 100 顆櫻桃，所以可以枚舉係數，逐一檢查每顆櫻桃。<code>(A, B)</code> 與 <code>(-A, -B)</code> 表示同一條線，只會把正、負兩側對調；因此只搜尋 <code>A ≥ 0</code> 不會漏掉答案。當 <code>A = 0</code> 時，方程式變成 <code>By = 0</code>，只要 <code>B</code> 不為 0，就等同於 <code>y = 0</code>，因此只需檢查 <code>(0, 1)</code>。題目接受任一組符合條件的答案，找到第一組就可以輸出。</p>
+<p>檢查一組係數時，如果發現櫻桃在線上，就停止檢查這組係數；如果任一側已經超過 <code>N</code> 顆，也可以提早停止，因為後續櫻桃無法讓數量平衡。找到兩側各有 <code>N</code> 顆櫻桃的係數後，就輸出答案。利用 <code>(A, B)</code> 與 <code>(-A, -B)</code> 的對稱性後，最多檢查約五十萬組係數；每組最多檢查 <code>2N ≤ 100</code> 顆櫻桃，最壞情況約要判斷五千萬次櫻桃位於切割線哪一側，因此直接搜尋就足以應付本題。時間複雜度為 <code>O(500^2 N)</code>，額外空間為 <code>O(N)</code>。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    <span class="type">int</span> x;</span><br><span class="line">    <span class="type">int</span> y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cutsFairly</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">const</span> vector&lt;Point&gt;&amp; cherries)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> half = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(cherries.<span class="built_in">size</span>()) / <span class="number">2</span>;</span><br><span class="line">    <span class="type">int</span> positive = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> negative = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> Point&amp; cherry : cherries) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> side = a * cherry.x + b * cherry.y;</span><br><span class="line">        <span class="keyword">if</span> (side == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (side &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            ++positive;</span><br><span class="line">            <span class="keyword">if</span> (positive &gt; half) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ++negative;</span><br><span class="line">            <span class="keyword">if</span> (negative &gt; half) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> positive == half &amp;&amp; negative == half;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">findCut</span><span class="params">(<span class="type">const</span> vector&lt;Point&gt;&amp; cherries, <span class="type">int</span>&amp; cutA, <span class="type">int</span>&amp; cutB)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> a = <span class="number">0</span>; a &lt;= <span class="number">500</span>; ++a) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">cutsFairly</span>(a, <span class="number">1</span>, cherries)) &#123;</span><br><span class="line">                cutA = a;</span><br><span class="line">                cutB = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">cutsFairly</span>(a, <span class="number">0</span>, cherries)) &#123;</span><br><span class="line">            cutA = a;</span><br><span class="line">            cutB = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> absB = <span class="number">1</span>; absB &lt;= <span class="number">500</span>; ++absB) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">cutsFairly</span>(a, absB, cherries)) &#123;</span><br><span class="line">                cutA = a;</span><br><span class="line">                cutB = absB;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">cutsFairly</span>(a, -absB, cherries)) &#123;</span><br><span class="line">                cutA = a;</span><br><span class="line">                cutB = -absB;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; n &amp;&amp; n != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="function">vector&lt;Point&gt; <span class="title">cherries</span><span class="params">(<span class="number">2</span> * n)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (Point&amp; cherry : cherries) &#123;</span><br><span class="line">            cin &gt;&gt; cherry.x &gt;&gt; cherry.y;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> a;</span><br><span class="line">        <span class="type">int</span> b;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">findCut</span>(cherries, a, b)) &#123;</span><br><span class="line">            cout &lt;&lt; a &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; b &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>文章程式與 archive 中的 Accepted 版本完全相同，因此沒有重新提交 UVa。程式以 C++11 編譯，官方範例輸出正確。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯，通過官方範例及自建案例。uDebug 提供 256 組測資；由於本題允許多組答案，逐組依題目條件檢查係數範圍、切割線上沒有櫻桃，且兩側各有 <code>N</code> 顆。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/101/10167.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10167">uDebug 測資</a></p>
+<p>本篇程式以 C++11 提交 UVa 10167，結果為 Accepted，執行時間 0.010 秒。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-579-clockhands-039/" data-id="cuidWiLd5tUOoLUmNDR0dl54X" data-title="579 - ClockHands" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10167-birthday-cake-026/" data-id="cuid3xdCuJOJ7ov4NcgJHv_oE" data-title="10167 - Birthday Cake" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10125-sumsets-027" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-10125-sumsets-027/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:39:08.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-10125-sumsets-027/">10125 - Sumsets</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>每筆輸入是一組互不相同的整數：先給元素數量 <code>n</code>（<code>1 ≤ n ≤ 1000</code>），再給 <code>n</code> 個整數；輸入以 <code>n = 0</code> 結束。從集合中選出四個不同的數值 <code>a, b, c, d</code>，使 <code>a + b + c = d</code>。如果有多組答案，輸出最大的 <code>d</code>；若沒有答案，輸出 <code>no solution</code>。</p>
+<h2 id="解法摘要"><a href="#解法摘要" class="headerlink" title="解法摘要"></a>解法摘要</h2><p>將 <code>a + b + c = d</code> 改寫成 <code>a + b = d - c</code>。由大到小嘗試 <code>d</code>，對每個 <code>c</code> 查詢是否有兩個數的和等於 <code>d - c</code>。為了加速這些查詢，先建立所有兩數和並排序，再用 binary search（二分搜尋）找目標值；每筆和都保留組成數對的索引，以排除重複使用元素。最壞時間複雜度為 <code>O(n² log n)</code>，額外空間複雜度為 <code>O(n²)</code>。</p>
+<h2 id="從-2SUM、3SUM-到-4SUM"><a href="#從-2SUM、3SUM-到-4SUM" class="headerlink" title="從 2SUM、3SUM 到 4SUM"></a>從 2SUM、3SUM 到 4SUM</h2><p><strong>2SUM</strong>：給定一組數和目標和 <code>t</code>，找兩個不同的數 <code>a</code>、<code>b</code>，使 <code>a + b = t</code>。數列排序後，可以用雙指標在 <code>O(n)</code> 時間回答一次查詢。</p>
+<p><strong>3SUM</strong>：給定目標和 <code>t</code>，找三個數使總和等於 <code>t</code>。固定其中一個數 <code>a</code>，剩下的問題就是目標為 <code>t - a</code> 的 2SUM；排序後逐一固定 <code>a</code>，總時間為 <code>O(n²)</code>。</p>
+<p><strong>4SUM</strong>：給定目標和 <code>t</code>，找四個數使總和等於 <code>t</code>。把四個數分成兩對，可改寫成 <code>x₁ + x₂ = t - (x₃ + x₄)</code>。預先建立所有數對的和，再查詢互補的和，就能把直接枚舉四個數的 <code>O(n⁴)</code> 降為 <code>O(n² log n)</code>，代價是使用 <code>O(n²)</code> 空間。</p>
+<p>本題和 4SUM 一樣要選四個互異的數，但右側的 <code>d</code> 也必須來自集合，且題目要求最大的 <code>d</code>。因此可以把每個候選 <code>d</code> 看成一次目標值為 <code>d</code> 的 3SUM；更進一步固定 <code>d</code> 和 <code>c</code>，就得到目標值為 <code>d - c</code> 的 2SUM。這個轉換讓我們能把所有 2SUM 查詢共用同一張兩數和表。</p>
+<p>以官方範例 <code>2, 3, 5, 7, 12</code> 為例，先嘗試最大的 <code>d = 12</code>。固定 <code>c = 2</code> 後，目標值是 <code>12 - 2 = 10</code>；數對 <code>(3, 7)</code> 的和為 10，而且四個數互異，因此答案是 12。</p>
+<h2 id="如何選擇查詢方法"><a href="#如何選擇查詢方法" class="headerlink" title="如何選擇查詢方法"></a>如何選擇查詢方法</h2><p><code>d</code>、<code>c</code> 都要從集合中選，最多會有 <code>n(n - 1)</code> 組候選，也就是最多 <code>O(n²)</code> 次 2SUM 查詢。可以按下列方式選擇每次查詢的演算法：</p>
+<table>
+<thead>
+<tr>
+<th>做法</th>
+<th>單次 2SUM 查詢</th>
+<th>最壞總時間</th>
+<th>額外空間</th>
+<th>取捨</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>每次掃描全部數對</td>
+<td><code>O(n²)</code></td>
+<td><code>O(n⁴)</code></td>
+<td><code>O(1)</code></td>
+<td>寫法直接，但查詢很多時較慢</td>
+</tr>
+<tr>
+<td>排序原數列後用雙指標（跳過 <code>c</code>、<code>d</code>）</td>
+<td><code>O(n)</code></td>
+<td><code>O(n³)</code></td>
+<td><code>O(1)</code></td>
+<td>省空間，需為每組 <code>(d, c)</code> 重做查詢</td>
+</tr>
+<tr>
+<td>預先建立並排序兩數和，再用二分搜尋</td>
+<td><code>O(log n)</code></td>
+<td><code>O(n² log n)</code></td>
+<td><code>O(n²)</code></td>
+<td>多用空間，換取較低的最壞時間；本解法採用此方法</td>
+</tr>
+</tbody></table>
+<p>若優先省記憶體，可以選排序加雙指標，接受 <code>O(n³)</code> 的最壞時間。這題的 <code>n</code> 最大為 1000，兩數和表最多有 499,500 筆；因此本解法使用 <code>O(n²)</code> 空間預存結果，將最壞時間降為 <code>O(n² log n)</code>。而題目只要求最大的 <code>d</code>，所以由大到小測試 <code>d</code>，一找到答案即可停止；若高 <code>d</code> 很快找到，實際查詢會更少，但無解時的最壞複雜度不變。</p>
+<h2 id="如何確保四個數互異"><a href="#如何確保四個數互異" class="headerlink" title="如何確保四個數互異"></a>如何確保四個數互異</h2><p>兩數和表找到總和符合的數對後，還要確認它沒有重用 <code>c</code> 或 <code>d</code>。否則雖然和正確，仍不符合四個數互異的要求。</p>
+<p>題目保證輸入的數值互不相同。固定目標和 <code>t = d - c</code> 後，若數對包含 <code>c</code>，另一個數只能是 <code>t - c = d - 2c</code>，所以最多只有一組數對會包含 <code>c</code>；若數對包含 <code>d</code>，另一個數只能是 <code>t - d = -c</code>，所以最多只有一組會包含 <code>d</code>。因此最多兩組數對會因為重用 <code>c</code> 或 <code>d</code> 而無效。若 <code>(c, d)</code> 本身也剛好是目標和為 <code>t</code> 的數對（例如 <code>c = 0</code>），它會同時落在這兩類，但仍只算一組無效數對。</p>
+<p>所以，如果同總和至少有三組數對，檢查其中前三組就一定能找到有效數對；如果只有一組或兩組，則要逐組檢查索引，確認是否有一組避開 <code>c</code>、<code>d</code>。</p>
+<p>回到集合 <code>{ -2, -1, 0, 1, 2, 3, 4, 5 }</code> 的例子，固定 <code>d = 5</code>、<code>c = 2</code>，程式中的查詢目標 <code>target</code>（以下記作 <code>t</code>）是 <code>d - c = 3</code>。兩數和表中，總和等於 <code>t</code> 的數對如下：</p>
+<table>
+<thead>
+<tr>
+<th>數對</th>
+<th>檢查結果</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>(-2, 5)</code></td>
+<td>排除</td>
+<td>重用了 <code>d = 5</code></td>
+</tr>
+<tr>
+<td><code>(-1, 4)</code></td>
+<td>可用</td>
+<td>沒有重用 <code>c</code> 或 <code>d</code></td>
+</tr>
+<tr>
+<td><code>(0, 3)</code></td>
+<td>可用</td>
+<td>沒有重用 <code>c</code> 或 <code>d</code></td>
+</tr>
+<tr>
+<td><code>(1, 2)</code></td>
+<td>排除</td>
+<td>重用了 <code>c = 2</code></td>
+</tr>
+</tbody></table>
+<p>程式用 <code>lower_bound</code> 找到第一筆總和等於 <code>t</code> 的紀錄，接著最多檢查三筆同總和的數對；如果數對索引等於 <code>c</code> 或 <code>d</code> 就跳過，否則表示找到答案。表格中的數對順序可能不同，但最多只有兩筆會被排除，所以前三筆中一定有可用的數對。程式函式的參數名稱 <code>target</code> 就是這裡的 <code>t</code>。</p>
+<h2 id="複雜度"><a href="#複雜度" class="headerlink" title="複雜度"></a>複雜度</h2><p>令兩數和表的大小為 <code>M = n(n - 1)/2</code>。建立表需要 <code>O(n²)</code> 時間，排序需要 <code>O(M log M) = O(n² log n)</code>；最多查詢 <code>O(n²)</code> 次，每次二分搜尋為 <code>O(log M) = O(log n)</code>。因此整體時間複雜度是 <code>O(n² log n)</code>，額外空間複雜度是 <code>O(n²)</code>。原數列排序的 <code>O(n log n)</code> 比表的排序成本低階，不影響總複雜度。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstddef&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">PairSum</span> &#123;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> sum;</span><br><span class="line">    <span class="type">int</span> first;</span><br><span class="line">    <span class="type">int</span> second;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">hasDisjointPair</span><span class="params">(<span class="type">const</span> vector&lt;PairSum&gt;&amp; pairSums, <span class="type">long</span> <span class="type">long</span> target,</span></span></span><br><span class="line"><span class="params"><span class="function">                     <span class="type">int</span> excludedFirst, <span class="type">int</span> excludedSecond)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> it = <span class="built_in">lower_bound</span>(pairSums.<span class="built_in">begin</span>(), pairSums.<span class="built_in">end</span>(), target,</span><br><span class="line">                          [](<span class="type">const</span> PairSum&amp; pair, <span class="type">long</span> <span class="type">long</span> value) &#123;</span><br><span class="line">                              <span class="keyword">return</span> pair.sum &lt; value;</span><br><span class="line">                          &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 輸入數值互不相同，固定索引和總和時，最多只有一筆數對會包含該索引。</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> checked = <span class="number">0</span>;</span><br><span class="line">         checked &lt; <span class="number">3</span> &amp;&amp; it != pairSums.<span class="built_in">end</span>() &amp;&amp; it-&gt;sum == target;</span><br><span class="line">         ++checked, ++it) &#123;</span><br><span class="line">        <span class="keyword">if</span> (it-&gt;first != excludedFirst &amp;&amp; it-&gt;second != excludedFirst &amp;&amp;</span><br><span class="line">            it-&gt;first != excludedSecond &amp;&amp; it-&gt;second != excludedSecond) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; n &amp;&amp; n != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">long</span> <span class="type">long</span>&gt; <span class="title">values</span><span class="params">(n)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">long</span> <span class="type">long</span>&amp; value : values) &#123;</span><br><span class="line">            cin &gt;&gt; value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">sort</span>(values.<span class="built_in">begin</span>(), values.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        vector&lt;PairSum&gt; pairSums;</span><br><span class="line">        pairSums.<span class="built_in">reserve</span>(<span class="built_in">static_cast</span>&lt;std::<span class="type">size_t</span>&gt;(n) * (n - <span class="number">1</span>) / <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> first = <span class="number">0</span>; first &lt; n; ++first) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> second = first + <span class="number">1</span>; second &lt; n; ++second) &#123;</span><br><span class="line">                pairSums.<span class="built_in">push_back</span>(</span><br><span class="line">                    &#123;values[first] + values[second], first, second&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">sort</span>(pairSums.<span class="built_in">begin</span>(), pairSums.<span class="built_in">end</span>(),</span><br><span class="line">             [](<span class="type">const</span> PairSum&amp; left, <span class="type">const</span> PairSum&amp; right) &#123;</span><br><span class="line">                 <span class="keyword">return</span> left.sum &lt; right.sum;</span><br><span class="line">             &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="type">bool</span> found = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> d = n - <span class="number">1</span>; d &gt;= <span class="number">0</span> &amp;&amp; !found; --d) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> c = n - <span class="number">1</span>; c &gt;= <span class="number">0</span> &amp;&amp; !found; --c) &#123;</span><br><span class="line">                <span class="keyword">if</span> (c == d) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="type">const</span> <span class="type">long</span> <span class="type">long</span> target = values[d] - values[c];</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">hasDisjointPair</span>(pairSums, target, c, d)) &#123;</span><br><span class="line">                    cout &lt;&lt; values[d] &lt;&lt; endl;</span><br><span class="line">                    found = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!found) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;no solution&quot;</span> &lt;&lt; endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic -O2</code> 編譯。官方範例、邊界案例、200 組隨機小資料（與暴力解比對）及 <code>n = 1000</code> 無解案例均通過。uDebug 的 6 組輸入中，5 組已直接用編譯後執行檔比對；第 4 組有 50 筆資料，在頁面內逐筆計算後與 50 行 Accepted Output 全數相符，但完整輸入尚未直接餵給本機執行檔。</p>
+<p>本篇程式以 C++11 提交 UVa 10125，submission <strong>31355214</strong>，結果為 Accepted。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/101/10125.pdf">UVa 10125 - Sumsets 題目敘述</a></li>
+<li>原文曾註明解法參考 UVa 討論區，但原討論串連結已遺失。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10125-sumsets-027/" data-id="cuidO6wwWQkCaa8OrdP8615nH" data-title="10125 - Sumsets" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-296-safebreaker-028" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-296-safebreaker-028/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:35:59.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-296-safebreaker-028/">296 - Safebreaker</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 296 是類似「幾 A 幾 B」的四位數猜密碼題。可以把 <code>0000</code> 到 <code>9999</code> 想成候選清單：每條猜測都附有一組 A&#x2F;B 線索，我們逐條排除不符合的候選。最後剩下 0 個、1 個或多個候選，就分別輸出 <code>impossible</code>、密碼或 <code>indeterminate</code>。</p>
+<h2 id="A-B-線索怎麼判斷"><a href="#A-B-線索怎麼判斷" class="headerlink" title="A&#x2F;B 線索怎麼判斷"></a>A&#x2F;B 線索怎麼判斷</h2><p><code>A</code> 表示數字和位置都正確；<code>B</code> 表示數字正確，但位置錯誤。假設秘密是 <code>3321</code>，猜測 <code>1223</code>：只有第三位的 <code>2</code> 相同，所以 <code>A = 1</code>。猜測和秘密都含有 <code>1</code>、<code>2</code>、<code>3</code> 各一個，合計有 3 個數字相符；扣掉位置正確的 1 個，得到 <code>B = 2</code>，所以線索是 <code>1/2</code>。</p>
+<p>計算相符數量時要考慮重複數字。猜測裡即使有兩個 <code>2</code>，秘密只有一個 <code>2</code>，也只能算一個相符；因此每個數字依兩邊實際出現次數配對，最多配對 <code>min(猜測次數, 秘密次數)</code> 次。</p>
+<h2 id="逐條排除候選"><a href="#逐條排除候選" class="headerlink" title="逐條排除候選"></a>逐條排除候選</h2><p>候選清單是解題的想法，程式不必真的存下 10,000 個數。只要依序檢查 <code>0000</code> 到 <code>9999</code>，對每個候選逐條計算 A&#x2F;B；有一條線索不符就排除，通過全部線索才保留。找到第二個候選時就能確定是多解，不必再檢查後面的數字。</p>
+<p>密碼可能以 0 開頭。程式把猜測讀成四個字元，並將數字候選拆成四位，所以 <code>0000</code> 也會保留完整位數；輸出唯一答案時則固定補成四位數。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Clue</span> &#123;</span><br><span class="line">    array&lt;<span class="type">int</span>, 4&gt; digits;</span><br><span class="line">    array&lt;<span class="type">int</span>, 10&gt; frequency&#123;&#125;;</span><br><span class="line">    <span class="type">int</span> exact;</span><br><span class="line">    <span class="type">int</span> misplaced;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">array&lt;<span class="type">int</span>, 4&gt; <span class="title">digitsOf</span><span class="params">(<span class="type">int</span> code)</span> </span>&#123;</span><br><span class="line">    array&lt;<span class="type">int</span>, 4&gt; digits&#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">3</span>; position &gt;= <span class="number">0</span>; --position) &#123;</span><br><span class="line">        digits[position] = code % <span class="number">10</span>;</span><br><span class="line">        code /= <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> digits;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">matchesAllClues</span><span class="params">(<span class="type">int</span> code, <span class="type">const</span> vector&lt;Clue&gt;&amp; clues)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> array&lt;<span class="type">int</span>, 4&gt; candidate = <span class="built_in">digitsOf</span>(code);</span><br><span class="line">    array&lt;<span class="type">int</span>, 10&gt; candidateFrequency&#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> digit : candidate) &#123;</span><br><span class="line">        ++candidateFrequency[digit];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> Clue&amp; clue : clues) &#123;</span><br><span class="line">        <span class="type">int</span> exact = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> sharedDigits = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">0</span>; position &lt; <span class="number">4</span>; ++position) &#123;</span><br><span class="line">            <span class="keyword">if</span> (candidate[position] == clue.digits[position]) &#123;</span><br><span class="line">                ++exact;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> digit = <span class="number">0</span>; digit &lt; <span class="number">10</span>; ++digit) &#123;</span><br><span class="line">            sharedDigits += <span class="built_in">min</span>(candidateFrequency[digit], clue.frequency[digit]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> misplaced = sharedDigits - exact;</span><br><span class="line">        <span class="keyword">if</span> (exact != clue.exact || misplaced != clue.misplaced) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> testCases;</span><br><span class="line">    <span class="keyword">if</span> (!(cin &gt;&gt; testCases)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (testCases--) &#123;</span><br><span class="line">        <span class="type">int</span> guessCount;</span><br><span class="line">        cin &gt;&gt; guessCount;</span><br><span class="line">        <span class="function">vector&lt;Clue&gt; <span class="title">clues</span><span class="params">(guessCount)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Clue&amp; clue : clues) &#123;</span><br><span class="line">            string code;</span><br><span class="line">            <span class="type">char</span> slash;</span><br><span class="line">            cin &gt;&gt; code &gt;&gt; clue.exact &gt;&gt; slash &gt;&gt; clue.misplaced;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">0</span>; position &lt; <span class="number">4</span>; ++position) &#123;</span><br><span class="line">                clue.digits[position] = code[position] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                ++clue.frequency[clue.digits[position]];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> solutionCount = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> solution = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> code = <span class="number">0</span>; code &lt; <span class="number">10000</span>; ++code) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">matchesAllClues</span>(code, clues)) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            solution = code;</span><br><span class="line">            <span class="keyword">if</span> (++solutionCount == <span class="number">2</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (solutionCount == <span class="number">0</span>) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;impossible\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (solutionCount &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;indeterminate\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; <span class="built_in">setw</span>(<span class="number">4</span>) &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; solution &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>對每個候選密碼，最多檢查 10 條線索；每條線索只需比較 4 個位置與 10 種數字的出現次數。因此單筆測資的時間複雜度為 <code>O(10^4 G)</code>，其中 <code>G ≤ 10</code>；額外空間為 <code>O(G)</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 C++11 和 <code>-Wall -Wextra -pedantic</code> 編譯通過，官方範例輸出為 <code>3411</code>、<code>1234</code>、<code>indeterminate</code>、<code>impossible</code>。自建案例也涵蓋 <code>0000</code> 的前導零輸出、重複數字、互相矛盾的線索和沒有任何線索時的多解判定。</p>
+<p>舊版有三筆 uHunt 紀錄：submission 10665198 和 10665202 為 Wrong Answer，submission 10665259 Accepted。整理版另以 C++11 提交，submission <strong>31355530</strong> Accepted，0.020 秒。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/2/296.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-296-safebreaker-028/" data-id="cuidZ0XnVDFYyQRs5ia9F6Ua1" data-title="296 - Safebreaker" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-311-packets-029" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-311-packets-029/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:22:35.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-311-packets-029/">311 - Packets</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 311 給出六種正方形包裹的數量，尺寸從 <code>1×1</code> 到 <code>6×6</code>；要把它們裝進 <code>6×6</code> 的箱子，並使用最少的箱子。解法是由大到小安排：先計算 <code>6×6</code>、<code>5×5</code> 和 <code>4×4</code> 包裹，再處理 <code>3×3</code>、<code>2×2</code>，最後把剩下的 <code>1×1</code> 裝箱。</p>
+<p>每筆輸入依序給出 <code>1×1</code> 到 <code>6×6</code> 包裹的數量，六個數量全為 0 時結束。大尺寸包裹放進箱子後會留下固定形狀的空位，因此可以直接計算小包裹能填多少空間，不必真的模擬擺放位置。</p>
+<h2 id="先安排較大的包裹"><a href="#先安排較大的包裹" class="headerlink" title="先安排較大的包裹"></a>先安排較大的包裹</h2><p>每個 <code>6×6</code> 包裹剛好占一箱。每個 <code>5×5</code> 包裹也要一箱，箱內剩下 11 個 <code>1×1</code> 空位，可以優先放入 <code>1×1</code> 包裹。</p>
+<p>一個 <code>4×4</code> 包裹占一箱，剩下的空間可以放 5 個 <code>2×2</code> 包裹。如果手上的 <code>2×2</code> 不足，每少一個 <code>2×2</code>，就能多放 4 個 <code>1×1</code>。整理時把這些空位從待裝的 <code>1×1</code> 數量中扣除。</p>
+<h2 id="處理-3×3-包裹"><a href="#處理-3×3-包裹" class="headerlink" title="處理 3×3 包裹"></a>處理 <code>3×3</code> 包裹</h2><p>四個 <code>3×3</code> 包裹剛好放滿一箱。若不足四個，剩下的包裹各需要一箱，並留下以下空位：</p>
+<table>
+<thead>
+<tr>
+<th align="right">箱內的 <code>3×3</code> 數量</th>
+<th align="right">可放的 <code>2×2</code> 數量</th>
+<th align="right">若 <code>2×2</code> 都放滿，還可放的 <code>1×1</code> 數量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">7</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">6</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">5</td>
+</tr>
+</tbody></table>
+<p>若 <code>2×2</code> 不足，每個缺少的 <code>2×2</code> 空位可以改放 4 個 <code>1×1</code>；因此也能直接更新剩下待裝的 <code>1×1</code> 數量。</p>
+<h2 id="裝入-2×2-和-1×1"><a href="#裝入-2×2-和-1×1" class="headerlink" title="裝入 2×2 和 1×1"></a>裝入 <code>2×2</code> 和 <code>1×1</code></h2><p>一箱最多放 9 個 <code>2×2</code>。若最後一箱沒有裝滿，剩下的位置可放入 <code>1×1</code>：每個缺少的 <code>2×2</code> 位置可換成 4 個 <code>1×1</code>。處理完 <code>2×2</code> 後，每箱最多再裝 36 個 <code>1×1</code>，所以箱數是 <code>ceil(剩餘數量 / 36)</code>。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">useTwoByTwoSpaces</span><span class="params">(<span class="type">long</span> <span class="type">long</span>&amp; twos, <span class="type">long</span> <span class="type">long</span>&amp; ones,</span></span></span><br><span class="line"><span class="params"><span class="function">                       <span class="type">long</span> <span class="type">long</span> neededTwos, <span class="type">long</span> <span class="type">long</span> onesWithAllTwos)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">long</span> <span class="type">long</span> usedTwos = <span class="built_in">min</span>(twos, neededTwos);</span><br><span class="line">    <span class="type">const</span> <span class="type">long</span> <span class="type">long</span> missingTwos = neededTwos - usedTwos;</span><br><span class="line">    twos -= usedTwos;</span><br><span class="line">    ones = <span class="built_in">max</span>(<span class="number">0LL</span>, ones - onesWithAllTwos - <span class="number">4</span> * missingTwos);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> ones;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> twos;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> threes;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> fours;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> fives;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> sixes;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; ones &gt;&gt; twos &gt;&gt; threes &gt;&gt; fours &gt;&gt; fives &gt;&gt; sixes) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ones == <span class="number">0</span> &amp;&amp; twos == <span class="number">0</span> &amp;&amp; threes == <span class="number">0</span> &amp;&amp;</span><br><span class="line">            fours == <span class="number">0</span> &amp;&amp; fives == <span class="number">0</span> &amp;&amp; sixes == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> boxes = sixes + fives + fours;</span><br><span class="line"></span><br><span class="line">        ones = <span class="built_in">max</span>(<span class="number">0LL</span>, ones - <span class="number">11</span> * fives);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">useTwoByTwoSpaces</span>(twos, ones, <span class="number">5</span> * fours, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        boxes += threes / <span class="number">4</span>;</span><br><span class="line">        <span class="type">const</span> <span class="type">long</span> <span class="type">long</span> remainingThrees = threes % <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">if</span> (remainingThrees != <span class="number">0</span>) &#123;</span><br><span class="line">            ++boxes;</span><br><span class="line"></span><br><span class="line">            <span class="type">long</span> <span class="type">long</span> neededTwos = <span class="number">0</span>;</span><br><span class="line">            <span class="type">long</span> <span class="type">long</span> onesWithAllTwos = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (remainingThrees == <span class="number">1</span>) &#123;</span><br><span class="line">                neededTwos = <span class="number">5</span>;</span><br><span class="line">                onesWithAllTwos = <span class="number">7</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (remainingThrees == <span class="number">2</span>) &#123;</span><br><span class="line">                neededTwos = <span class="number">3</span>;</span><br><span class="line">                onesWithAllTwos = <span class="number">6</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                neededTwos = <span class="number">1</span>;</span><br><span class="line">                onesWithAllTwos = <span class="number">5</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">useTwoByTwoSpaces</span>(twos, ones, neededTwos, onesWithAllTwos);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        boxes += twos / <span class="number">9</span>;</span><br><span class="line">        twos %= <span class="number">9</span>;</span><br><span class="line">        <span class="keyword">if</span> (twos &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            ++boxes;</span><br><span class="line">            ones = <span class="built_in">max</span>(<span class="number">0LL</span>, ones - <span class="number">4</span> * (<span class="number">9</span> - twos));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        boxes += (ones + <span class="number">35</span>) / <span class="number">36</span>;</span><br><span class="line">        cout &lt;&lt; boxes &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每種尺寸只處理一次，時間和額外空間都是 <code>O(1)</code>。程式以 <code>long long</code> 保存包裹數，並在最後一個尺寸也讀入後才判斷六個 0 的結束資料。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 C++11 和 <code>-Wall -Wextra -pedantic</code> 編譯通過；官方範例輸出 <code>2</code>、<code>1</code>。另以 5,000 組隨機輸入和保留的舊 Accepted 程式比對，輸出一致；邊界案例涵蓋 <code>1×1</code>、<code>2×2</code> 的滿箱與超出一個，以及各種較大包裹留下的空位。</p>
+<p>舊版 submission <strong>10724587</strong> 為 Accepted（C++，0.016 秒）。本文整理程式經本機測試，沒有重新提交。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/3/311.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-311-packets-029/" data-id="cuidXAQtZFd-HmcvxVbWhJtk6" data-title="311 - Packets" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-714-copying-books-030" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-714-copying-books-030/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:06:33.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-714-copying-books-030/">714 - Copying Books</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 714 要把依序排列的書分給 <code>k</code> 位抄寫員。每人拿到的書必須連續，而且至少一本；目標是讓工作量最大的人所負責的頁數盡量少。若有多種最佳分法，則讓前面的抄寫員依序拿較少的頁數。</p>
+<p>先猜一個工作量上限 <code>L</code>，再由左到右裝書：如果下一本會讓目前抄寫員超過 <code>L</code>，就交給下一位。若這樣用到不超過 <code>k</code> 位抄寫員，<code>L</code> 就可行。可行性具有單調性：上限越大，越容易裝完，因此用二分搜尋找最小可行上限。</p>
+<h2 id="二分搜尋工作量上限"><a href="#二分搜尋工作量上限" class="headerlink" title="二分搜尋工作量上限"></a>二分搜尋工作量上限</h2><p>最小上限不可能小於最厚的一本書；最大上限則是所有書頁數的總和。對每個測試值 <code>L</code>，從第一本開始累加頁數，超過 <code>L</code> 時才切給下一位抄寫員。若需要的人數不超過 <code>k</code>，表示 <code>L</code> 可行；否則提高下限。</p>
+<p>題目要求分成<strong>恰好</strong> <code>k</code> 組，而可行性檢查只確認最多用 <code>k</code> 組。由於每本書都必須分配，且 <code>k ≤ m</code>，若檢查結果少於 <code>k</code> 組，就能再把已有的組拆開，直到剛好 <code>k</code> 組，且不會增加任何一組的頁數。</p>
+<h2 id="決定分界與平手順序"><a href="#決定分界與平手順序" class="headerlink" title="決定分界與平手順序"></a>決定分界與平手順序</h2><p>找到最小上限後，從最後一本往前安排。只要再加入一本會超過上限，就在目前位置切開；若剩下的書本數不足以讓每位尚未分配的抄寫員至少拿一本，也必須切開。</p>
+<p>從右往左盡量裝滿，可以讓右側組別盡可能大，讓第一位抄寫員拿到的頁數盡可能少；固定第一組後，同樣的方式也讓第二組盡量少，符合題目的平手規則。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">canCopyWithin</span><span class="params">(<span class="type">const</span> vector&lt;<span class="type">long</span> <span class="type">long</span>&gt;&amp; pages, <span class="type">int</span> scribes,</span></span></span><br><span class="line"><span class="params"><span class="function">                   <span class="type">long</span> <span class="type">long</span> limit)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> usedScribes = <span class="number">1</span>;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> currentPages = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">long</span> <span class="type">long</span> bookPages : pages) &#123;</span><br><span class="line">        <span class="keyword">if</span> (currentPages + bookPages &gt; limit) &#123;</span><br><span class="line">            ++usedScribes;</span><br><span class="line">            currentPages = bookPages;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            currentPages += bookPages;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> usedScribes &lt;= scribes;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="type">bool</span>&gt; <span class="title">buildPartitions</span><span class="params">(<span class="type">const</span> vector&lt;<span class="type">long</span> <span class="type">long</span>&gt;&amp; pages, <span class="type">int</span> scribes,</span></span></span><br><span class="line"><span class="params"><span class="function">                             <span class="type">long</span> <span class="type">long</span> limit)</span> </span>&#123;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">bool</span>&gt; <span class="title">splitAfter</span><span class="params">(pages.size(), <span class="literal">false</span>)</span></span>;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> currentPages = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(pages.<span class="built_in">size</span>()) - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">bool</span> mustLeaveOneBookPerScribe = i + <span class="number">1</span> &lt; scribes;</span><br><span class="line">        <span class="keyword">if</span> (currentPages + pages[i] &gt; limit || mustLeaveOneBookPerScribe) &#123;</span><br><span class="line">            splitAfter[i] = <span class="literal">true</span>;</span><br><span class="line">            --scribes;</span><br><span class="line">            currentPages = pages[i];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            currentPages += pages[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> splitAfter;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> testCases;</span><br><span class="line">    cin &gt;&gt; testCases;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (testCases--) &#123;</span><br><span class="line">        <span class="type">int</span> bookCount;</span><br><span class="line">        <span class="type">int</span> scribes;</span><br><span class="line">        cin &gt;&gt; bookCount &gt;&gt; scribes;</span><br><span class="line"></span><br><span class="line">        <span class="function">vector&lt;<span class="type">long</span> <span class="type">long</span>&gt; <span class="title">pages</span><span class="params">(bookCount)</span></span>;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> totalPages = <span class="number">0</span>;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> largestBook = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">long</span> <span class="type">long</span>&amp; bookPages : pages) &#123;</span><br><span class="line">            cin &gt;&gt; bookPages;</span><br><span class="line">            totalPages += bookPages;</span><br><span class="line">            largestBook = <span class="built_in">max</span>(largestBook, bookPages);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> low = largestBook;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> high = totalPages;</span><br><span class="line">        <span class="keyword">while</span> (low &lt; high) &#123;</span><br><span class="line">            <span class="type">const</span> <span class="type">long</span> <span class="type">long</span> middle = low + (high - low) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">canCopyWithin</span>(pages, scribes, middle)) &#123;</span><br><span class="line">                high = middle;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                low = middle + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">const</span> vector&lt;<span class="type">bool</span>&gt; splitAfter = <span class="built_in">buildPartitions</span>(pages, scribes, low);</span><br><span class="line">        cout &lt;&lt; pages[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; bookCount; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (splitAfter[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                cout &lt;&lt; <span class="string">&quot; /&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            cout &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; pages[i];</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若書本數為 <code>m</code>、總頁數為 <code>S</code>，每次可行性檢查需要 <code>O(m)</code>，二分搜尋需要 <code>O(log S)</code> 次檢查；整體時間複雜度為 <code>O(m log S)</code>，空間複雜度為 <code>O(m)</code>。頁數總和可能超過 32 位元整數範圍，因此使用 <code>long long</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 C++11 和 <code>-Wall -Wextra -pedantic</code> 編譯通過；官方範例輸出與題目相同。另以暴力枚舉所有分界，檢查 1,200 組小型隨機資料的最小最大頁數和平手順序，結果一致；也通過 500 本書、總頁數超過 32 位元整數範圍的案例。</p>
+<p>舊版 submission <strong>10728073</strong> 為 Accepted（C++，0.012 秒）。整理版沒有重新提交。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/7/714.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-714-copying-books-030/" data-id="cuidG_rjd2l-gqOKgE2LVRClI" data-title="714 - Copying Books" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10464-big-big-real-numbers-031" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-10464-big-big-real-numbers-031/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T14:59:31.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-10464-big-big-real-numbers-031/">10464 - Big Big Real Numbers</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10464 給定多組十進位數，每組有兩個數，請輸出它們的和。數字可能是負數，小數點前和小數點後都可能各有 1000 位；答案要省略多餘的前導零與小數末尾零，且小數點兩側都至少留一位。例如 <code>004112.000 + 21.00</code> 要輸出 <code>4133.0</code>。</p>
+<p>解法的核心是：<strong>把兩個數轉成同一尺度的帶符號整數字串，完成加減後再放回小數點。</strong> 這樣能精確處理長數字，不會有浮點誤差。</p>
+<h2 id="先把小數表示成整數字串"><a href="#先把小數表示成整數字串" class="headerlink" title="先把小數表示成整數字串"></a>先把小數表示成整數字串</h2><p>題目允許每個數的小數點前、後各有 1000 位。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/104/10464.pdf">題目敘述</a> 因此固定把小數位補到 1000 位，相當於將原數乘上 <code>10^1000</code>，再移除小數點。例如 <code>12.34</code> 會表示成 <code>1234</code> 後接 998 個零。整數字串另外記錄正負號。</p>
+<p>接著只需要對整數字串做加法或減法：加法從右向左逐位相加並傳遞進位；減法同樣從右向左處理借位，並先確保較大的絕對值在前。兩個字串長度可以不同，直接從右端對齊即可。</p>
+<h2 id="根據符號決定加減"><a href="#根據符號決定加減" class="headerlink" title="根據符號決定加減"></a>根據符號決定加減</h2><p>先分開處理符號，是為了讓逐位運算只處理非負的數字。異號相加時先比較絕對值，再用大的減小的，借位過程就不會產生負的中間結果；算完後再依絕對值較大的那一項決定結果符號。同號時則直接相加絕對值。</p>
+<table>
+<thead>
+<tr>
+<th>符號與大小</th>
+<th>絕對值運算</th>
+<th>結果符號</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>a</code>、<code>b</code> 都是正數</td>
+<td><code>abs(a) + abs(b)</code></td>
+<td>正</td>
+</tr>
+<tr>
+<td><code>a</code>、<code>b</code> 都是負數</td>
+<td><code>abs(a) + abs(b)</code></td>
+<td>負</td>
+</tr>
+<tr>
+<td>異號，<code>abs(a) &gt; abs(b)</code></td>
+<td><code>abs(a) - abs(b)</code></td>
+<td>跟 <code>a</code> 相同</td>
+</tr>
+<tr>
+<td>異號，<code>abs(a) &lt; abs(b)</code></td>
+<td><code>abs(b) - abs(a)</code></td>
+<td>跟 <code>b</code> 相同</td>
+</tr>
+<tr>
+<td>異號，<code>abs(a) = abs(b)</code></td>
+<td>零</td>
+<td>輸出 <code>0.0</code></td>
+</tr>
+</tbody></table>
+<p>例如 <code>3.3 + (-1.1)</code> 會計算 <code>abs(3.3) - abs(-1.1)</code>，結果沿用 <code>3.3</code> 的正號；<code>-1.1 + 3.3</code> 則沿用 <code>3.3</code> 的正號。絕對值相同時直接輸出 <code>0.0</code>，不產生負零。</p>
+<h2 id="還原小數點並整理輸出"><a href="#還原小數點並整理輸出" class="headerlink" title="還原小數點並整理輸出"></a>還原小數點並整理輸出</h2><p>計算結果仍代表原數乘上 <code>10^1000</code>。從右側切出最後 1000 位作為小數部分，移除整數部分的前導零和小數部分的末尾零；兩部分各至少保留一位。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Decimal</span> &#123;</span><br><span class="line">    <span class="type">bool</span> negative;</span><br><span class="line">    string digits;  <span class="comment">// Integer magnitude with the decimal point removed.</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">Decimal <span class="title">parseDecimal</span><span class="params">(string text)</span> </span>&#123;</span><br><span class="line">    Decimal value&#123;<span class="literal">false</span>, <span class="string">&quot;&quot;</span>&#125;;</span><br><span class="line">    <span class="type">size_t</span> pos = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (text[pos] == <span class="string">&#x27;+&#x27;</span> || text[pos] == <span class="string">&#x27;-&#x27;</span>) &#123;</span><br><span class="line">        value.negative = text[pos] == <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">        ++pos;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> point = text.<span class="built_in">find</span>(<span class="string">&#x27;.&#x27;</span>, pos);</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> integerEnd = point == string::npos ? text.<span class="built_in">size</span>() : point;</span><br><span class="line">    value.digits = text.<span class="built_in">substr</span>(pos, integerEnd - pos);</span><br><span class="line">    <span class="keyword">if</span> (value.digits.<span class="built_in">empty</span>()) value.digits = <span class="string">&quot;0&quot;</span>;</span><br><span class="line">    string fraction = point == string::npos ? <span class="string">&quot;&quot;</span> : text.<span class="built_in">substr</span>(point + <span class="number">1</span>);</span><br><span class="line">    fraction.<span class="built_in">append</span>(<span class="number">1000</span> - fraction.<span class="built_in">size</span>(), <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    value.digits += fraction;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> first = value.digits.<span class="built_in">find_first_not_of</span>(<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (first == string::npos) &#123;</span><br><span class="line">        value.digits = <span class="string">&quot;0&quot;</span>;</span><br><span class="line">        value.negative = <span class="literal">false</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        value.digits.<span class="built_in">erase</span>(<span class="number">0</span>, first);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">compareMagnitude</span><span class="params">(<span class="type">const</span> string &amp;a, <span class="type">const</span> string &amp;b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a.<span class="built_in">size</span>() != b.<span class="built_in">size</span>()) <span class="keyword">return</span> a.<span class="built_in">size</span>() &lt; b.<span class="built_in">size</span>() ? <span class="number">-1</span> : <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (a == b) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> a &lt; b ? <span class="number">-1</span> : <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">addMagnitude</span><span class="params">(<span class="type">const</span> string &amp;a, <span class="type">const</span> string &amp;b)</span> </span>&#123;</span><br><span class="line">    string result;</span><br><span class="line">    <span class="type">int</span> carry = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(a.<span class="built_in">size</span>()) - <span class="number">1</span>,</span><br><span class="line">             j = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(b.<span class="built_in">size</span>()) - <span class="number">1</span>; i &gt;= <span class="number">0</span> || j &gt;= <span class="number">0</span> || carry;</span><br><span class="line">         --i, --j) &#123;</span><br><span class="line">        <span class="type">int</span> sum = carry;</span><br><span class="line">        <span class="keyword">if</span> (i &gt;= <span class="number">0</span>) sum += a[i] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span> (j &gt;= <span class="number">0</span>) sum += b[j] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        result.<span class="built_in">push_back</span>(<span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(<span class="string">&#x27;0&#x27;</span> + sum % <span class="number">10</span>));</span><br><span class="line">        carry = sum / <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">reverse</span>(result.<span class="built_in">begin</span>(), result.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Requires a &gt;= b.</span></span><br><span class="line"><span class="function">string <span class="title">subtractMagnitude</span><span class="params">(<span class="type">const</span> string &amp;a, <span class="type">const</span> string &amp;b)</span> </span>&#123;</span><br><span class="line">    string result;</span><br><span class="line">    <span class="type">int</span> borrow = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(a.<span class="built_in">size</span>()) - <span class="number">1</span>,</span><br><span class="line">             j = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(b.<span class="built_in">size</span>()) - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i, --j) &#123;</span><br><span class="line">        <span class="type">int</span> digit = (a[i] - <span class="string">&#x27;0&#x27;</span>) - borrow - (j &gt;= <span class="number">0</span> ? b[j] - <span class="string">&#x27;0&#x27;</span> : <span class="number">0</span>);</span><br><span class="line">        borrow = digit &lt; <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (borrow) digit += <span class="number">10</span>;</span><br><span class="line">        result.<span class="built_in">push_back</span>(<span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(<span class="string">&#x27;0&#x27;</span> + digit));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (result.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; result.<span class="built_in">back</span>() == <span class="string">&#x27;0&#x27;</span>) result.<span class="built_in">pop_back</span>();</span><br><span class="line">    <span class="built_in">reverse</span>(result.<span class="built_in">begin</span>(), result.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">formatResult</span><span class="params">(<span class="type">const</span> string &amp;magnitude, <span class="type">bool</span> negative)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Every input is represented at a common scale of 10^1000.</span></span><br><span class="line">    string digits = <span class="built_in">string</span>(<span class="number">1001</span> &gt; magnitude.<span class="built_in">size</span>() ? <span class="number">1001</span> - magnitude.<span class="built_in">size</span>() : <span class="number">0</span>, <span class="string">&#x27;0&#x27;</span>) + magnitude;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> point = digits.<span class="built_in">size</span>() - <span class="number">1000</span>;</span><br><span class="line">    string integerPart = digits.<span class="built_in">substr</span>(<span class="number">0</span>, point);</span><br><span class="line">    string fractionalPart = digits.<span class="built_in">substr</span>(point);</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> first = integerPart.<span class="built_in">find_first_not_of</span>(<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    integerPart = first == string::npos ? <span class="string">&quot;0&quot;</span> : integerPart.<span class="built_in">substr</span>(first);</span><br><span class="line">    <span class="keyword">while</span> (fractionalPart.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; fractionalPart.<span class="built_in">back</span>() == <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">        fractionalPart.<span class="built_in">pop_back</span>();</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">bool</span> isZero = integerPart == <span class="string">&quot;0&quot;</span> &amp;&amp; fractionalPart == <span class="string">&quot;0&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">string</span>(negative &amp;&amp; !isZero ? <span class="string">&quot;-&quot;</span> : <span class="string">&quot;&quot;</span>) + integerPart + <span class="string">&quot;.&quot;</span> + fractionalPart;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> cases;</span><br><span class="line">    <span class="keyword">if</span> (!(cin &gt;&gt; cases)) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (cases--) &#123;</span><br><span class="line">        string firstText, secondText;</span><br><span class="line">        cin &gt;&gt; firstText &gt;&gt; secondText;</span><br><span class="line">        Decimal a = <span class="built_in">parseDecimal</span>(firstText);</span><br><span class="line">        Decimal b = <span class="built_in">parseDecimal</span>(secondText);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (a.negative == b.negative) &#123;</span><br><span class="line">            cout &lt;&lt; formatResult(<span class="built_in">addMagnitude</span>(a.digits, b.digits), a.negative) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="type">const</span> <span class="type">int</span> order = <span class="built_in">compareMagnitude</span>(a.digits, b.digits);</span><br><span class="line">            <span class="keyword">if</span> (order == <span class="number">0</span>) &#123;</span><br><span class="line">                cout &lt;&lt; <span class="string">&quot;0.0\n&quot;</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (order &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                cout &lt;&lt; formatResult(<span class="built_in">subtractMagnitude</span>(a.digits, b.digits), a.negative) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                cout &lt;&lt; formatResult(<span class="built_in">subtractMagnitude</span>(b.digits, a.digits), b.negative) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>這份程式以 C++11 提交至 UVa，結果為 <strong>Accepted</strong>（submission <strong>31355591</strong>）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10464-big-big-real-numbers-031/" data-id="cuidoRJMGG4O0tGIjjm2outvP" data-title="10464 - Big Big Real Numbers" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-438-the-circumference-of-the-circle-033" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/07/uva-438-the-circumference-of-the-circle-033/" class="article-date">
+  <time class="dt-published" datetime="2012-07-07T06:22:28.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-438-the-circumference-of-the-circle-033/">438 - The Circumference of the Circle</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 438 給三個不共線的平面座標點，要求計算通過這三點的圓周長，答案四捨五入到小數點後兩位。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/4/438.pdf">題目敘述</a></p>
+<p>解法直接由三角形三邊長和面積求圓周長，不必先求圓心。設三邊長為 <code>a</code>、<code>b</code>、<code>c</code>，面積為 <code>Δ</code>，外接圓半徑為 <code>R</code>：</p>
+<p><code>R = a × b × c / (4 × Δ)</code></p>
+<p>所以圓周長為：</p>
+<p><code>C = 2 × π × R = π × a × b × c / (2 × Δ)</code></p>
+<h2 id="用座標計算三角形面積"><a href="#用座標計算三角形面積" class="headerlink" title="用座標計算三角形面積"></a>用座標計算三角形面積</h2><p>由兩條邊向量的叉積可得 <code>2 × Δ</code>：</p>
+<p><code>abs((B - A) × (C - A)) = 2 × Δ</code></p>
+<p>因此公式也可寫成 <code>C = π × a × b × c / abs((B - A) × (C - A))</code>。程式分別用距離公式求三邊，並以座標叉積求分母。題目保證三點不共線，所以分母不為零。</p>
+<p>例如三點 <code>(0, -0.5)</code>、<code>(0.5, 0)</code>、<code>(0, 0.5)</code> 位於半徑 <code>0.5</code> 的圓上，圓周長是 <code>π</code>，輸出 <code>3.14</code>。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    <span class="type">long</span> <span class="type">double</span> x;</span><br><span class="line">    <span class="type">long</span> <span class="type">double</span> y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">long</span> <span class="type">double</span> <span class="title">distance</span><span class="params">(<span class="type">const</span> Point&amp; a, <span class="type">const</span> Point&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">hypot</span>(a.x - b.x, a.y - b.y);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">long</span> <span class="type">double</span> pi = <span class="number">3.141592653589793238462643383279502884L</span>;</span><br><span class="line">    Point a, b, c;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; a.x &gt;&gt; a.y &gt;&gt; b.x &gt;&gt; b.y &gt;&gt; c.x &gt;&gt; c.y) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">long</span> <span class="type">double</span> ab = <span class="built_in">distance</span>(a, b);</span><br><span class="line">        <span class="type">const</span> <span class="type">long</span> <span class="type">double</span> bc = <span class="built_in">distance</span>(b, c);</span><br><span class="line">        <span class="type">const</span> <span class="type">long</span> <span class="type">double</span> ca = <span class="built_in">distance</span>(c, a);</span><br><span class="line">        <span class="type">const</span> <span class="type">long</span> <span class="type">double</span> twiceArea = <span class="built_in">fabsl</span>(</span><br><span class="line">            (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Circumference = pi * (ab * bc * ca) / (2 * triangle area).</span></span><br><span class="line">        <span class="comment">// The absolute cross product is exactly twice the triangle area.</span></span><br><span class="line">        <span class="type">const</span> <span class="type">long</span> <span class="type">double</span> circumference = pi * ab * bc * ca / twiceArea;</span><br><span class="line">        cout &lt;&lt; fixed &lt;&lt; <span class="built_in">setprecision</span>(<span class="number">2</span>) &lt;&lt; circumference &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>這份程式以 C++11 提交至 UVa，結果為 <strong>Accepted</strong>（submission <strong>31355597</strong>，0.000 秒）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-438-the-circumference-of-the-circle-033/" data-id="cuidrgChZgCoOAvyFsgZJIsB2" data-title="438 - The Circumference of the Circle" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -269,7 +827,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一頁</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一頁</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/">下一頁 &raquo;</a>
   </nav>
 
 </section>
@@ -295,7 +853,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">九月 2011</a></li></ul>
     </div>
   </div>
 
@@ -308,23 +866,23 @@
       <ul>
         
           <li>
+            <a href="/2026/10/26/uva-278-knight-bipartite-matching/">UVa 278：用二分圖最大匹配計算騎士數</a>
+          </li>
+        
+          <li>
             <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
           </li>
         
           <li>
-            <a href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
           </li>
         
           <li>
-            <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
           </li>
         
           <li>
-            <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
-          </li>
-        
-          <li>
-            <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/">10114 - Loansome Car Buyer</a>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
           </li>
         
       </ul>

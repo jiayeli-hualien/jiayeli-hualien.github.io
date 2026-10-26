@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>278 - Chess | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  公式解題目給定 m × n 棋盤與棋子種類，要求最多能放幾個棋子，且任兩個棋子都不會互相攻擊。題目保證 4 ≤ m,n ≤ 10；各棋子的答案可直接套用下表公式。    棋子 最多數量 理由    Rook (r) min(m,n) 每列、每行最多放一個；沿矩形對角線排列可達上限。   Queen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="278 - Chess">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2013/12/07/uva-278-chess-007/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  公式解題目給定 m × n 棋盤與棋子種類，要求最多能放幾個棋子，且任兩個棋子都不會互相攻擊。題目保證 4 ≤ m,n ≤ 10；各棋子的答案可直接套用下表公式。    棋子 最多數量 理由    Rook (r) min(m,n) 每列、每行最多放一個；沿矩形對角線排列可達上限。   Queen">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2013-12-07T03:10:42.000Z">
+<meta property="article:modified_time" content="2026-10-26T23:49:00.356Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-278-chess-007" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/12/07/uva-278-chess-007/" class="article-date">
+  <time class="dt-published" datetime="2013-12-07T03:10:42.000Z" itemprop="datePublished">2013-12-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      278 - Chess
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<h2 id="公式解"><a href="#公式解" class="headerlink" title="公式解"></a>公式解</h2><p>題目給定 <code>m × n</code> 棋盤與棋子種類，要求最多能放幾個棋子，且任兩個棋子都不會互相攻擊。題目保證 <code>4 ≤ m,n ≤ 10</code>；各棋子的答案可直接套用下表公式。</p>
+<table>
+<thead>
+<tr>
+<th>棋子</th>
+<th align="right">最多數量</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Rook (<code>r</code>)</td>
+<td align="right"><code>min(m,n)</code></td>
+<td>每列、每行最多放一個；沿矩形對角線排列可達上限。</td>
+</tr>
+<tr>
+<td>Queen (<code>Q</code>)</td>
+<td align="right"><code>min(m,n)</code></td>
+<td>每行、每列最多放一個；題目範圍內可以達到這個上限。</td>
+</tr>
+<tr>
+<td>Knight (<code>k</code>)</td>
+<td align="right"><code>ceil(m*n/2)</code></td>
+<td>騎士移動會跨黑白格；全放在較多的一色可達這個數量。</td>
+</tr>
+<tr>
+<td>King (<code>K</code>)</td>
+<td align="right"><code>ceil(m/2) * ceil(n/2)</code></td>
+<td>每兩列、每兩行分成一組，每個區塊最多放一個。</td>
+</tr>
+</tbody></table>
+<h3 id="皇后公式"><a href="#皇后公式" class="headerlink" title="皇后公式"></a>皇后公式</h3><p>令 <code>k = min(m,n)</code>。皇后不能共用同一行或同一列，因此最多放 <code>k</code> 個。要達到這個上限，可取棋盤中的 <code>k×k</code> 子棋盤，使用 N-Queens 擺法：在 <code>N×N</code> 棋盤放 <code>N</code> 個皇后，讓任兩個皇后都不在同一行、同一列或同一條對角線上。N-Queens 問題在 <code>N ≥ 4</code> 時都有解；本題 <code>4 ≤ k ≤ 10</code>，因此可放到 <code>k</code> 個。例如 <code>4×4</code> 的一組解是每列依序放在第 <code>2、4、1、3</code> 欄，沒有皇后互相攻擊。</p>
+<h3 id="騎士公式"><a href="#騎士公式" class="headerlink" title="騎士公式"></a>騎士公式</h3><p>騎士每次移動都會跨到另一色格子，因此全部放在同一色就不會互相攻擊。黑白格數最多相差一格，較多的一色有 <code>ceil(m*n/2)</code> 格。例如 <code>k 8 8</code> 的棋盤兩色各 32 格，所以全放在一色可放 32 個騎士。這只證明至少能放這麼多；即使把騎士放在兩色，也不能因此假設數量一定更少或更多，還需要證明上限。</p>
+<p>要確認混色擺法也不會超過這個數量，可以把格子配成互不重疊的攻擊對：一對中的兩格互相攻擊，因此最多只能放一隻。對本題範圍的棋盤，可配成 <code>floor(m*n/2)</code> 對；若格子總數是奇數，會剩一格未配對。因此一般上限是 <code>m*n - floor(m*n/2) = ceil(m*n/2)</code>。前面的同色擺法已達上限，所以公式就是最大值；矩形棋盤上的非互攻騎士公式也見 <a target="_blank" rel="noopener" href="https://www.cs.cornell.edu/courses/cs6861/2024sp/Papers/ramics12.pdf">Berghammer 的研究</a>。</p>
+<p>以下以 <code>5×5</code> 棋盤示意：每種線色連接一對互相攻擊的格子，相同字母可協助辨認交叉的配對；<code>.</code> 是未配對格。12 對各放至多一隻，未配對格再放一隻，總數上限為 13。連線表示配對關係，不是騎士實際移動的路徑。</p>
+<div id="graphviz-0"></div>
+
+<p>令 <code>x = m*n</code>，數學公式是 <code>ceil(x/2)</code>。C++ 的正整數除法會捨去小數，所以可以用 <code>(x+1)/2</code> 計算：</p>
+<ul>
+<li>若 <code>x=2q</code>，則 <code>(x+1)/2=(2q+1)/2=q</code>。</li>
+<li>若 <code>x=2q+1</code>，則 <code>(x+1)/2=(2q+2)/2=q+1</code>。</li>
+</ul>
+<p>所以程式不用呼叫浮點數的 <code>ceil</code>，直接寫 <code>(m*n+1)/2</code> 即可。本題 <code>m,n ≤ 10</code>，乘積範圍很小。</p>
+<h3 id="國王公式"><a href="#國王公式" class="headerlink" title="國王公式"></a>國王公式</h3><p>國王的數學公式是 <code>ceil(m/2) * ceil(n/2)</code>。把棋盤每兩列、每兩行分組後，每個至多 <code>2×2</code> 的區塊最多放一個國王；每區塊放一個即可達到上限。C++ 以正整數除法計算 <code>ceil(x/2)</code>：<code>(x+1)/2</code>，因此程式寫成 <code>((m+1)/2) * ((n+1)/2)</code>。</p>
+<h3 id="C-11-程式碼"><a href="#C-11-程式碼" class="headerlink" title="C++11 程式碼"></a>C++11 程式碼</h3><p>主程式依棋子種類套用上表公式。本程式已以 C++11 提交 UVa 並獲 Accepted。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> tests;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;tests) != <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (tests--) &#123;</span><br><span class="line">        <span class="type">char</span> piece;</span><br><span class="line">        <span class="type">int</span> m, n;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot; %c %d %d&quot;</span>, &amp;piece, &amp;m, &amp;n);</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> answer = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">switch</span> (piece) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;r&#x27;</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;Q&#x27;</span>:</span><br><span class="line">                answer = std::<span class="built_in">min</span>(m, n);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;k&#x27;</span>:</span><br><span class="line">                <span class="comment">// Valid for this problem&#x27;s board sizes: 4 &lt;= m,n &lt;= 10.</span></span><br><span class="line">                answer = (m * n + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;K&#x27;</span>:</span><br><span class="line">                answer = ((m + <span class="number">1</span>) / <span class="number">2</span>) * ((n + <span class="number">1</span>) / <span class="number">2</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, answer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>參考資料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/2/278.pdf">UVa 278 題目敘述與棋盤範圍</a></li>
+</ul>
+<script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script><script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script><textarea id="graphviz-0-code" style="display: none">digraph KnightAttackPairs5x5 {
+    graph [rankdir=TB, bgcolor="transparent", nodesep=0.06, ranksep=0.06, margin=0.08, splines=curved, outputorder=nodesfirst];
+    node [shape=square, style=filled, fixedsize=true, width=0.58, height=0.58, fontname="Arial", fontsize=12, color="#9AA4B2"];
+    edge [style=invis, weight=100, arrowhead=none];
+
+    { rank=same; r1c1; r1c2; r1c3; r1c4; r1c5; }
+    { rank=same; r2c1; r2c2; r2c3; r2c4; r2c5; }
+    { rank=same; r3c1; r3c2; r3c3; r3c4; r3c5; }
+    { rank=same; r4c1; r4c2; r4c3; r4c4; r4c5; }
+    { rank=same; r5c1; r5c2; r5c3; r5c4; r5c5; }
+
+    r1c1 -> r1c2 -> r1c3 -> r1c4 -> r1c5;
+    r2c1 -> r2c2 -> r2c3 -> r2c4 -> r2c5;
+    r3c1 -> r3c2 -> r3c3 -> r3c4 -> r3c5;
+    r4c1 -> r4c2 -> r4c3 -> r4c4 -> r4c5;
+    r5c1 -> r5c2 -> r5c3 -> r5c4 -> r5c5;
+    r1c1 -> r2c1 -> r3c1 -> r4c1 -> r5c1;
+    r1c2 -> r2c2 -> r3c2 -> r4c2 -> r5c2;
+    r1c3 -> r2c3 -> r3c3 -> r4c3 -> r5c3;
+    r1c4 -> r2c4 -> r3c4 -> r4c4 -> r5c4;
+    r1c5 -> r2c5 -> r3c5 -> r4c5 -> r5c5;
+
+    r1c1 [label="D", fillcolor="#394455", fontcolor="white"];
+    r1c2 [label="A", fillcolor="#F8F9FA", fontcolor="#263238"];
+    r1c3 [label="C", fillcolor="#394455", fontcolor="white"];
+    r1c4 [label="B", fillcolor="#F8F9FA", fontcolor="#263238"];
+    r1c5 [label="G", fillcolor="#394455", fontcolor="white"];
+    r2c1 [label="C", fillcolor="#F8F9FA", fontcolor="#263238"];
+    r2c2 [label="H", fillcolor="#394455", fontcolor="white"];
+    r2c3 [label="D", fillcolor="#F8F9FA", fontcolor="#263238"];
+    r2c4 [label="J", fillcolor="#394455", fontcolor="white"];
+    r2c5 [label="E", fillcolor="#F8F9FA", fontcolor="#263238"];
+    r3c1 [label="K", fillcolor="#394455", fontcolor="white"];
+    r3c2 [label="F", fillcolor="#F8F9FA", fontcolor="#263238"];
+    r3c3 [label="A", fillcolor="#394455", fontcolor="white"];
+    r3c4 [label="G", fillcolor="#F8F9FA", fontcolor="#263238"];
+    r3c5 [label="B", fillcolor="#394455", fontcolor="white"];
+    r4c1 [label="H", fillcolor="#F8F9FA", fontcolor="#263238"];
+    r4c2 [label="L", fillcolor="#394455", fontcolor="white"];
+    r4c3 [label="I", fillcolor="#F8F9FA", fontcolor="#263238"];
+    r4c4 [label="E", fillcolor="#394455", fontcolor="white"];
+    r4c5 [label="J", fillcolor="#F8F9FA", fontcolor="#263238"];
+    r5c1 [label="I", fillcolor="#394455", fontcolor="white"];
+    r5c2 [label="K", fillcolor="#F8F9FA", fontcolor="#263238"];
+    r5c3 [label="F", fillcolor="#394455", fontcolor="white"];
+    r5c4 [label="L", fillcolor="#F8F9FA", fontcolor="#263238"];
+    r5c5 [label=".", fillcolor="#394455", fontcolor="white"];
+
+    r1c2 -> r3c3 [constraint=false, style=solid, color="#D1495B", penwidth=2.2, arrowhead=none];
+    r1c4 -> r3c5 [constraint=false, style=solid, color="#2E86AB", penwidth=2.2, arrowhead=none];
+    r1c3 -> r2c1 [constraint=false, style=solid, color="#F18F01", penwidth=2.2, arrowhead=none];
+    r1c1 -> r2c3 [constraint=false, style=solid, color="#6A4C93", penwidth=2.2, arrowhead=none];
+    r2c5 -> r4c4 [constraint=false, style=solid, color="#2A9D8F", penwidth=2.2, arrowhead=none];
+    r3c2 -> r5c3 [constraint=false, style=solid, color="#E76F51", penwidth=2.2, arrowhead=none];
+    r1c5 -> r3c4 [constraint=false, style=solid, color="#577590", penwidth=2.2, arrowhead=none];
+    r2c2 -> r4c1 [constraint=false, style=solid, color="#8AB17D", penwidth=2.2, arrowhead=none];
+    r4c3 -> r5c1 [constraint=false, style=solid, color="#BC5090", penwidth=2.2, arrowhead=none];
+    r2c4 -> r4c5 [constraint=false, style=solid, color="#FFA600", penwidth=2.2, arrowhead=none];
+    r3c1 -> r5c2 [constraint=false, style=solid, color="#003F5C", penwidth=2.2, arrowhead=none];
+    r4c2 -> r5c4 [constraint=false, style=solid, color="#665191", penwidth=2.2, arrowhead=none];
+}</textarea><script>  var viz = new Viz();  var code = document.getElementById("graphviz-0-code").value;  viz.renderSVGElement(code)  .then(function(element) {    document.getElementById("graphviz-0").append(element)  });</script>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/12/07/uva-278-chess-007/" data-id="cuidsrQhwQ__bTzOVAglo4X9y" data-title="278 - Chess" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/12/11/uva-696-how-many-knights-006/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          696 - How Many Knights
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/12/06/uva-12247-jollo-008/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">12247 - Jollo</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">九月 2011</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/10/26/uva-278-knight-bipartite-matching/">UVa 278：用二分圖最大匹配計算騎士數</a>
+          </li>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

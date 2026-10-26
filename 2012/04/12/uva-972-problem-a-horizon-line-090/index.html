@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>972 Problem A - Horizon Line | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  題意很簡單不解釋 解法:將時間切割成小段，每個時間段只需看各串列的一個元素。隨著時間增加更新資料(將時間小的排掉，換新)。 每個時間段一個取出F與G的最大值作為H。 ANS為全時間H的最小值。 參考程式碼: 網路上找來的syntaxHighlighter連不是保留字的名稱都標上顏色，請不要將內建函數">
+<meta property="og:type" content="article">
+<meta property="og:title" content="972 Problem A - Horizon Line">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/04/12/uva-972-problem-a-horizon-line-090/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  題意很簡單不解釋 解法:將時間切割成小段，每個時間段只需看各串列的一個元素。隨著時間增加更新資料(將時間小的排掉，換新)。 每個時間段一個取出F與G的最大值作為H。 ANS為全時間H的最小值。 參考程式碼: 網路上找來的syntaxHighlighter連不是保留字的名稱都標上顏色，請不要將內建函數">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-04-12T09:33:16.000Z">
+<meta property="article:modified_time" content="2026-10-26T23:49:00.369Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-972-problem-a-horizon-line-090" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/04/12/uva-972-problem-a-horizon-line-090/" class="article-date">
+  <time class="dt-published" datetime="2012-04-12T09:33:16.000Z" itemprop="datePublished">2012-04-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      972 Problem A - Horizon Line
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>題意很簡單不解釋</p>
+<p>解法:將時間切割成小段，每個時間段只需看各串列的一個元素。隨著時間增加更新資料(將時間小的排掉，換新)。</p>
+<p>每個時間段一個取出F與G的最大值作為H。</p>
+<p>ANS為全時間H的最小值。</p>
+<p>參考程式碼:</p>
+<p>網路上找來的syntaxHighlighter連不是保留字的名稱都標上顏色，請不要將內建函數誤認為保留字！</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX_N 100</span></span><br><span class="line"><span class="comment">//#define DEBUG</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">DATA</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">double</span> value;</span><br><span class="line">    <span class="type">double</span> time;</span><br><span class="line">&#125;seq_F[MAX_N], seq_G[MAX_N];<span class="comment">//array</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">accumulate_time</span><span class="params">(DATA* seq, <span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++)</span><br><span class="line">        seq[i].time += seq[i<span class="number">-1</span>].time;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> DEBUG</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">displayData</span><span class="params">(<span class="type">int</span> N_F, <span class="type">int</span> N_G)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;N_F; i++)</span><br><span class="line">        cout &lt;&lt; seq_F[i].value &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; seq_F[i].time &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;N_G; i++)</span><br><span class="line">        cout &lt;&lt; seq_G[i].value &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; seq_G[i].time &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">computeMinH</span><span class="params">(<span class="type">int</span> N_F, <span class="type">int</span> N_G)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//initial</span></span><br><span class="line">    <span class="type">double</span> nowH = <span class="built_in">max</span>(seq_F[<span class="number">0</span>].value, seq_G[<span class="number">0</span>].value);</span><br><span class="line">    <span class="type">double</span> minH = nowH;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> indexF = <span class="number">0</span>, indexG = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(indexF&lt;N_F &amp;&amp; indexG&lt;N_G)</span><br><span class="line">    &#123;</span><br><span class="line">        nowH = <span class="built_in">max</span>(seq_F[indexF].value, seq_G[indexG].value);</span><br><span class="line">        minH = <span class="built_in">min</span>(nowH, minH);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(seq_F[indexF].time == seq_G[indexG].time)</span><br><span class="line">        &#123;</span><br><span class="line">            indexF++;</span><br><span class="line">            indexG++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">if</span>(seq_F[indexF].time &lt; seq_G[indexG].time)</span><br><span class="line">            indexF++;<span class="comment">// F out</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            indexG++;<span class="comment">//G out</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> minH;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> N_F, N_G;</span><br><span class="line">    <span class="keyword">while</span>(cin&gt;&gt;N_F)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//input f</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;N_F; i++)</span><br><span class="line">            cin &gt;&gt; seq_F[i].value &gt;&gt; seq_F[i].time;</span><br><span class="line">        <span class="built_in">accumulate_time</span>(seq_F, N_F);</span><br><span class="line">        <span class="comment">//input g</span></span><br><span class="line">        cin &gt;&gt; N_G;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;N_G; i++)</span><br><span class="line">            cin &gt;&gt; seq_G[i].value &gt;&gt; seq_G[i].time;</span><br><span class="line">        <span class="built_in">accumulate_time</span>(seq_G, N_G);</span><br><span class="line"></span><br><span class="line">        <span class="meta">#<span class="keyword">ifdef</span> DEBUG</span></span><br><span class="line">        <span class="built_in">displayData</span>(N_F, N_G);</span><br><span class="line">        <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%.3lf\n&quot;</span>,<span class="built_in">computeMinH</span>(N_F, N_G));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/04/12/uva-972-problem-a-horizon-line-090/" data-id="cuidLQX93Cu1KjE9Jwv2n4s1R" data-title="972 Problem A - Horizon Line" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/05/02/uva-10613-mushroom-misery-089/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          10613 - Mushroom Misery //真菌增生!?
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/02/10/uva-10258-contest-scoreboard-091/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10258 - Contest Scoreboard</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">九月 2011</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/10/26/uva-278-knight-bipartite-matching/">UVa 278：用二分圖最大匹配計算騎士數</a>
+          </li>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>UVa 10738 - Riemann vs Mertens | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  1.mu(1)&#x3D;1, by definition; 2.if N is not square free, mu(N)&#x3D;0; 3.if N is square free and contains an even number of prime factors, mu(N)&amp;#x3D">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UVa 10738 - Riemann vs Mertens">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/07/02/uva-10738-uva-10738-riemann-vs-mertens-088/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  1.mu(1)&#x3D;1, by definition; 2.if N is not square free, mu(N)&#x3D;0; 3.if N is square free and contains an even number of prime factors, mu(N)&amp;#x3D">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-07-02T15:04:08.000Z">
+<meta property="article:modified_time" content="2026-10-26T23:49:00.368Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-10738-uva-10738-riemann-vs-mertens-088" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/02/uva-10738-uva-10738-riemann-vs-mertens-088/" class="article-date">
+  <time class="dt-published" datetime="2012-07-02T15:04:08.000Z" itemprop="datePublished">2012-07-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      UVa 10738 - Riemann vs Mertens
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p><strong>初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。</strong></p>
+</blockquote>
+<p>1.mu(1)&#x3D;1, by definition;</p>
+<p>2.if N is not square free, mu(N)&#x3D;0;</p>
+<p>3.if N is square free and contains an even number of prime factors, mu(N)&#x3D;1;</p>
+<p>4.if N is square free and contains an odd number of prime factors, mu(N)&#x3D;-1.</p>
+<p>解法</p>
+<p>1.mu(1) &#x3D; 1</p>
+<p>2.not square free 很容易被檢查出來</p>
+<p>3.not square free的倍數一定也是not square free</p>
+<p>4.square free的數字可以乘上非自己因數的數字得出，mn(N<em>m) &#x3D; mn(n)</em>-1</p>
+<p>5.若無法從前面推出來 就做質因數分解</p>
+<p>三種情形</p>
+<p>1.分解至1</p>
+<ol start="2">
+<li>分解至大質數 <code>&gt; 1000</code></li>
+</ol>
+<p>3.連續整除not square free</p>
+<p>6.使用Memoization</p>
+<p>關於Memoization，可以到<a target="_blank" rel="noopener" href="http://www.csie.ntnu.edu.tw/~u91029/MemoizationPreprocessing.html">演算法筆記</a>看。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAXN 1000001</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PRIME_RANGE 1001</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> TABLE_SIZE 200</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> notPrime[PRIME_RANGE];</span><br><span class="line"><span class="type">int</span> primeTable[TABLE_SIZE] = &#123;<span class="number">2</span>,<span class="number">3</span>&#125;, tableCount=<span class="number">2</span>;</span><br><span class="line"><span class="type">int</span> mn[MAXN],M[MAXN];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">clearMutiple</span><span class="params">(<span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=n+n; i&lt;=PRIME_RANGE; i+=n)</span><br><span class="line">        notPrime[i] = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">makePrimeTable</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> m=<span class="number">6</span>; m&lt;PRIME_RANGE; m+=<span class="number">6</span>)</span><br><span class="line">    &#123;<span class="comment">//6N-1, 6N+1</span></span><br><span class="line">        <span class="type">int</span> p=m<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">if</span>(!notPrime[p])</span><br><span class="line">        &#123;</span><br><span class="line">            primeTable[tableCount++] = p;</span><br><span class="line">            <span class="built_in">clearMutiple</span>(p);</span><br><span class="line">        &#125;</span><br><span class="line">        p=m<span class="number">+1</span>;</span><br><span class="line">        <span class="keyword">if</span>(!notPrime[p])</span><br><span class="line">        &#123;</span><br><span class="line">            primeTable[tableCount++] = p;</span><br><span class="line">            <span class="built_in">clearMutiple</span>(p);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">squareFreeMultiple</span><span class="params">(<span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=n+n; i&lt;MAXN; i+=n)</span><br><span class="line">        mn[i] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">nsMultiple</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=d; i&lt;tableCount&amp;&amp;n*primeTable[i]&lt;MAXN; i++)</span><br><span class="line">    &#123;</span><br><span class="line">            mn[n*primeTable[i]] = -mn[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">(<span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> target = n;</span><br><span class="line">    <span class="type">int</span> countD = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//計算質因數數</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//質數只有168個 質因數不超過n</span></span><br><span class="line">    <span class="type">int</span> d;</span><br><span class="line">    <span class="keyword">for</span>(d=<span class="number">0</span>; d&lt;tableCount&amp;&amp;primeTable[d]&lt;=n;d++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(n%primeTable[d]==<span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            n = n/primeTable[d];</span><br><span class="line">            countD++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(n%primeTable[d]==<span class="number">0</span>)<span class="comment">//square free</span></span><br><span class="line">        &#123;</span><br><span class="line">            mn[target] = <span class="number">0</span>;</span><br><span class="line">            <span class="built_in">squareFreeMultiple</span>(target);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(target==<span class="number">6</span>)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d %d\n&quot;</span>,n,countD);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(n!=<span class="number">1</span>)<span class="comment">//大於1000的質數</span></span><br><span class="line">        countD++;<span class="comment">//補一次</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(countD&amp;<span class="number">1</span>)<span class="comment">//odd</span></span><br><span class="line">    &#123;</span><br><span class="line">        mn[target] = <span class="number">-1</span>;</span><br><span class="line">        <span class="built_in">nsMultiple</span>(target,d);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span><span class="comment">//even</span></span><br><span class="line">    &#123;</span><br><span class="line">        mn[target] = <span class="number">1</span>;</span><br><span class="line">        <span class="built_in">nsMultiple</span>(target,d);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">makeMnTable</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;MAXN; i++)</span><br><span class="line">        mn[i] = <span class="number">-2</span>;</span><br><span class="line">    mn[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>; i&lt;MAXN; i++)</span><br><span class="line">        <span class="keyword">if</span>(mn[i]==<span class="number">-2</span>)</span><br><span class="line">            <span class="built_in">solve</span>(i);</span><br><span class="line"></span><br><span class="line">    M[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>; i&lt;MAXN; i++)</span><br><span class="line">        M[i] = M[i<span class="number">-1</span>] + mn[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">display</span><span class="params">(<span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;N\tmn[N]\tM[n]&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\t%d\t%d\n&quot;</span>,i,mn[i],M[i]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">makePrimeTable</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    for(int i=0; i&lt;tableCount; i++)</span></span><br><span class="line"><span class="comment">        printf(&quot;%d\n&quot;,primeTable[i]);*/</span></span><br><span class="line">    <span class="built_in">makeMnTable</span>();</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n)!=EOF&amp;&amp;n!=<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%8d%8d%8d\n&quot;</span>,n,mn[n],M[n]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/02/uva-10738-uva-10738-riemann-vs-mertens-088/" data-id="cuid0G0hZU9Vn9unJzwvKQBXU" data-title="UVa 10738 - Riemann vs Mertens" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/07/03/uva-uva264-count-on-cantor-087/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          UVa264 - Count on Cantor
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/05/02/uva-10613-mushroom-misery-089/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10613 - Mushroom Misery //真菌增生!?</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">九月 2011</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/10/26/uva-278-knight-bipartite-matching/">UVa 278：用二分圖最大匹配計算騎士數</a>
+          </li>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
