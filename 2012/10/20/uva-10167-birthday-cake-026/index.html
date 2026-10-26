@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>10167 - Birthday Cake | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="UVa 10167 要用直線把圓形蛋糕切成形狀相同的兩半。蛋糕上有 2N 顆櫻桃，切開後每一半都要有 N 顆，切割線上也不能有櫻桃。要讓兩半形狀相同，切割線必須通過圓心 (0, 0)。將切割線寫成 Ax + By &#x3D; 0，就能根據每顆櫻桃的 Ax + By 正負判斷它位於哪一側，再搜尋符合條件的整數係數 A、B。 用內積判斷櫻桃在哪一側一般直線可寫成 Ax + By &#x3D; C。本題的切割線必須通過原">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10167 - Birthday Cake">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/10/20/uva-10167-birthday-cake-026/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="UVa 10167 要用直線把圓形蛋糕切成形狀相同的兩半。蛋糕上有 2N 顆櫻桃，切開後每一半都要有 N 顆，切割線上也不能有櫻桃。要讓兩半形狀相同，切割線必須通過圓心 (0, 0)。將切割線寫成 Ax + By &#x3D; 0，就能根據每顆櫻桃的 Ax + By 正負判斷它位於哪一側，再搜尋符合條件的整數係數 A、B。 用內積判斷櫻桃在哪一側一般直線可寫成 Ax + By &#x3D; C。本題的切割線必須通過原">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://jiayeli-hualien.github.io/images/uva-10167-birthday-cake-sample.svg">
+<meta property="article:published_time" content="2012-10-20T15:40:42.000Z">
+<meta property="article:modified_time" content="2026-10-26T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jiayeli-hualien.github.io/images/uva-10167-birthday-cake-sample.svg">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-10167-birthday-cake-026" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-10167-birthday-cake-026/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:40:42.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      10167 - Birthday Cake
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10167 要用直線把圓形蛋糕切成形狀相同的兩半。蛋糕上有 <code>2N</code> 顆櫻桃，切開後每一半都要有 <code>N</code> 顆，切割線上也不能有櫻桃。要讓兩半形狀相同，切割線必須通過圓心 <code>(0, 0)</code>。將切割線寫成 <code>Ax + By = 0</code>，就能根據每顆櫻桃的 <code>Ax + By</code> 正負判斷它位於哪一側，再搜尋符合條件的整數係數 <code>A</code>、<code>B</code>。</p>
+<h2 id="用內積判斷櫻桃在哪一側"><a href="#用內積判斷櫻桃在哪一側" class="headerlink" title="用內積判斷櫻桃在哪一側"></a>用內積判斷櫻桃在哪一側</h2><p>一般直線可寫成 <code>Ax + By = C</code>。本題的切割線必須通過原點 <code>(0, 0)</code>，因此 <code>C = 0</code>，直線方程式是 <code>Ax + By = 0</code>。向量 <code>(A, B)</code> 是這條直線的法向量，也就是垂直於直線的向量。對每顆櫻桃的座標 <code>(x, y)</code>，計算它與 <code>(A, B)</code> 的內積 <code>(A, B) · (x, y) = Ax + By</code>。這個內積值大於 0 表示櫻桃在法向量所指的一側，小於 0 表示在另一側；等於 0 則表示櫻桃在線上，這組係數不能使用。</p>
+<p>例如官方範例的 <code>N = 2</code>，四顆櫻桃的座標是 <code>(-20, 20)</code>、<code>(-30, 20)</code>、<code>(-10, -50)</code>、<code>(10, -5)</code>。取 <code>(A, B) = (0, 1)</code> 時，切割線是 <code>y = 0</code>，內積值就是各點的 <code>y</code> 座標。前兩顆位於直線上方，後兩顆位於下方，因此兩側各有兩顆櫻桃。</p>
+<p>下圖把這個切割方式畫在圓形蛋糕上：綠色箭頭是法向量 <code>(A, B) = (0, 1)</code>，與水平切割線 <code>y = 0</code> 垂直。藍色點在直線上方，橘色點在下方；右側列出每顆櫻桃的座標和內積值，方便對照正負號與位置。</p>
+<p><img src="/images/uva-10167-birthday-cake-sample.svg" alt="UVa 10167 官方範例：切割線 y &#x3D; 0，列出櫻桃座標與內積值"></p>
+<h2 id="搜尋係數"><a href="#搜尋係數" class="headerlink" title="搜尋係數"></a>搜尋係數</h2><p>題目保證每組輸入至少有一組解，且 <code>A</code>、<code>B</code> 都在 <code>[-500, 500]</code>；兩者不能同時為 0，否則方程式不代表一條直線。又因為 <code>N ≤ 50</code>，最多只有 100 顆櫻桃，所以可以枚舉係數，逐一檢查每顆櫻桃。<code>(A, B)</code> 與 <code>(-A, -B)</code> 表示同一條線，只會把正、負兩側對調；因此只搜尋 <code>A ≥ 0</code> 不會漏掉答案。當 <code>A = 0</code> 時，方程式變成 <code>By = 0</code>，只要 <code>B</code> 不為 0，就等同於 <code>y = 0</code>，因此只需檢查 <code>(0, 1)</code>。題目接受任一組符合條件的答案，找到第一組就可以輸出。</p>
+<p>檢查一組係數時，如果發現櫻桃在線上，就停止檢查這組係數；如果任一側已經超過 <code>N</code> 顆，也可以提早停止，因為後續櫻桃無法讓數量平衡。找到兩側各有 <code>N</code> 顆櫻桃的係數後，就輸出答案。利用 <code>(A, B)</code> 與 <code>(-A, -B)</code> 的對稱性後，最多檢查約五十萬組係數；每組最多檢查 <code>2N ≤ 100</code> 顆櫻桃，最壞情況約要判斷五千萬次櫻桃位於切割線哪一側，因此直接搜尋就足以應付本題。時間複雜度為 <code>O(500^2 N)</code>，額外空間為 <code>O(N)</code>。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    <span class="type">int</span> x;</span><br><span class="line">    <span class="type">int</span> y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cutsFairly</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">const</span> vector&lt;Point&gt;&amp; cherries)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> half = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(cherries.<span class="built_in">size</span>()) / <span class="number">2</span>;</span><br><span class="line">    <span class="type">int</span> positive = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> negative = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> Point&amp; cherry : cherries) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> side = a * cherry.x + b * cherry.y;</span><br><span class="line">        <span class="keyword">if</span> (side == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (side &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            ++positive;</span><br><span class="line">            <span class="keyword">if</span> (positive &gt; half) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ++negative;</span><br><span class="line">            <span class="keyword">if</span> (negative &gt; half) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> positive == half &amp;&amp; negative == half;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">findCut</span><span class="params">(<span class="type">const</span> vector&lt;Point&gt;&amp; cherries, <span class="type">int</span>&amp; cutA, <span class="type">int</span>&amp; cutB)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> a = <span class="number">0</span>; a &lt;= <span class="number">500</span>; ++a) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">cutsFairly</span>(a, <span class="number">1</span>, cherries)) &#123;</span><br><span class="line">                cutA = a;</span><br><span class="line">                cutB = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">cutsFairly</span>(a, <span class="number">0</span>, cherries)) &#123;</span><br><span class="line">            cutA = a;</span><br><span class="line">            cutB = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> absB = <span class="number">1</span>; absB &lt;= <span class="number">500</span>; ++absB) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">cutsFairly</span>(a, absB, cherries)) &#123;</span><br><span class="line">                cutA = a;</span><br><span class="line">                cutB = absB;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">cutsFairly</span>(a, -absB, cherries)) &#123;</span><br><span class="line">                cutA = a;</span><br><span class="line">                cutB = -absB;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; n &amp;&amp; n != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="function">vector&lt;Point&gt; <span class="title">cherries</span><span class="params">(<span class="number">2</span> * n)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (Point&amp; cherry : cherries) &#123;</span><br><span class="line">            cin &gt;&gt; cherry.x &gt;&gt; cherry.y;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> a;</span><br><span class="line">        <span class="type">int</span> b;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">findCut</span>(cherries, a, b)) &#123;</span><br><span class="line">            cout &lt;&lt; a &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; b &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯，通過官方範例及自建案例。uDebug 提供 256 組測資；由於本題允許多組答案，逐組依題目條件檢查係數範圍、切割線上沒有櫻桃，且兩側各有 <code>N</code> 顆。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/101/10167.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10167">uDebug 測資</a></p>
+<p>本篇程式以 C++11 提交 UVa 10167，結果為 Accepted，執行時間 0.010 秒。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10167-birthday-cake-026/" data-id="cuidLVeuYgBhh18o6T7pUkD1o" data-title="10167 - Birthday Cake" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/10/20/uva-10878-decode-the-tape-025/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          10878 - Decode the Tape
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/10/20/uva-10125-sumsets-027/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10125 - Sumsets</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/06/uva-12247-jollo-008/">12247 - Jollo</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/27/uva-10309-turn-the-lights-off-009/">10309 - Turn the Lights Off</a>
+          </li>
+        
+          <li>
+            <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+          </li>
+        
+          <li>
+            <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/">10114 - Loansome Car Buyer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
