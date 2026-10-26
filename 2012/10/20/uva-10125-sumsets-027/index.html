@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>10125 - Sumsets | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="每筆輸入是一組互不相同的整數：先給元素數量 n（1 ≤ n ≤ 1000），再給 n 個整數；輸入以 n &#x3D; 0 結束。從集合中選出四個不同的數值 a, b, c, d，使 a + b + c &#x3D; d。如果有多組答案，輸出最大的 d；若沒有答案，輸出 no solution。 解法摘要將 a + b + c &#x3D; d 改寫成 a + b &#x3D; d - c。由大到小嘗試 d，對每個 c 查詢是否有兩個數">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10125 - Sumsets">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/10/20/uva-10125-sumsets-027/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="每筆輸入是一組互不相同的整數：先給元素數量 n（1 ≤ n ≤ 1000），再給 n 個整數；輸入以 n &#x3D; 0 結束。從集合中選出四個不同的數值 a, b, c, d，使 a + b + c &#x3D; d。如果有多組答案，輸出最大的 d；若沒有答案，輸出 no solution。 解法摘要將 a + b + c &#x3D; d 改寫成 a + b &#x3D; d - c。由大到小嘗試 d，對每個 c 查詢是否有兩個數">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-10-20T15:39:08.000Z">
+<meta property="article:modified_time" content="2026-10-25T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-10125-sumsets-027" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-10125-sumsets-027/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:39:08.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      10125 - Sumsets
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>每筆輸入是一組互不相同的整數：先給元素數量 <code>n</code>（<code>1 ≤ n ≤ 1000</code>），再給 <code>n</code> 個整數；輸入以 <code>n = 0</code> 結束。從集合中選出四個不同的數值 <code>a, b, c, d</code>，使 <code>a + b + c = d</code>。如果有多組答案，輸出最大的 <code>d</code>；若沒有答案，輸出 <code>no solution</code>。</p>
+<h2 id="解法摘要"><a href="#解法摘要" class="headerlink" title="解法摘要"></a>解法摘要</h2><p>將 <code>a + b + c = d</code> 改寫成 <code>a + b = d - c</code>。由大到小嘗試 <code>d</code>，對每個 <code>c</code> 查詢是否有兩個數的和等於 <code>d - c</code>。為了加速這些查詢，先建立所有兩數和並排序，再用 binary search（二分搜尋）找目標值；每筆和都保留組成數對的索引，以排除重複使用元素。最壞時間複雜度為 <code>O(n² log n)</code>，額外空間複雜度為 <code>O(n²)</code>。</p>
+<h2 id="從-2SUM、3SUM-到-4SUM"><a href="#從-2SUM、3SUM-到-4SUM" class="headerlink" title="從 2SUM、3SUM 到 4SUM"></a>從 2SUM、3SUM 到 4SUM</h2><p><strong>2SUM</strong>：給定一組數和目標和 <code>t</code>，找兩個不同的數 <code>a</code>、<code>b</code>，使 <code>a + b = t</code>。數列排序後，可以用雙指標在 <code>O(n)</code> 時間回答一次查詢。</p>
+<p><strong>3SUM</strong>：給定目標和 <code>t</code>，找三個數使總和等於 <code>t</code>。固定其中一個數 <code>a</code>，剩下的問題就是目標為 <code>t - a</code> 的 2SUM；排序後逐一固定 <code>a</code>，總時間為 <code>O(n²)</code>。</p>
+<p><strong>4SUM</strong>：給定目標和 <code>t</code>，找四個數使總和等於 <code>t</code>。把四個數分成兩對，可改寫成 <code>x₁ + x₂ = t - (x₃ + x₄)</code>。預先建立所有數對的和，再查詢互補的和，就能把直接枚舉四個數的 <code>O(n⁴)</code> 降為 <code>O(n² log n)</code>，代價是使用 <code>O(n²)</code> 空間。</p>
+<p>本題和 4SUM 一樣要選四個互異的數，但右側的 <code>d</code> 也必須來自集合，且題目要求最大的 <code>d</code>。因此可以把每個候選 <code>d</code> 看成一次目標值為 <code>d</code> 的 3SUM；更進一步固定 <code>d</code> 和 <code>c</code>，就得到目標值為 <code>d - c</code> 的 2SUM。這個轉換讓我們能把所有 2SUM 查詢共用同一張兩數和表。</p>
+<p>以官方範例 <code>2, 3, 5, 7, 12</code> 為例，先嘗試最大的 <code>d = 12</code>。固定 <code>c = 2</code> 後，目標值是 <code>12 - 2 = 10</code>；數對 <code>(3, 7)</code> 的和為 10，而且四個數互異，因此答案是 12。</p>
+<h2 id="如何選擇查詢方法"><a href="#如何選擇查詢方法" class="headerlink" title="如何選擇查詢方法"></a>如何選擇查詢方法</h2><p><code>d</code>、<code>c</code> 都要從集合中選，最多會有 <code>n(n - 1)</code> 組候選，也就是最多 <code>O(n²)</code> 次 2SUM 查詢。可以按下列方式選擇每次查詢的演算法：</p>
+<table>
+<thead>
+<tr>
+<th>做法</th>
+<th>單次 2SUM 查詢</th>
+<th>最壞總時間</th>
+<th>額外空間</th>
+<th>取捨</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>每次掃描全部數對</td>
+<td><code>O(n²)</code></td>
+<td><code>O(n⁴)</code></td>
+<td><code>O(1)</code></td>
+<td>寫法直接，但查詢很多時較慢</td>
+</tr>
+<tr>
+<td>排序原數列後用雙指標（跳過 <code>c</code>、<code>d</code>）</td>
+<td><code>O(n)</code></td>
+<td><code>O(n³)</code></td>
+<td><code>O(1)</code></td>
+<td>省空間，需為每組 <code>(d, c)</code> 重做查詢</td>
+</tr>
+<tr>
+<td>預先建立並排序兩數和，再用二分搜尋</td>
+<td><code>O(log n)</code></td>
+<td><code>O(n² log n)</code></td>
+<td><code>O(n²)</code></td>
+<td>多用空間，換取較低的最壞時間；本解法採用此方法</td>
+</tr>
+</tbody></table>
+<p>若優先省記憶體，可以選排序加雙指標，接受 <code>O(n³)</code> 的最壞時間。這題的 <code>n</code> 最大為 1000，兩數和表最多有 499,500 筆；因此本解法使用 <code>O(n²)</code> 空間預存結果，將最壞時間降為 <code>O(n² log n)</code>。而題目只要求最大的 <code>d</code>，所以由大到小測試 <code>d</code>，一找到答案即可停止；若高 <code>d</code> 很快找到，實際查詢會更少，但無解時的最壞複雜度不變。</p>
+<h2 id="如何確保四個數互異"><a href="#如何確保四個數互異" class="headerlink" title="如何確保四個數互異"></a>如何確保四個數互異</h2><p>兩數和表找到總和符合的數對後，還要確認它沒有重用 <code>c</code> 或 <code>d</code>。否則雖然和正確，仍不符合四個數互異的要求。</p>
+<p>題目保證輸入的數值互不相同。固定目標和 <code>t = d - c</code> 後，若數對包含 <code>c</code>，另一個數只能是 <code>t - c = d - 2c</code>，所以最多只有一組數對會包含 <code>c</code>；若數對包含 <code>d</code>，另一個數只能是 <code>t - d = -c</code>，所以最多只有一組會包含 <code>d</code>。因此最多兩組數對會因為重用 <code>c</code> 或 <code>d</code> 而無效。若 <code>(c, d)</code> 本身也剛好是目標和為 <code>t</code> 的數對（例如 <code>c = 0</code>），它會同時落在這兩類，但仍只算一組無效數對。</p>
+<p>所以，如果同總和至少有三組數對，檢查其中前三組就一定能找到有效數對；如果只有一組或兩組，則要逐組檢查索引，確認是否有一組避開 <code>c</code>、<code>d</code>。</p>
+<p>回到集合 <code>{ -2, -1, 0, 1, 2, 3, 4, 5 }</code> 的例子，固定 <code>d = 5</code>、<code>c = 2</code>，程式中的查詢目標 <code>target</code>（以下記作 <code>t</code>）是 <code>d - c = 3</code>。兩數和表中，總和等於 <code>t</code> 的數對如下：</p>
+<table>
+<thead>
+<tr>
+<th>數對</th>
+<th>檢查結果</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>(-2, 5)</code></td>
+<td>排除</td>
+<td>重用了 <code>d = 5</code></td>
+</tr>
+<tr>
+<td><code>(-1, 4)</code></td>
+<td>可用</td>
+<td>沒有重用 <code>c</code> 或 <code>d</code></td>
+</tr>
+<tr>
+<td><code>(0, 3)</code></td>
+<td>可用</td>
+<td>沒有重用 <code>c</code> 或 <code>d</code></td>
+</tr>
+<tr>
+<td><code>(1, 2)</code></td>
+<td>排除</td>
+<td>重用了 <code>c = 2</code></td>
+</tr>
+</tbody></table>
+<p>程式用 <code>lower_bound</code> 找到第一筆總和等於 <code>t</code> 的紀錄，接著最多檢查三筆同總和的數對；如果數對索引等於 <code>c</code> 或 <code>d</code> 就跳過，否則表示找到答案。表格中的數對順序可能不同，但最多只有兩筆會被排除，所以前三筆中一定有可用的數對。程式函式的參數名稱 <code>target</code> 就是這裡的 <code>t</code>。</p>
+<h2 id="複雜度"><a href="#複雜度" class="headerlink" title="複雜度"></a>複雜度</h2><p>令兩數和表的大小為 <code>M = n(n - 1)/2</code>。建立表需要 <code>O(n²)</code> 時間，排序需要 <code>O(M log M) = O(n² log n)</code>；最多查詢 <code>O(n²)</code> 次，每次二分搜尋為 <code>O(log M) = O(log n)</code>。因此整體時間複雜度是 <code>O(n² log n)</code>，額外空間複雜度是 <code>O(n²)</code>。原數列排序的 <code>O(n log n)</code> 比表的排序成本低階，不影響總複雜度。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstddef&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">PairSum</span> &#123;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> sum;</span><br><span class="line">    <span class="type">int</span> first;</span><br><span class="line">    <span class="type">int</span> second;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">hasDisjointPair</span><span class="params">(<span class="type">const</span> vector&lt;PairSum&gt;&amp; pairSums, <span class="type">long</span> <span class="type">long</span> target,</span></span></span><br><span class="line"><span class="params"><span class="function">                     <span class="type">int</span> excludedFirst, <span class="type">int</span> excludedSecond)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> it = <span class="built_in">lower_bound</span>(pairSums.<span class="built_in">begin</span>(), pairSums.<span class="built_in">end</span>(), target,</span><br><span class="line">                          [](<span class="type">const</span> PairSum&amp; pair, <span class="type">long</span> <span class="type">long</span> value) &#123;</span><br><span class="line">                              <span class="keyword">return</span> pair.sum &lt; value;</span><br><span class="line">                          &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 輸入數值互不相同，固定索引和總和時，最多只有一筆數對會包含該索引。</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> checked = <span class="number">0</span>;</span><br><span class="line">         checked &lt; <span class="number">3</span> &amp;&amp; it != pairSums.<span class="built_in">end</span>() &amp;&amp; it-&gt;sum == target;</span><br><span class="line">         ++checked, ++it) &#123;</span><br><span class="line">        <span class="keyword">if</span> (it-&gt;first != excludedFirst &amp;&amp; it-&gt;second != excludedFirst &amp;&amp;</span><br><span class="line">            it-&gt;first != excludedSecond &amp;&amp; it-&gt;second != excludedSecond) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; n &amp;&amp; n != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">long</span> <span class="type">long</span>&gt; <span class="title">values</span><span class="params">(n)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">long</span> <span class="type">long</span>&amp; value : values) &#123;</span><br><span class="line">            cin &gt;&gt; value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">sort</span>(values.<span class="built_in">begin</span>(), values.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        vector&lt;PairSum&gt; pairSums;</span><br><span class="line">        pairSums.<span class="built_in">reserve</span>(<span class="built_in">static_cast</span>&lt;std::<span class="type">size_t</span>&gt;(n) * (n - <span class="number">1</span>) / <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> first = <span class="number">0</span>; first &lt; n; ++first) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> second = first + <span class="number">1</span>; second &lt; n; ++second) &#123;</span><br><span class="line">                pairSums.<span class="built_in">push_back</span>(</span><br><span class="line">                    &#123;values[first] + values[second], first, second&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">sort</span>(pairSums.<span class="built_in">begin</span>(), pairSums.<span class="built_in">end</span>(),</span><br><span class="line">             [](<span class="type">const</span> PairSum&amp; left, <span class="type">const</span> PairSum&amp; right) &#123;</span><br><span class="line">                 <span class="keyword">return</span> left.sum &lt; right.sum;</span><br><span class="line">             &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="type">bool</span> found = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> d = n - <span class="number">1</span>; d &gt;= <span class="number">0</span> &amp;&amp; !found; --d) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> c = n - <span class="number">1</span>; c &gt;= <span class="number">0</span> &amp;&amp; !found; --c) &#123;</span><br><span class="line">                <span class="keyword">if</span> (c == d) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="type">const</span> <span class="type">long</span> <span class="type">long</span> target = values[d] - values[c];</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">hasDisjointPair</span>(pairSums, target, c, d)) &#123;</span><br><span class="line">                    cout &lt;&lt; values[d] &lt;&lt; endl;</span><br><span class="line">                    found = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!found) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;no solution&quot;</span> &lt;&lt; endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic -O2</code> 編譯。官方範例、邊界案例、200 組隨機小資料（與暴力解比對）及 <code>n = 1000</code> 無解案例均通過。uDebug 的 6 組輸入中，5 組已直接用編譯後執行檔比對；第 4 組有 50 筆資料，在頁面內逐筆計算後與 50 行 Accepted Output 全數相符，但完整輸入尚未直接餵給本機執行檔。</p>
+<p>本篇程式以 C++11 提交 UVa 10125，submission <strong>31355214</strong>，結果為 Accepted。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/101/10125.pdf">UVa 10125 - Sumsets 題目敘述</a></li>
+<li>原文曾註明解法參考 UVa 討論區，但原討論串連結已遺失。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10125-sumsets-027/" data-id="cuidRcMyZ2d5XSbxzRFqvZ6iR" data-title="10125 - Sumsets" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/08/10/Linked-List/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Linked List 鏈結串列 (draft)
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-CLI/">C++/CLI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ZeroJudge/">ZeroJudge</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%B5%B1%E7%A8%8B%E5%BC%8F/">系統程式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/20/uva-10125-sumsets-027/">10125 - Sumsets</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
