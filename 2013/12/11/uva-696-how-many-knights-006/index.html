@@ -111,7 +111,7 @@
 
 <p>這裡的 <code>/</code> 是整數除法，<code>%</code> 是取餘數。</p>
 <h2 id="短邊至少為-3：黑白交錯"><a href="#短邊至少為-3：黑白交錯" class="headerlink" title="短邊至少為 3：黑白交錯"></a>短邊至少為 3：黑白交錯</h2><p>將棋盤依座標奇偶性塗成黑白兩色，騎士每次移動都會換到另一種顏色。因此把騎士都放在格數較多的一色，彼此就不會互相攻擊，可以放 <code>ceil(m × n / 2)</code> 匹；這也是此範圍的最大值。</p>
-<p>若想從圖論角度理解最大值，可參考<a href="/2026/10/26/uva-278-knight-bipartite-matching/">騎士與二分圖最大匹配</a>：將能互相攻擊的兩格連邊，再利用最大匹配計算最多能選出的格子數。</p>
+<p>若想從圖論角度理解最大值，可參考騎士與二分圖最大匹配：將能互相攻擊的兩格連邊，再利用最大匹配計算最多能選出的格子數。</p>
 <h2 id="程式"><a href="#程式" class="headerlink" title="程式"></a>程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">maximumKnights</span><span class="params">(<span class="type">int</span> rows, <span class="type">int</span> columns)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> shorter = <span class="built_in">min</span>(rows, columns);</span><br><span class="line">    <span class="type">int</span> longer = <span class="built_in">max</span>(rows, columns);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (shorter == <span class="number">1</span>) <span class="keyword">return</span> longer;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (shorter == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="type">int</span> groups = longer / <span class="number">4</span>;</span><br><span class="line">        <span class="type">int</span> remainingColumns = longer % <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">return</span> groups * <span class="number">4</span> + <span class="built_in">min</span>(<span class="number">4</span>, remainingColumns * <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (rows * columns + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> rows, columns;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; rows &gt;&gt; columns &amp;&amp; (rows != <span class="number">0</span> || columns != <span class="number">0</span>)) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">maximumKnights</span>(rows, columns)</span><br><span class="line">             &lt;&lt; <span class="string">&quot; knights may be placed on a &quot;</span> &lt;&lt; rows</span><br><span class="line">             &lt;&lt; <span class="string">&quot; row &quot;</span> &lt;&lt; columns &lt;&lt; <span class="string">&quot; column board.\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>每筆輸入只需固定次數的運算，時間與額外空間都是 <code>O(1)</code>。題目保證行數、列數都不超過 500，棋盤格數可用 <code>int</code> 保存。</p>
@@ -141,10 +141,6 @@
     </a>
   
   
-    <a href="/2013/12/07/uva-278-chess-007/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">278 - Chess</div>
-    </a>
   
 </nav>
 
@@ -187,9 +183,6 @@
     <div class="widget">
       <ul>
         
-          <li>
-            <a href="/2026/10/26/uva-278-knight-bipartite-matching/">UVa 278：用二分圖最大匹配計算騎士數</a>
-          </li>
         
           <li>
             <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
