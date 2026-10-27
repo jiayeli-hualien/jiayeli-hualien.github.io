@@ -6,15 +6,15 @@
   
   <title>696 - How Many Knights | Leaf&#39;s Programming Note</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  注意例外狀況。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757">
+  <meta name="description" content="題目要求給定 m × n 的棋盤，求最多能放多少個騎士，且任兩個騎士都不會互相攻擊。騎士每次橫走一格、直走兩格，或橫走兩格、直走一格。 答案取決於棋盤的短邊：短邊為 1 或 2 時要分別處理；短邊至少為 3 時，答案為 ceil(m × n &#x2F; 2)。  短邊為 1：每格都能放棋盤只有一列或一欄時，騎士無法走出「一格加兩格」的移動，因此所有格子都能放騎士，答案就是長邊的格數。 以 1 × 6 為例">
 <meta property="og:type" content="article">
 <meta property="og:title" content="696 - How Many Knights">
 <meta property="og:url" content="https://jiayeli-hualien.github.io/2013/12/11/uva-696-how-many-knights-006/index.html">
 <meta property="og:site_name" content="Leaf&#39;s Programming Note">
-<meta property="og:description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  注意例外狀況。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757">
+<meta property="og:description" content="題目要求給定 m × n 的棋盤，求最多能放多少個騎士，且任兩個騎士都不會互相攻擊。騎士每次橫走一格、直走兩格，或橫走兩格、直走一格。 答案取決於棋盤的短邊：短邊為 1 或 2 時要分別處理；短邊至少為 3 時，答案為 ceil(m × n &#x2F; 2)。  短邊為 1：每格都能放棋盤只有一列或一欄時，騎士無法走出「一格加兩格」的移動，因此所有格子都能放騎士，答案就是長邊的格數。 以 1 × 6 為例">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2013-12-11T07:03:43.000Z">
-<meta property="article:modified_time" content="2026-10-26T23:49:00.356Z">
+<meta property="article:modified_time" content="2026-10-27T19:15:47.326Z">
 <meta property="article:author" content="Leaf (Jia-Ye Li)">
 <meta name="twitter:card" content="summary">
   
@@ -80,7 +80,7 @@
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-006/">Volume 006</a>
   </div>
 
   </div>
@@ -99,29 +99,127 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>給定 <code>m × n</code> 的棋盤，求最多能放多少匹騎士，且任兩匹騎士都不會互相攻擊。騎士每次橫走一格、直走兩格，或橫走兩格、直走一格。</p>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>給定 <code>m × n</code> 的棋盤，求最多能放多少個騎士，且任兩個騎士都不會互相攻擊。騎士每次橫走一格、直走兩格，或橫走兩格、直走一格。</p>
 <p>答案取決於棋盤的短邊：短邊為 1 或 2 時要分別處理；短邊至少為 3 時，答案為 <code>ceil(m × n / 2)</code>。</p>
+<p><span id="knight-placement-cases"></span></p>
 <h2 id="短邊為-1：每格都能放"><a href="#短邊為-1：每格都能放" class="headerlink" title="短邊為 1：每格都能放"></a>短邊為 1：每格都能放</h2><p>棋盤只有一列或一欄時，騎士無法走出「一格加兩格」的移動，因此所有格子都能放騎士，答案就是長邊的格數。</p>
+<p>以 <code>1 × 6</code> 為例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">N N N N N N</span><br></pre></td></tr></table></figure>
+
+<p>只有一列時，騎士沒有第二列可以落腳；直向只有一欄時也一樣，因此長邊的每一格都能放一隻。</p>
 <h2 id="短邊為-2：每四欄重複一次"><a href="#短邊為-2：每四欄重複一次" class="headerlink" title="短邊為 2：每四欄重複一次"></a>短邊為 2：每四欄重複一次</h2><p>以 <code>2 × 6</code> 棋盤為例，<code>N</code> 表示騎士、<code>.</code> 表示空格：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NN..NN</span><br><span class="line">NN..NN</span><br></pre></td></tr></table></figure>
 
-<p>這樣能放 8 匹騎士，比黑白交錯放置的 6 匹還多。每四欄中，第一、三欄之間有兩組互相攻擊的格子，第二、四欄之間也有兩組；每組最多選一格，所以四欄最多放 4 匹。按照「放兩欄、空兩欄」重複排列，就能達到這個數量。</p>
-<p>令長邊為 <code>n</code>。每完整四欄放 4 匹；剩下 0、1、2、3 欄時，分別最多再放 0、2、4、4 匹。因此答案是：</p>
+<p>這樣能放 8 個騎士。棋盤仍可黑白交錯，而且每一步騎士移動都會換色；但全放在同一色只能放 6 個，這只是可行擺法，並非最大值。</p>
+<p>看一個 <code>2 × 4</code> 區塊：同字母的兩格互相攻擊，四組配對涵蓋全部八格，所以每組最多選一格，最多放 4 個騎士。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A B C D</span><br><span class="line">C D A B</span><br></pre></td></tr></table></figure>
+
+<p>按「放滿兩欄、空兩欄」重複排列，可以達到每四欄放 4 個騎士的上限。</p>
+<p>令長邊為 <code>n</code>。先把棋盤沿長邊每四欄分成一組，每組最多放 4 個騎士；算完完整的四欄組後，再看剩下幾欄：</p>
+<table>
+<thead>
+<tr>
+<th align="right">完整四欄分組後剩下的欄數</th>
+<th align="center">剩餘棋盤的一種最多擺法</th>
+<th align="right">可再放騎士數</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">1</td>
+<td align="center"><code>N</code><br><code>N</code></td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="center"><code>NN</code><br><code>NN</code></td>
+<td align="right">4</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="center"><code>NN.</code><br><code>NN.</code></td>
+<td align="right">4</td>
+</tr>
+</tbody></table>
+<p><code>N</code> 表示騎士，<code>.</code> 表示空格。若剩下 0 欄，就沒有額外棋盤可放，不必另列。以 <code>n=11</code> 為例，先放滿兩組四欄共 8 個，再在剩下的 3 欄放 4 個，合計 12 個。</p>
+<p>剩 1 或 2 欄時，所有格子互不攻擊；剩 3 欄時，左右兩端各只有一組交叉攻擊的格子，中間兩格不受攻擊，所以最多放 4 個。表中的擺法都能達到各自的上限。</p>
+<p>因此答案是：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(n / 4) × 4 + min(4, (n % 4) × 2)</span><br></pre></td></tr></table></figure>
 
 <p>這裡的 <code>/</code> 是整數除法，<code>%</code> 是取餘數。</p>
-<h2 id="短邊至少為-3：黑白交錯"><a href="#短邊至少為-3：黑白交錯" class="headerlink" title="短邊至少為 3：黑白交錯"></a>短邊至少為 3：黑白交錯</h2><p>將棋盤依座標奇偶性塗成黑白兩色，騎士每次移動都會換到另一種顏色。因此把騎士都放在格數較多的一色，彼此就不會互相攻擊，可以放 <code>ceil(m × n / 2)</code> 匹；這也是此範圍的最大值。</p>
-<p>若想從圖論角度理解最大值，可參考騎士與二分圖最大匹配：將能互相攻擊的兩格連邊，再利用最大匹配計算最多能選出的格子數。</p>
+<h2 id="短邊至少為-3：黑白交錯"><a href="#短邊至少為-3：黑白交錯" class="headerlink" title="短邊至少為 3：黑白交錯"></a>短邊至少為 3：黑白交錯</h2><p>將棋盤依座標奇偶性塗成黑白兩色，騎士每次移動都會換到另一種顏色。因此把騎士都放在格數較多的一色，彼此就不會互相攻擊，可以放 <code>ceil(m × n / 2)</code> 個。以 <code>3 × 6</code> 為例，放在同一色可以放 9 個騎士：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">N . N . N .</span><br><span class="line">. N . N . N</span><br><span class="line">N . N . N .</span><br></pre></td></tr></table></figure>
+
+<p>當短邊至少為 3 時，這個數量就是最大值。黑白擺法構造出 <code>ceil(m × n / 2)</code> 個騎士；矩形棋盤騎士最大數的理論結果可參考 <a target="_blank" rel="noopener" href="https://www.cs.cornell.edu/courses/cs6861/2024sp/Papers/ramics12.pdf">Berghammer 的研究</a>。二分圖如何表示騎士攻擊關係，會在下方延伸段落說明。</p>
 <h2 id="程式"><a href="#程式" class="headerlink" title="程式"></a>程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">maximumKnights</span><span class="params">(<span class="type">int</span> rows, <span class="type">int</span> columns)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> shorter = <span class="built_in">min</span>(rows, columns);</span><br><span class="line">    <span class="type">int</span> longer = <span class="built_in">max</span>(rows, columns);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (shorter == <span class="number">1</span>) <span class="keyword">return</span> longer;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (shorter == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="type">int</span> groups = longer / <span class="number">4</span>;</span><br><span class="line">        <span class="type">int</span> remainingColumns = longer % <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">return</span> groups * <span class="number">4</span> + <span class="built_in">min</span>(<span class="number">4</span>, remainingColumns * <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (rows * columns + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> rows, columns;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; rows &gt;&gt; columns &amp;&amp; (rows != <span class="number">0</span> || columns != <span class="number">0</span>)) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">maximumKnights</span>(rows, columns)</span><br><span class="line">             &lt;&lt; <span class="string">&quot; knights may be placed on a &quot;</span> &lt;&lt; rows</span><br><span class="line">             &lt;&lt; <span class="string">&quot; row &quot;</span> &lt;&lt; columns &lt;&lt; <span class="string">&quot; column board.\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>每筆輸入只需固定次數的運算，時間與額外空間都是 <code>O(1)</code>。題目保證行數、列數都不超過 500，棋盤格數可用 <code>int</code> 保存。</p>
-<h2 id="UVa-判題結果"><a href="#UVa-判題結果" class="headerlink" title="UVa 判題結果"></a>UVa 判題結果</h2><p>本篇程式以 C++11 提交 UVa，獲得 <strong>Accepted</strong>（submission <strong>31356015</strong>，0.030 秒）。</p>
+<h2 id="UVa-696-判題結果"><a href="#UVa-696-判題結果" class="headerlink" title="UVa 696 判題結果"></a>UVa 696 判題結果</h2><p>上方以公式計算答案的 UVa 696 程式，以 C++11 提交後獲得 <strong>Accepted</strong>（submission <strong>31356015</strong>，0.030 秒）。</p>
 <p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/6/696.pdf">UVa 題目敘述</a></p>
+<h2 id="為什麼答案是棋盤格數減最大匹配？"><a href="#為什麼答案是棋盤格數減最大匹配？" class="headerlink" title="為什麼答案是棋盤格數減最大匹配？"></a>為什麼答案是棋盤格數減最大匹配？</h2><p>若直接枚舉每格放或不放，最多要檢查 <code>2^(m*n)</code> 種擺法，因此我們改用圖論與最大匹配來推導上限。</p>
+<p><strong>頂點覆蓋</strong>是能碰到每一條邊的一組頂點。獨立集的補集一定是頂點覆蓋，反過來也成立，因此「最大獨立集大小 &#x3D; 頂點總數 − 最小頂點覆蓋大小」。Kőnig 定理指出，二分圖的最小頂點覆蓋大小等於最大匹配大小，所以得到開頭的關係：最多不互攻騎士數 &#x3D; 棋盤格數 − 最大匹配大小。</p>
+<p>這也解釋了為什麼 <code>2 × 6</code> 不能只用「選格數較多的一色」求答案：棋盤仍是二分圖，但同色擺法只有 6 個騎士。令 <code>T_i</code>、<code>B_i</code> 分別代表上、下兩列第 <code>i</code> 欄的格子，攻擊圖可拆成四條路徑：<code>T₁—B₃—T₅</code>、<code>B₁—T₃—B₅</code>、<code>T₂—B₄—T₆</code>、<code>B₂—T₄—B₆</code>。每條 3 格路徑的最大匹配各有 1 條邊，所以全圖最大匹配大小是 4。依上式，最大獨立集大小為 <code>12 − 4 = 8</code>，與前面的擺法相符。</p>
+<h2 id="4×4-棋盤上的匹配"><a href="#4×4-棋盤上的匹配" class="headerlink" title="4×4 棋盤上的匹配"></a><code>4×4</code> 棋盤上的匹配</h2><p>以下以 <code>4×4</code> 棋盤展示一組最大匹配。灰線列出未選入匹配的攻擊邊；紅線則挑出 8 條互不共用端點的邊。這 8 條紅線涵蓋全部 16 格，而每側各有 8 個頂點，所以匹配不可能超過 8 條，這組配對已達最大值。</p>
+<div id="graphviz-0"></div>
 
+<h2 id="用增廣路計算最大匹配"><a href="#用增廣路計算最大匹配" class="headerlink" title="用增廣路計算最大匹配"></a>用增廣路計算最大匹配</h2><p>要在任意棋盤上計算最大匹配，可以使用 Kuhn 增廣路演算法。程式從每個黑格開始做深度優先搜尋（DFS）：若找到未配對的白格，就配成一組；若白格已配對，就遞迴嘗試替原本配對的黑格另找白格。<code>matchRight[w]</code> 記錄目前配對到白格 <code>w</code> 的黑格；<code>visitedRight</code> 避免同一輪搜尋重複檢查白格。每找到一條能增加配對數的路徑，匹配大小就加一。</p>
+<p>例如黑格 <code>A</code> 可連到白格 <code>X</code>、<code>Y</code>，黑格 <code>B</code> 只能到 <code>X</code>。若目前是 <code>A-X</code>，處理 <code>B</code> 時可以沿著 <code>B-X-A-Y</code> 這條增廣路，把配對改成 <code>B-X</code>、<code>A-Y</code>，讓匹配大小從 1 增加到 2。下面的 C++11 函式示範如何把棋盤攻擊圖轉成最大匹配，並只計算騎士數。</p>
+<p>若以 <code>V</code> 表示棋盤格數、<code>E</code> 表示騎士攻擊邊數，Kuhn 增廣路的時間複雜度為 <code>O(VE)</code>，空間複雜度為 <code>O(V+E)</code>。UVa 278 最多只有 100 格，因此這個方法足以計算它的騎士分支；UVa 696 最多有 250,000 格，這份程式不適合處理該範圍。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> rowMove[] = &#123;<span class="number">-2</span>, <span class="number">-2</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>&#125;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> colMove[] = &#123;<span class="number">-1</span>, <span class="number">1</span>, <span class="number">-2</span>, <span class="number">2</span>, <span class="number">-2</span>, <span class="number">2</span>, <span class="number">-1</span>, <span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">augment</span><span class="params">(<span class="type">int</span> left, <span class="type">const</span> std::vector&lt;std::vector&lt;<span class="type">int</span>&gt;&gt;&amp; graph,</span></span></span><br><span class="line"><span class="params"><span class="function">             std::vector&lt;<span class="type">int</span>&gt;&amp; matchRight, std::vector&lt;<span class="type">char</span>&gt;&amp; visitedRight)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> right : graph[left]) &#123;</span><br><span class="line">        <span class="keyword">if</span> (visitedRight[right]) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        visitedRight[right] = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (matchRight[right] == <span class="number">-1</span> ||</span><br><span class="line">            <span class="built_in">augment</span>(matchRight[right], graph, matchRight, visitedRight)) &#123;</span><br><span class="line">            matchRight[right] = left;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">maxNonattackingKnights</span><span class="params">(<span class="type">int</span> rows, <span class="type">int</span> cols)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> squareCount = rows * cols;</span><br><span class="line">    std::vector&lt;std::vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">graph</span>(squareCount);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 騎士每次移動都會跨到另一色；只建立黑格到白格的邊。</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> row = <span class="number">0</span>; row &lt; rows; ++row) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> col = <span class="number">0</span>; col &lt; cols; ++col) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((row + col) % <span class="number">2</span> != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">const</span> <span class="type">int</span> left = row * cols + col;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> move = <span class="number">0</span>; move &lt; <span class="number">8</span>; ++move) &#123;</span><br><span class="line">                <span class="type">const</span> <span class="type">int</span> nextRow = row + rowMove[move];</span><br><span class="line">                <span class="type">const</span> <span class="type">int</span> nextCol = col + colMove[move];</span><br><span class="line">                <span class="keyword">if</span> (nextRow &gt;= <span class="number">0</span> &amp;&amp; nextRow &lt; rows &amp;&amp;</span><br><span class="line">                    nextCol &gt;= <span class="number">0</span> &amp;&amp; nextCol &lt; cols) &#123;</span><br><span class="line">                    graph[left].<span class="built_in">push_back</span>(nextRow * cols + nextCol);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 用 Kuhn 增廣路演算法計算二分圖最大匹配。</span></span><br><span class="line">    <span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">matchRight</span><span class="params">(squareCount, <span class="number">-1</span>)</span></span>;</span><br><span class="line">    <span class="type">int</span> matchingSize = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> row = <span class="number">0</span>; row &lt; rows; ++row) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> col = <span class="number">0</span>; col &lt; cols; ++col) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((row + col) % <span class="number">2</span> != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="function">std::vector&lt;<span class="type">char</span>&gt; <span class="title">visitedRight</span><span class="params">(squareCount, <span class="literal">false</span>)</span></span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">augment</span>(row * cols + col, graph, matchRight, visitedRight)) &#123;</span><br><span class="line">                ++matchingSize;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 依 Kőnig 定理，最大獨立集大小等於頂點數減最大匹配大小。</span></span><br><span class="line">    <span class="keyword">return</span> squareCount - matchingSize;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>參考資料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/2/278.pdf">UVa 278 題目敘述與棋盤範圍</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cs.cornell.edu/courses/cs6861/2024sp/Papers/ramics12.pdf">R. Berghammer, “Relational Modelling and Solution of Chessboard Problems”</a>：以關係代數建模棋盤攻擊圖，並討論矩形棋盤上騎士的最大獨立集。</li>
+<li><a target="_blank" rel="noopener" href="https://sites.math.washington.edu/~raymonda/Koenig.pdf">Michel X. Goemans, MIT 18.433, “Lecture notes on bipartite matching”</a>：二分圖最大匹配、增廣路徑與 Kőnig 定理。</li>
+</ul>
+<script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script><script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script><textarea id="graphviz-0-code" style="display: none">graph KnightMatching {
+    graph [rankdir=LR, bgcolor="transparent", nodesep=0.35, ranksep=1.0, splines=true];
+    node [shape=circle, style=filled, fixedsize=true, width=0.78, height=0.78, fontname="Arial", fontsize=10];
+    edge [color="#AEB7C2", penwidth=1];
+
+    subgraph cluster_black {
+        label="黑格";
+        color="transparent";
+        node [fillcolor="#394455", fontcolor="white"];
+        { rank=same; b11 [label="(1,1)"]; b13 [label="(1,3)"]; b22 [label="(2,2)"]; b24 [label="(2,4)"]; b31 [label="(3,1)"]; b33 [label="(3,3)"]; b42 [label="(4,2)"]; b44 [label="(4,4)"]; }
+    }
+
+    subgraph cluster_white {
+        label="白格";
+        color="transparent";
+        node [fillcolor="#F8F9FA", fontcolor="#263238"];
+        { rank=same; w12 [label="(1,2)"]; w14 [label="(1,4)"]; w21 [label="(2,1)"]; w23 [label="(2,3)"]; w32 [label="(3,2)"]; w34 [label="(3,4)"]; w41 [label="(4,1)"]; w43 [label="(4,3)"]; }
+    }
+
+    b11 -- w23;
+    b11 -- w32 [color="#D1495B", penwidth=3];
+    b13 -- w21 [color="#D1495B", penwidth=3];
+    b13 -- w32;
+    b13 -- w34;
+    b22 -- w14 [color="#D1495B", penwidth=3];
+    b22 -- w34;
+    b22 -- w41;
+    b22 -- w43;
+    b24 -- w12;
+    b24 -- w32;
+    b24 -- w43 [color="#D1495B", penwidth=3];
+    b31 -- w12 [color="#D1495B", penwidth=3];
+    b31 -- w23;
+    b31 -- w43;
+    b33 -- w12;
+    b33 -- w14;
+    b33 -- w21;
+    b33 -- w41 [color="#D1495B", penwidth=3];
+    b42 -- w21;
+    b42 -- w23;
+    b42 -- w34 [color="#D1495B", penwidth=3];
+    b44 -- w23 [color="#D1495B", penwidth=3];
+    b44 -- w32;
+}</textarea><script>  var viz = new Viz();  var code = document.getElementById("graphviz-0-code").value;  viz.renderSVGElement(code)  .then(function(element) {    document.getElementById("graphviz-0").append(element)  });</script>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2013/12/11/uva-696-how-many-knights-006/" data-id="cuid2NAFVuRbnduSzu8jZpj8Q" data-title="696 - How Many Knights" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2013/12/11/uva-696-how-many-knights-006/" data-id="cuid1gcpLrtXHlWxzToepQq5E" data-title="696 - How Many Knights" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -141,6 +239,10 @@
     </a>
   
   
+    <a href="/2013/12/07/uva-278-chess-007/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">278 - Chess</div>
+    </a>
   
 </nav>
 
@@ -156,7 +258,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分類</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -171,7 +273,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">九月 2011</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
     </div>
   </div>
 
@@ -183,21 +285,24 @@
     <div class="widget">
       <ul>
         
-        
           <li>
             <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
           </li>
         
           <li>
-            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
-          </li>
-        
-          <li>
-            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">C++ 編譯選項：用 -D 定義巨集</a>
           </li>
         
           <li>
             <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-489-hangman-judge-005/">489 - Hangman Judge</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/11/uva-696-how-many-knights-006/">696 - How Many Knights</a>
           </li>
         
       </ul>
