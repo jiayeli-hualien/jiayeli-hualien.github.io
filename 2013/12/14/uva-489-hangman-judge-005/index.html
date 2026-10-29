@@ -6,15 +6,15 @@
   
   <title>489 - Hangman Judge | Leaf&#39;s Programming Note</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  啊… 隨意窩的修改html變難用了 489 - Hangman Judge題意不清氣死人 想解更快的人可以使用 set 或是自製 search tree 要不然就是不用每次都檢查256次 我懶得改了 12345678910111213141516171819202122232425262728293">
+  <meta name="description" content="題目要求每回合給定一個答案單字和一串依序猜測的字母，判斷玩家獲勝、落敗，或在猜測用完時仍未完成遊戲。答案和猜測都由小寫英文字母組成。 猜對一個字母時，答案中所有相同字母都會揭開；猜錯七個不同字母就落敗。猜中答案裡所有字母就獲勝，遊戲分出勝負後不再處理後面的猜測。重複猜同一個錯誤字母只算一次。 例如答案為 book 時：    猜測順序 結果    bok 勝利：猜一次 o 就揭開兩個 o。   a">
 <meta property="og:type" content="article">
 <meta property="og:title" content="489 - Hangman Judge">
 <meta property="og:url" content="https://jiayeli-hualien.github.io/2013/12/14/uva-489-hangman-judge-005/index.html">
 <meta property="og:site_name" content="Leaf&#39;s Programming Note">
-<meta property="og:description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  啊… 隨意窩的修改html變難用了 489 - Hangman Judge題意不清氣死人 想解更快的人可以使用 set 或是自製 search tree 要不然就是不用每次都檢查256次 我懶得改了 12345678910111213141516171819202122232425262728293">
+<meta property="og:description" content="題目要求每回合給定一個答案單字和一串依序猜測的字母，判斷玩家獲勝、落敗，或在猜測用完時仍未完成遊戲。答案和猜測都由小寫英文字母組成。 猜對一個字母時，答案中所有相同字母都會揭開；猜錯七個不同字母就落敗。猜中答案裡所有字母就獲勝，遊戲分出勝負後不再處理後面的猜測。重複猜同一個錯誤字母只算一次。 例如答案為 book 時：    猜測順序 結果    bok 勝利：猜一次 o 就揭開兩個 o。   a">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2013-12-14T02:30:45.000Z">
-<meta property="article:modified_time" content="2026-10-26T23:49:00.355Z">
+<meta property="article:modified_time" content="2026-10-27T00:41:19.154Z">
 <meta property="article:author" content="Leaf (Jia-Ye Li)">
 <meta name="twitter:card" content="summary">
   
@@ -80,7 +80,7 @@
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-004/">Volume 004</a>
   </div>
 
   </div>
@@ -124,21 +124,104 @@
 </tbody></table>
 <h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>先記錄答案有哪些不同字母，並計算還有幾種字母沒猜中。再依序處理猜測，用另一個陣列記錄已猜過的字母：</p>
 <ol>
+<li>若字母已經猜過，跳過它。</li>
+<li>若字母在答案中，尚未猜中的不同字母數減一；否則錯誤次數加一。</li>
+<li>若答案的不同字母都猜中，或錯誤次數達到七次，就立即結束這回合。</li>
+</ol>
+<p>以不同字母數判斷勝利，就能正確處理 <code>book</code> 這類含有重複字母的答案。</p>
+<h2 id="程式"><a href="#程式" class="headerlink" title="程式"></a>程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> round;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; round &amp;&amp; round != <span class="number">-1</span>) &#123;</span><br><span class="line">        string answer, guesses;</span><br><span class="line">        cin &gt;&gt; answer &gt;&gt; guesses;</span><br><span class="line"></span><br><span class="line">        <span class="type">bool</span> inAnswer[<span class="number">26</span>] = &#123;&#125;;</span><br><span class="line">        <span class="type">bool</span> guessed[<span class="number">26</span>] = &#123;&#125;;</span><br><span class="line">        <span class="type">int</span> remaining = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> wrong = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> letter : answer) &#123;</span><br><span class="line">            <span class="type">int</span> index = letter - <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">            <span class="keyword">if</span> (!inAnswer[index]) &#123;</span><br><span class="line">                inAnswer[index] = <span class="literal">true</span>;</span><br><span class="line">                ++remaining;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> letter : guesses) &#123;</span><br><span class="line">            <span class="type">int</span> index = letter - <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">            <span class="keyword">if</span> (guessed[index]) <span class="keyword">continue</span>;</span><br><span class="line">            guessed[index] = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (inAnswer[index]) &#123;</span><br><span class="line">                --remaining;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                ++wrong;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (remaining == <span class="number">0</span> || wrong == <span class="number">7</span>) <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;Round &quot;</span> &lt;&lt; round &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span> (remaining == <span class="number">0</span>) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;You win.\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (wrong == <span class="number">7</span>) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;You lose.\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;You chickened out.\n&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>答案長度為 <code>A</code>、猜測長度為 <code>G</code> 時，時間複雜度是 <code>O(A + G)</code>；兩個 26 格的陣列只需固定空間。</p>
+<h2 id="UVa-判題結果"><a href="#UVa-判題結果" class="headerlink" title="UVa 判題結果"></a>UVa 判題結果</h2><p>本篇程式以 C++11 提交 UVa，獲得 <strong>Accepted</strong>（submission <strong>31355997</strong>，0.160 秒）。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/4/489.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/12/14/uva-489-hangman-judge-005/" data-id="cuidU3zYnlyiEmvc0GXqlx_R6" data-title="489 - Hangman Judge" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          10284 - Chessboard in FEN
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/12/11/uva-696-how-many-knights-006/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">696 - How Many Knights</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
         
           <li>
-            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列</a>
           </li>
         
           <li>
-            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
-          </li>
-        
-          <li>
-            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">C++ 編譯選項：用 -D 定義巨集</a>
           </li>
         
           <li>
             <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-489-hangman-judge-005/">489 - Hangman Judge</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/11/uva-696-how-many-knights-006/">696 - How Many Knights</a>
           </li>
         
       </ul>
