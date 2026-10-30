@@ -31,8 +31,10 @@
   
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
 
-<meta name="generator" content="Hexo 8.0.0"><link rel="stylesheet" href="/css/article-dates.css">
-</head>
+  
+<link rel="stylesheet" href="/css/article-dates.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
 
 <body>
   <div id="container">
@@ -72,9 +74,141 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-uva-10141-request-for-proposal-014" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2013/07/31/uva-10141-request-for-proposal-014/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2013-07-31T13:27:29.000Z" itemprop="datePublished">2013-07-31</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-30T16:00:00.000Z" itemprop="dateModified">2026-10-31</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-101/">Volume 101</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2013/07/31/uva-10141-request-for-proposal-014/">10141 - Request for Proposal</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要做什麼"><a href="#題目要做什麼" class="headerlink" title="題目要做什麼"></a>題目要做什麼</h2><p>RFP 是 <strong>Request for Proposal</strong> 的縮寫，可理解為「提案徵求書」：採購方先列出需求，請供應商提出方案與報價。本題要替每份 RFP 選出最合適的提案。</p>
+<p>每份 RFP 有多項需求和多份提案。每份提案會列出符合的需求數與價格；要選出符合需求最多的提案。如果符合數相同，選價格較低者；若符合數和價格都相同，保留輸入順序較早的提案。每筆 RFP 輸出編號與提案名稱，輸出之間空一行。</p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>同一筆 RFP 的需求總數固定，因此符合率最高等同於符合需求數最多。逐份讀取提案後，只需用「符合數較多、或符合數相同但價格較低」更新目前最佳提案。比較時不更新完全平手的提案，就會保留先輸入者。</p>
+<h3 id="如何更新最佳提案"><a href="#如何更新最佳提案" class="headerlink" title="如何更新最佳提案"></a>如何更新最佳提案</h3><p>第一份提案先作為最佳提案，之後每讀入一份，就依下圖比較。處理完所有提案後，輸出最後留下的名稱。</p>
+<div id="graphviz-0"></div>
+
+<h3 id="輸入處理與複雜度"><a href="#輸入處理與複雜度" class="headerlink" title="輸入處理與複雜度"></a>輸入處理與複雜度</h3><p>需求名稱和提案列出的需求名稱不必保存，讀入後即可丟棄；題目只要求用符合數和價格選出提案。因需求名稱與提案名稱可能包含空白，整行使用 <code>getline</code> 讀取。讀完每個提案的價格和符合數後，再跳過接下來的符合需求名稱。</p>
+<p>若一筆 RFP 有 <code>n</code> 個需求、<code>p</code> 個提案，第 <code>i</code> 個提案列出 <code>r_i</code> 項符合需求，時間複雜度為 <code>O(n + p + Σr_i)</code>。程式不保存完整需求清單或全部提案，只保留最佳提案、目前檢查的提案和一行輸入；名稱最多 80 個字元，因此額外空間為 <code>O(1)</code>。</p>
+<h2 id="範例輸入與輸出"><a href="#範例輸入與輸出" class="headerlink" title="範例輸入與輸出"></a>範例輸入與輸出</h2><h3 id="範例輸入"><a href="#範例輸入" class="headerlink" title="範例輸入"></a>範例輸入</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">6 4</span><br><span class="line">engine</span><br><span class="line">brakes</span><br><span class="line">tires</span><br><span class="line">ashtray</span><br><span class="line">vinyl roof</span><br><span class="line">trip computer</span><br><span class="line">Chevrolet</span><br><span class="line">20000.00 3</span><br><span class="line">engine</span><br><span class="line">tires</span><br><span class="line">brakes</span><br><span class="line">Cadillac</span><br><span class="line">70000.00 4</span><br><span class="line">ashtray</span><br><span class="line">vinyl roof</span><br><span class="line">trip computer</span><br><span class="line">engine</span><br><span class="line">Hyundai</span><br><span class="line">10000.00 3</span><br><span class="line">engine</span><br><span class="line">tires</span><br><span class="line">ashtray</span><br><span class="line">Lada</span><br><span class="line">6000.00 1</span><br><span class="line">tires</span><br><span class="line">1 1</span><br><span class="line">coffee</span><br><span class="line">Starbucks</span><br><span class="line">1.50 1</span><br><span class="line">coffee</span><br><span class="line">0 0</span><br></pre></td></tr></table></figure>
+
+<p>第一行 <code>6 4</code> 表示第一筆採購有 <strong>6 項需求、4 份提案</strong>。接下來 6 行是需求名稱；每份提案則依序包含名稱、價格與符合需求數，以及符合的需求清單。例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Chevrolet       ← 提案名稱</span><br><span class="line">20000.00 3      ← 價格 20000.00，符合 3 項需求</span><br><span class="line">engine          ← 以下 3 行列出符合的需求</span><br><span class="line">tires</span><br><span class="line">brakes</span><br></pre></td></tr></table></figure>
+
+<p>上方箭頭是說明，並非實際輸入的一部分。第一筆資料可整理如下：</p>
+<table>
+<thead>
+<tr>
+<th>提案</th>
+<th align="right">價格</th>
+<th align="right">符合需求數</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Chevrolet</td>
+<td align="right">20000.00</td>
+<td align="right">3</td>
+</tr>
+<tr>
+<td>Cadillac</td>
+<td align="right">70000.00</td>
+<td align="right">4</td>
+</tr>
+<tr>
+<td>Hyundai</td>
+<td align="right">10000.00</td>
+<td align="right">3</td>
+</tr>
+<tr>
+<td>Lada</td>
+<td align="right">6000.00</td>
+<td align="right">1</td>
+</tr>
+</tbody></table>
+<p><strong>先比符合需求數，再比價格</strong>，因此選 Cadillac。它雖然最貴，卻符合最多需求；只有符合數相同時，才會考慮價格。</p>
+<p>接下來的 <code>1 1</code> 開始第二筆資料：只有 <code>coffee</code> 一項需求，以及 Starbucks 一份提案。它符合這項需求，因此選 Starbucks。最後的 <code>0 0</code> 表示輸入結束，不產生輸出。</p>
+<h3 id="範例輸出"><a href="#範例輸出" class="headerlink" title="範例輸出"></a>範例輸出</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RFP #1</span><br><span class="line">Cadillac</span><br><span class="line"></span><br><span class="line">RFP #2</span><br><span class="line">Starbucks</span><br></pre></td></tr></table></figure>
+
+<p>每筆結果先印出 <code>RFP #編號</code>，下一行印出選中的提案名稱。<strong>兩筆結果之間空一行</strong>，最後一筆後不再額外印空行。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Proposal</span></span><br><span class="line">&#123;</span><br><span class="line">    string name;</span><br><span class="line">    <span class="type">double</span> price;</span><br><span class="line">    <span class="type">int</span> metCount;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> requirementCount;</span><br><span class="line">    <span class="type">int</span> proposalCount;</span><br><span class="line">    <span class="type">int</span> rfpNumber = <span class="number">0</span>;</span><br><span class="line">    <span class="type">bool</span> firstOutput = <span class="literal">true</span>;</span><br><span class="line">    string line;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; requirementCount &gt;&gt; proposalCount)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (requirementCount == <span class="number">0</span> &amp;&amp; proposalCount == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">getline</span>(cin, line);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; requirementCount; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">getline</span>(cin, line);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Proposal best;</span><br><span class="line">        <span class="type">bool</span> hasBest = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; proposalCount; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            Proposal current;</span><br><span class="line">            <span class="built_in">getline</span>(cin, current.name);</span><br><span class="line"></span><br><span class="line">            <span class="built_in">getline</span>(cin, line);</span><br><span class="line">            <span class="function">istringstream <span class="title">details</span><span class="params">(line)</span></span>;</span><br><span class="line">            details &gt;&gt; current.price &gt;&gt; current.metCount;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; current.metCount; ++j)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">getline</span>(cin, line);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!hasBest || current.metCount &gt; best.metCount ||</span><br><span class="line">                (current.metCount == best.metCount &amp;&amp; current.price &lt; best.price))</span><br><span class="line">            &#123;</span><br><span class="line">                best = current;</span><br><span class="line">                hasBest = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!firstOutput)</span><br><span class="line">        &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        firstOutput = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;RFP #&quot;</span> &lt;&lt; ++rfpNumber &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        cout &lt;&lt; best.name &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/101/10141.pdf">UVa 10141 題目敘述</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10141">uDebug 10141</a>（頁面提醒只在測資之間輸出空行，不要在最後額外輸出空行）</li>
+</ul>
+<script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script><script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script><textarea id="graphviz-0-code" style="display: none">digraph RfpBestProposal {
+    graph [rankdir=TB, bgcolor="transparent", nodesep=0.3, ranksep=0.35, margin=0.06];
+    node [shape=box, style="rounded,filled", fillcolor="#F7F9FC", color="#7B8493",
+          fontname="Arial", fontsize=12, margin="0.14,0.08"];
+    edge [color="#596579", arrowsize=0.7, fontname="Arial", fontsize=11];
+
+    read [label="讀入下一份提案"];
+    more [shape=diamond, style=filled, fillcolor="#FFF4D6", label="符合需求數較多？"];
+    tie [shape=diamond, style=filled, fillcolor="#FFF4D6", label="符合需求數相同？"];
+    cheaper [shape=diamond, style=filled, fillcolor="#FFF4D6", label="價格較低？"];
+    update [label="更新最佳提案"];
+    keep [label="保留原本最佳提案"];
+    next [label="繼續處理其餘提案"];
+
+    read -> more;
+    more -> update [label="是"];
+    more -> tie [label="否"];
+    tie -> cheaper [label="是"];
+    tie -> keep [label="否"];
+    cheaper -> update [label="是"];
+    cheaper -> keep [label="否（含同價）"];
+    update -> next;
+    keep -> next;
+}</textarea><script>  var viz = new Viz();  var code = document.getElementById("graphviz-0-code").value;  viz.renderSVGElement(code)  .then(function(element) {    document.getElementById("graphviz-0").append(element)  });</script>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/07/31/uva-10141-request-for-proposal-014/" data-id="cuidgXVjk1A95tr76LqH25-Up" data-title="10141 - Request for Proposal" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-uva-10114-loansome-car-buyer-015" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <div class="article-dates">
+    
+<div class="article-dates">
   <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/" class="article-date">
     <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2013-07-31T13:06:18.000Z" itemprop="datePublished">2013-07-31</time>
   </a>
@@ -84,6 +218,8 @@
   </span>
   
 </div>
+
+
     
   <div class="article-category">
     <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-101/">Volume 101</a>
@@ -139,7 +275,8 @@
   
     <article id="post-uva-11507-bender-b-rodri-guez-problem-016" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <div class="article-dates">
+    
+<div class="article-dates">
   <a href="/2013/07/31/uva-11507-bender-b-rodri-guez-problem-016/" class="article-date">
     <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2013-07-31T12:47:30.000Z" itemprop="datePublished">2013-07-31</time>
   </a>
@@ -149,6 +286,8 @@
   </span>
   
 </div>
+
+
     
   <div class="article-category">
     <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-115/">Volume 115</a>
@@ -301,7 +440,8 @@
   
     <article id="post-uva-417-word-index-021" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <div class="article-dates">
+    
+<div class="article-dates">
   <a href="/2012/10/20/uva-417-word-index-021/" class="article-date">
     <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-10-20T15:59:15.000Z" itemprop="datePublished">2012-10-20</time>
   </a>
@@ -311,6 +451,8 @@
   </span>
   
 </div>
+
+
     
   <div class="article-category">
     <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-004/">Volume 004</a>
@@ -378,7 +520,8 @@
   
     <article id="post-uva-10894-problem-h-save-hridoy-022" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <div class="article-dates">
+    
+<div class="article-dates">
   <a href="/2012/10/20/uva-10894-problem-h-save-hridoy-022/" class="article-date">
     <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-10-20T15:56:48.000Z" itemprop="datePublished">2012-10-20</time>
   </a>
@@ -388,6 +531,8 @@
   </span>
   
 </div>
+
+
     
   <div class="article-category">
     <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-108/">Volume 108</a>
@@ -445,7 +590,8 @@
   
     <article id="post-uva-759-the-return-of-the-roman-empire-023" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <div class="article-dates">
+    
+<div class="article-dates">
   <a href="/2012/10/20/uva-759-the-return-of-the-roman-empire-023/" class="article-date">
     <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-10-20T15:53:02.000Z" itemprop="datePublished">2012-10-20</time>
   </a>
@@ -455,6 +601,8 @@
   </span>
   
 </div>
+
+
     
   <div class="article-category">
     <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-007/">Volume 007</a>
@@ -532,7 +680,8 @@
   
     <article id="post-uva-10415-eb-alto-saxophone-player-024" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <div class="article-dates">
+    
+<div class="article-dates">
   <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" class="article-date">
     <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-10-20T15:45:00.000Z" itemprop="datePublished">2012-10-20</time>
   </a>
@@ -542,6 +691,8 @@
   </span>
   
 </div>
+
+
     
   <div class="article-category">
     <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-104/">Volume 104</a>
@@ -656,7 +807,8 @@
   
     <article id="post-uva-10878-decode-the-tape-025" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <div class="article-dates">
+    
+<div class="article-dates">
   <a href="/2012/10/20/uva-10878-decode-the-tape-025/" class="article-date">
     <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-10-20T15:43:55.000Z" itemprop="datePublished">2012-10-20</time>
   </a>
@@ -666,6 +818,8 @@
   </span>
   
 </div>
+
+
     
   <div class="article-category">
     <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-108/">Volume 108</a>
@@ -716,7 +870,8 @@
   
     <article id="post-uva-10167-birthday-cake-026" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <div class="article-dates">
+    
+<div class="article-dates">
   <a href="/2012/10/20/uva-10167-birthday-cake-026/" class="article-date">
     <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-10-20T15:40:42.000Z" itemprop="datePublished">2012-10-20</time>
   </a>
@@ -726,6 +881,8 @@
   </span>
   
 </div>
+
+
     
   <div class="article-category">
     <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-101/">Volume 101</a>
@@ -776,7 +933,8 @@
   
     <article id="post-uva-10125-sumsets-027" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <div class="article-dates">
+    
+<div class="article-dates">
   <a href="/2012/10/20/uva-10125-sumsets-027/" class="article-date">
     <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-10-20T15:39:08.000Z" itemprop="datePublished">2012-10-20</time>
   </a>
@@ -786,6 +944,8 @@
   </span>
   
 </div>
+
+
     
   <div class="article-category">
     <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-101/">Volume 101</a>
@@ -896,65 +1056,6 @@
     </div>
     <footer class="article-footer">
       <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10125-sumsets-027/" data-id="cuidrkAjkKIKtJRICLz54zbcv" data-title="10125 - Sumsets" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-uva-296-safebreaker-028" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <div class="article-dates">
-  <a href="/2012/10/20/uva-296-safebreaker-028/" class="article-date">
-    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-10-20T15:35:59.000Z" itemprop="datePublished">2012-10-20</time>
-  </a>
-  
-  <span class="article-date">
-    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-26T16:00:00.000Z" itemprop="dateModified">2026-10-27</time>
-  </span>
-  
-</div>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-002/">Volume 002</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2012/10/20/uva-296-safebreaker-028/">296 - Safebreaker</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 296 是類似「幾 A 幾 B」的四位數猜密碼題。可以把 <code>0000</code> 到 <code>9999</code> 想成候選清單：每條猜測都附有一組 A&#x2F;B 線索，我們逐條排除不符合的候選。最後剩下 0 個、1 個或多個候選，就分別輸出 <code>impossible</code>、密碼或 <code>indeterminate</code>。</p>
-<h2 id="A-B-線索怎麼判斷"><a href="#A-B-線索怎麼判斷" class="headerlink" title="A&#x2F;B 線索怎麼判斷"></a>A&#x2F;B 線索怎麼判斷</h2><p><code>A</code> 表示數字和位置都正確；<code>B</code> 表示數字正確，但位置錯誤。假設秘密是 <code>3321</code>，猜測 <code>1223</code>：只有第三位的 <code>2</code> 相同，所以 <code>A = 1</code>。猜測和秘密都含有 <code>1</code>、<code>2</code>、<code>3</code> 各一個，合計有 3 個數字相符；扣掉位置正確的 1 個，得到 <code>B = 2</code>，所以線索是 <code>1/2</code>。</p>
-<p>計算相符數量時要考慮重複數字。猜測裡即使有兩個 <code>2</code>，秘密只有一個 <code>2</code>，也只能算一個相符；因此每個數字依兩邊實際出現次數配對，最多配對 <code>min(猜測次數, 秘密次數)</code> 次。</p>
-<h2 id="逐條排除候選"><a href="#逐條排除候選" class="headerlink" title="逐條排除候選"></a>逐條排除候選</h2><p>候選清單是解題的想法，程式不必真的存下 10,000 個數。只要依序檢查 <code>0000</code> 到 <code>9999</code>，對每個候選逐條計算 A&#x2F;B；有一條線索不符就排除，通過全部線索才保留。找到第二個候選時就能確定是多解，不必再檢查後面的數字。</p>
-<p>密碼可能以 0 開頭。程式把猜測讀成四個字元，並將數字候選拆成四位，所以 <code>0000</code> 也會保留完整位數；輸出唯一答案時則固定補成四位數。</p>
-<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Clue</span> &#123;</span><br><span class="line">    array&lt;<span class="type">int</span>, 4&gt; digits;</span><br><span class="line">    array&lt;<span class="type">int</span>, 10&gt; frequency&#123;&#125;;</span><br><span class="line">    <span class="type">int</span> exact;</span><br><span class="line">    <span class="type">int</span> misplaced;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">array&lt;<span class="type">int</span>, 4&gt; <span class="title">digitsOf</span><span class="params">(<span class="type">int</span> code)</span> </span>&#123;</span><br><span class="line">    array&lt;<span class="type">int</span>, 4&gt; digits&#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">3</span>; position &gt;= <span class="number">0</span>; --position) &#123;</span><br><span class="line">        digits[position] = code % <span class="number">10</span>;</span><br><span class="line">        code /= <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> digits;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">matchesAllClues</span><span class="params">(<span class="type">int</span> code, <span class="type">const</span> vector&lt;Clue&gt;&amp; clues)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> array&lt;<span class="type">int</span>, 4&gt; candidate = <span class="built_in">digitsOf</span>(code);</span><br><span class="line">    array&lt;<span class="type">int</span>, 10&gt; candidateFrequency&#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> digit : candidate) &#123;</span><br><span class="line">        ++candidateFrequency[digit];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> Clue&amp; clue : clues) &#123;</span><br><span class="line">        <span class="type">int</span> exact = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> sharedDigits = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">0</span>; position &lt; <span class="number">4</span>; ++position) &#123;</span><br><span class="line">            <span class="keyword">if</span> (candidate[position] == clue.digits[position]) &#123;</span><br><span class="line">                ++exact;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> digit = <span class="number">0</span>; digit &lt; <span class="number">10</span>; ++digit) &#123;</span><br><span class="line">            sharedDigits += <span class="built_in">min</span>(candidateFrequency[digit], clue.frequency[digit]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> misplaced = sharedDigits - exact;</span><br><span class="line">        <span class="keyword">if</span> (exact != clue.exact || misplaced != clue.misplaced) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> testCases;</span><br><span class="line">    <span class="keyword">if</span> (!(cin &gt;&gt; testCases)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (testCases--) &#123;</span><br><span class="line">        <span class="type">int</span> guessCount;</span><br><span class="line">        cin &gt;&gt; guessCount;</span><br><span class="line">        <span class="function">vector&lt;Clue&gt; <span class="title">clues</span><span class="params">(guessCount)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Clue&amp; clue : clues) &#123;</span><br><span class="line">            string code;</span><br><span class="line">            <span class="type">char</span> slash;</span><br><span class="line">            cin &gt;&gt; code &gt;&gt; clue.exact &gt;&gt; slash &gt;&gt; clue.misplaced;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">0</span>; position &lt; <span class="number">4</span>; ++position) &#123;</span><br><span class="line">                clue.digits[position] = code[position] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                ++clue.frequency[clue.digits[position]];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> solutionCount = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> solution = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> code = <span class="number">0</span>; code &lt; <span class="number">10000</span>; ++code) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">matchesAllClues</span>(code, clues)) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            solution = code;</span><br><span class="line">            <span class="keyword">if</span> (++solutionCount == <span class="number">2</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (solutionCount == <span class="number">0</span>) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;impossible\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (solutionCount &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;indeterminate\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; <span class="built_in">setw</span>(<span class="number">4</span>) &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; solution &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>對每個候選密碼，最多檢查 10 條線索；每條線索只需比較 4 個位置與 10 種數字的出現次數。因此單筆測資的時間複雜度為 <code>O(10^4 G)</code>，其中 <code>G ≤ 10</code>；額外空間為 <code>O(G)</code>。</p>
-<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 C++11 和 <code>-Wall -Wextra -pedantic</code> 編譯通過，官方範例輸出為 <code>3411</code>、<code>1234</code>、<code>indeterminate</code>、<code>impossible</code>。自建案例也涵蓋 <code>0000</code> 的前導零輸出、重複數字、互相矛盾的線索和沒有任何線索時的多解判定。</p>
-<p>舊版有三筆 uHunt 紀錄：submission 10665198 和 10665202 為 Wrong Answer，submission 10665259 Accepted。整理版另以 C++11 提交，submission <strong>31355530</strong> Accepted，0.020 秒。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/2/296.pdf">UVa 題目敘述</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-296-safebreaker-028/" data-id="cuid3GhxO6IRJJV3lIVRKQSN0" data-title="296 - Safebreaker" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
