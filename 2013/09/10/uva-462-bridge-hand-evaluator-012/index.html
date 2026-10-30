@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>462 - Bridge Hand Evaluator | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="題目要求與解法這題模擬橋牌的開叫建議。「無王」與「擋張」是橋牌術語；題目已給定本題使用的計分與判定規則，下文會逐一說明。 每行輸入一手 13 張牌，依指定規則計分，輸出不叫牌、叫無王，或選一個花色開叫。每張牌以「牌面＋花色」表示，例如 KS 是黑桃 K、AC 是梅花 A；T 代表 10，花色代碼 S、H、D、C 分別是黑桃、紅心、方塊、梅花。輸入讀到檔案結尾。 解題關鍵是保留兩種分數：牌點是牌面計">
+<meta property="og:type" content="article">
+<meta property="og:title" content="462 - Bridge Hand Evaluator">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2013/09/10/uva-462-bridge-hand-evaluator-012/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="題目要求與解法這題模擬橋牌的開叫建議。「無王」與「擋張」是橋牌術語；題目已給定本題使用的計分與判定規則，下文會逐一說明。 每行輸入一手 13 張牌，依指定規則計分，輸出不叫牌、叫無王，或選一個花色開叫。每張牌以「牌面＋花色」表示，例如 KS 是黑桃 K、AC 是梅花 A；T 代表 10，花色代碼 S、H、D、C 分別是黑桃、紅心、方塊、梅花。輸入讀到檔案結尾。 解題關鍵是保留兩種分數：牌點是牌面計">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2013-09-10T08:52:05.000Z">
+<meta property="article:modified_time" content="2026-10-29T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-462-bridge-hand-evaluator-012" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/09/10/uva-462-bridge-hand-evaluator-012/" class="article-date">
+  <time class="dt-published" datetime="2013-09-10T08:52:05.000Z" itemprop="datePublished">2013-09-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-004/">Volume 004</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      462 - Bridge Hand Evaluator
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求與解法"><a href="#題目要求與解法" class="headerlink" title="題目要求與解法"></a>題目要求與解法</h2><p>這題模擬橋牌的開叫建議。「無王」與「擋張」是橋牌術語；題目已給定本題使用的計分與判定規則，下文會逐一說明。</p>
+<p>每行輸入一手 13 張牌，依指定規則計分，輸出不叫牌、叫無王，或選一個花色開叫。每張牌以「牌面＋花色」表示，例如 <code>KS</code> 是黑桃 K、<code>AC</code> 是梅花 A；<code>T</code> 代表 10，花色代碼 <code>S</code>、<code>H</code>、<code>D</code>、<code>C</code> 分別是黑桃、紅心、方塊、梅花。輸入讀到檔案結尾。</p>
+<p><strong>解題關鍵是保留兩種分數：牌點是牌面計分並扣分後的結果；總分則再加上依花色張數計算的分布分。</strong> 統計完各花色後，由上往下判斷：</p>
+<table>
+<thead>
+<tr>
+<th>條件</th>
+<th>輸出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>總分少於 14</td>
+<td><code>PASS</code>：不叫牌</td>
+</tr>
+<tr>
+<td>牌點至少 16，且四個花色都有擋張</td>
+<td><code>BID NO-TRUMP</code>：叫無王，沒有王牌花色</td>
+</tr>
+<tr>
+<td>其他情況</td>
+<td><code>BID</code> 加上牌最多的花色；平手依 <code>S → H → D → C</code> 選擇</td>
+</tr>
+</tbody></table>
+<p>下圖只呈現判斷順序，計分與擋張的細節見後面的規則表。</p>
+<div id="graphviz-0"></div>
+
+<p>符合無王條件時，優先叫無王。「擋張」（stopped）用來評估各花色的持牌情況；本題只需依下表的 A、K、Q 與花色張數條件判定，四個花色都符合才可叫無王。</p>
+<h2 id="計分與擋張規則"><a href="#計分與擋張規則" class="headerlink" title="計分與擋張規則"></a>計分與擋張規則</h2><p>下表的花色張數<strong>包含該張牌本身</strong>。先加總牌面分數，再逐張扣除符合條件的分數，得到牌點；同時依最後一欄判斷各花色是否有擋張。</p>
+<table>
+<thead>
+<tr>
+<th>牌面</th>
+<th>牌面分數</th>
+<th>扣 1 分的條件</th>
+<th>能讓該花色有擋張的條件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>4</td>
+<td>不扣分</td>
+<td>持有 A 即可</td>
+</tr>
+<tr>
+<td>K</td>
+<td>3</td>
+<td>該花色只有 1 張</td>
+<td>該花色至少 2 張</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>2</td>
+<td>該花色不超過 2 張</td>
+<td>該花色至少 3 張</td>
+</tr>
+<tr>
+<td>J</td>
+<td>1</td>
+<td>該花色不超過 3 張</td>
+<td>J 本身沒有這項效果</td>
+</tr>
+<tr>
+<td>其他</td>
+<td>0</td>
+<td>不扣分</td>
+<td>本身沒有這項效果</td>
+</tr>
+</tbody></table>
+<p>扣分各自判斷。例如紅心只有 <code>QH JH</code>，Q 和 J 都要扣 1 分，共扣 2 分。擋張則只要有 A，或 K、Q 其中一個符合條件即可；其他牌仍可計入該花色的張數。</p>
+<p>接著逐花色加上分布分，得到總分：</p>
+<table>
+<thead>
+<tr>
+<th>該花色的張數</th>
+<th>分布分</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0 或 1 張</td>
+<td>+2</td>
+</tr>
+<tr>
+<td>2 張</td>
+<td>+1</td>
+</tr>
+<tr>
+<td>至少 3 張</td>
+<td>+0</td>
+</tr>
+</tbody></table>
+<p><strong>沒有牌的花色也要計分。分布分只用於總分，判斷無王時使用前面的牌點。</strong></p>
+<h2 id="範例：分數足夠，仍可能不能叫無王"><a href="#範例：分數足夠，仍可能不能叫無王" class="headerlink" title="範例：分數足夠，仍可能不能叫無王"></a>範例：分數足夠，仍可能不能叫無王</h2><p>範例輸入第一手牌如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KS QS TH 8H 4H AC QC TC 5C KD QD JD 8D</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>花色</th>
+<th>手牌</th>
+<th>牌點（已扣分）</th>
+<th>分布分</th>
+<th>有擋張？</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S 黑桃</td>
+<td>K、Q</td>
+<td>4（原本 5，Q 扣 1）</td>
+<td>1</td>
+<td>有：K 且共 2 張</td>
+</tr>
+<tr>
+<td>H 紅心</td>
+<td>T、8、4</td>
+<td>0</td>
+<td>0</td>
+<td>沒有</td>
+</tr>
+<tr>
+<td>D 方塊</td>
+<td>K、Q、J、8</td>
+<td>6</td>
+<td>0</td>
+<td>有：K 且共 4 張</td>
+</tr>
+<tr>
+<td>C 梅花</td>
+<td>A、Q、T、5</td>
+<td>6</td>
+<td>0</td>
+<td>有：A</td>
+</tr>
+</tbody></table>
+<p>牌點是 <code>4 + 0 + 6 + 6 = 16</code>，總分是 <code>16 + 1 = 17</code>，足以開叫。但紅心沒有擋張，因此不能叫無王。方塊與梅花同為最多的 4 張，依平手順序選方塊，輸出 <code>BID D</code>。</p>
+<p>範例輸入第二手牌有四張 A，牌點是 16，且四個花色都有擋張，因此輸出 <code>BID NO-TRUMP</code>。</p>
+<h2 id="實作重點"><a href="#實作重點" class="headerlink" title="實作重點"></a>實作重點</h2><p><code>SuitInfo</code> 記錄各花色的張數、牌面分數及 A、K、Q、J 是否出現。讀完手牌後，逐花色計算牌點、分布分與擋張，再按開頭的順序決定輸出。</p>
+<p>花色陣列按 <code>S</code>、<code>H</code>、<code>D</code>、<code>C</code> 排列。尋找牌最多的花色時，只有張數<strong>嚴格較多</strong>才更新；平手保留較早的花色，就符合題目順序。</p>
+<p>每手固定 13 張牌、4 種花色，時間與額外空間複雜度都是 O(1)。</p>
+<h2 id="C-11-程式碼"><a href="#C-11-程式碼" class="headerlink" title="C++11 程式碼"></a>C++11 程式碼</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">SuitInfo</span> &#123;</span><br><span class="line">    <span class="type">int</span> cardCount;</span><br><span class="line">    <span class="type">int</span> honorPoints;</span><br><span class="line">    <span class="type">bool</span> hasAce;</span><br><span class="line">    <span class="type">bool</span> hasKing;</span><br><span class="line">    <span class="type">bool</span> hasQueen;</span><br><span class="line">    <span class="type">bool</span> hasJack;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">suitIndex</span><span class="params">(<span class="type">char</span> suit)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (suit) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;S&#x27;</span>: <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;H&#x27;</span>: <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;D&#x27;</span>: <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">default</span>: <span class="keyword">return</span> <span class="number">3</span>;  <span class="comment">// C</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">pointsForRank</span><span class="params">(<span class="type">char</span> rank)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (rank) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;A&#x27;</span>: <span class="keyword">return</span> <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;K&#x27;</span>: <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;Q&#x27;</span>: <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;J&#x27;</span>: <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">default</span>: <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">std::string <span class="title">openingBid</span><span class="params">(<span class="type">const</span> std::array&lt;std::string, <span class="number">13</span>&gt;&amp; hand)</span> </span>&#123;</span><br><span class="line">    std::array&lt;SuitInfo, 4&gt; suits = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">13</span>; ++i) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">char</span> rank = hand[i][<span class="number">0</span>];</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> suit = <span class="built_in">suitIndex</span>(hand[i][<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">        ++suits[suit].cardCount;</span><br><span class="line">        suits[suit].honorPoints += <span class="built_in">pointsForRank</span>(rank);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (rank == <span class="string">&#x27;A&#x27;</span>) suits[suit].hasAce = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (rank == <span class="string">&#x27;K&#x27;</span>) suits[suit].hasKing = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (rank == <span class="string">&#x27;Q&#x27;</span>) suits[suit].hasQueen = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (rank == <span class="string">&#x27;J&#x27;</span>) suits[suit].hasJack = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> pointsWithoutDistribution = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> distributionPoints = <span class="number">0</span>;</span><br><span class="line">    <span class="type">bool</span> allSuitsStopped = <span class="literal">true</span>;</span><br><span class="line">    <span class="type">int</span> longestSuit = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> suit = <span class="number">0</span>; suit &lt; <span class="number">4</span>; ++suit) &#123;</span><br><span class="line">        <span class="type">const</span> SuitInfo&amp; info = suits[suit];</span><br><span class="line">        <span class="type">int</span> suitPoints = info.honorPoints;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (info.hasKing &amp;&amp; info.cardCount == <span class="number">1</span>) --suitPoints;</span><br><span class="line">        <span class="keyword">if</span> (info.hasQueen &amp;&amp; info.cardCount &lt;= <span class="number">2</span>) --suitPoints;</span><br><span class="line">        <span class="keyword">if</span> (info.hasJack &amp;&amp; info.cardCount &lt;= <span class="number">3</span>) --suitPoints;</span><br><span class="line"></span><br><span class="line">        pointsWithoutDistribution += suitPoints;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (info.cardCount == <span class="number">2</span>) ++distributionPoints;</span><br><span class="line">        <span class="keyword">if</span> (info.cardCount == <span class="number">1</span> || info.cardCount == <span class="number">0</span>) &#123;</span><br><span class="line">            distributionPoints += <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">const</span> <span class="type">bool</span> stopped = info.hasAce ||</span><br><span class="line">            (info.hasKing &amp;&amp; info.cardCount &gt;= <span class="number">2</span>) ||</span><br><span class="line">            (info.hasQueen &amp;&amp; info.cardCount &gt;= <span class="number">3</span>);</span><br><span class="line">        <span class="keyword">if</span> (!stopped) allSuitsStopped = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (info.cardCount &gt; suits[longestSuit].cardCount) &#123;</span><br><span class="line">            longestSuit = suit;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> totalPoints = pointsWithoutDistribution + distributionPoints;</span><br><span class="line">    <span class="keyword">if</span> (totalPoints &lt; <span class="number">14</span>) <span class="keyword">return</span> <span class="string">&quot;PASS&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pointsWithoutDistribution &gt;= <span class="number">16</span> &amp;&amp; allSuitsStopped) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;BID NO-TRUMP&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">char</span> suitNames[] = &#123;<span class="string">&#x27;S&#x27;</span>, <span class="string">&#x27;H&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;C&#x27;</span>&#125;;</span><br><span class="line">    <span class="keyword">return</span> std::<span class="built_in">string</span>(<span class="string">&quot;BID &quot;</span>) + suitNames[longestSuit];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::array&lt;std::string, 13&gt; hand;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (std::cin &gt;&gt; hand[<span class="number">0</span>]) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; <span class="number">13</span>; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!(std::cin &gt;&gt; hand[i])) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; <span class="built_in">openingBid</span>(hand) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-提交紀錄"><a href="#UVa-提交紀錄" class="headerlink" title="UVa 提交紀錄"></a>UVa 提交紀錄</h2><p>Submission 31353737：C++11，Accepted，0.060 秒。</p>
+<p>題目敘述與範例：<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/4/462.pdf">UVa 462 - Bridge Hand Evaluator</a></p>
+<script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script><script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script><textarea id="graphviz-0-code" style="display: none">digraph BridgeBidOutline {
+    graph [rankdir=TB, bgcolor="transparent", nodesep=0.3, ranksep=0.35, margin=0.06];
+    node [shape=box, style="rounded,filled", fillcolor="#F7F9FC", color="#7B8493",
+          fontname="Arial", fontsize=12, margin="0.14,0.08"];
+    edge [color="#596579", arrowsize=0.7, fontname="Arial", fontsize=11];
+
+    score [label="統計手牌並計分"];
+    can_bid [shape=diamond, style=filled, fillcolor="#FFF4D6", label="總分 < 14？"];
+    pass [label="PASS"];
+    no_trump [shape=diamond, style=filled, fillcolor="#FFF4D6", label="符合無王條件？"];
+    nt_bid [label="BID NO-TRUMP"];
+    suit_bid [label="BID 牌最多的花色"];
+
+    score -> can_bid;
+    can_bid -> pass [label="是"];
+    can_bid -> no_trump [label="否"];
+    no_trump -> nt_bid [label="是"];
+    no_trump -> suit_bid [label="否"];
+}</textarea><script>  var viz = new Viz();  var code = document.getElementById("graphviz-0-code").value;  viz.renderSVGElement(code)  .then(function(element) {    document.getElementById("graphviz-0").append(element)  });</script>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/09/10/uva-462-bridge-hand-evaluator-012/" data-id="cuidXSZE66nYRBtyUAs1JcE4n" data-title="462 - Bridge Hand Evaluator" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          11336 D:DRAM
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10114 - Loansome Car Buyer</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">C++ 編譯選項：用 -D 定義巨集</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-489-hangman-judge-005/">489 - Hangman Judge</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/11/uva-696-how-many-knights-006/">696 - How Many Knights</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -71,14 +71,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-uva-11336-d-dram-io-dfs-or-bfs-010" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-uva-10114-loansome-car-buyer-015" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/" class="article-date">
-  <time class="dt-published" datetime="2013-11-25T16:09:50.000Z" itemprop="datePublished">2013-11-26</time>
+    <a href="/2013/07/31/uva-10114-loansome-car-buyer-015/" class="article-date">
+  <time class="dt-published" datetime="2013-07-31T13:06:18.000Z" itemprop="datePublished">2013-07-31</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-101/">Volume 101</a>
   </div>
 
   </div>
@@ -89,7 +89,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2013/11/26/uva-11336-d-dram-io-dfs-or-bfs-010/">11336 D:DRAM</a>
+      <a class="p-name article-title" href="/2013/07/31/uva-10114-loansome-car-buyer-015/">10114 - Loansome Car Buyer</a>
     </h1>
   
 
@@ -97,23 +97,864 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>題目 <a target="_blank" rel="noopener" href="https://onlinejudge.org/external/113/11336.pdf">UVa 11336 - D:DRAM</a> 要判斷新地圖是否為舊地圖的「更詳細版本」。判斷必須同時符合兩個條件：</p>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要做什麼"><a href="#題目要做什麼" class="headerlink" title="題目要做什麼"></a>題目要做什麼</h2><p>已知頭期款、貸款金額、貸款期數和各月份的折舊率，找出經過幾個完整月後，車價首次高於剩餘貸款。輸出這個月數；答案為 1 時用單數 <code>month</code>，其餘用 <code>months</code>。</p>
+<h2 id="每個月更新車價與貸款"><a href="#每個月更新車價與貸款" class="headerlink" title="每個月更新車價與貸款"></a>每個月更新車價與貸款</h2><p>車子剛離開車行時，原始價值是「頭期款 + 貸款金額」。題目把這個尚未經過一個月的時點記為第 0 月：此時立即套用第 0 月的折舊率，但還沒有繳分期款。第 1 月則是經過第一個月後；之後每個月底套用當月折舊率，再繳一次分期款。貸款沒有利息，因此每期付款是 <code>貸款金額 / 貸款期數</code>。程式沿用題目定義的月份編號，不是任意從 0 開始編號。</p>
+<p>折舊率是從當下車價扣除的比例。例如折舊率為 10%，新車價就是「原車價 × (1 - 0.10)」，程式以 <code>carValue *= 1.0 - rate</code> 更新。</p>
+<p>題目保證第 0 月有折舊紀錄；後續紀錄按月份遞增。若某月沒有新紀錄，就沿用最近一筆折舊率。從第 0 月開始逐月更新兩個數值，第一次出現「尚欠金額 &lt; 車子價值」時，當月就是答案。題目要求嚴格小於；兩者相等時還不能停。</p>
+<p>車價和欠款可能低於 1 美元，計算時不可逐月四捨五入；程式保留 <code>double</code> 的小數值直接比較。</p>
+<p>設貸款期數為 <code>n</code>、折舊紀錄數為 <code>m</code>。程式逐月模擬 <code>n + 1</code> 個時點，並只向前掃描折舊紀錄，因此時間複雜度為 O(n + m)，額外空間複雜度為 O(m)。</p>
+<h2 id="範例"><a href="#範例" class="headerlink" title="範例"></a>範例</h2><p>第一筆範例的車子初始價值為 <code>15,500</code>，第 0 月立即折舊 10%，車價變成 <code>13,950</code>，但仍欠 <code>15,000</code>。第 1、2 月各折舊 3%，第 3、4 月各折舊 0.2%；每月底同時繳 <code>500</code> 元。第 4 月月底車價約為 <code>13,073.10528</code>，尚欠 <code>13,000</code>，第一次低於車價，所以輸出 <code>4 months</code>。</p>
+<p>下圖中的第 0 月是立即折舊後、繳款前的數值；第 1 至 4 月則是每月底更新後的數值。第 4 月月底車價首次高於欠款。縱軸有截斷，方便看出兩者的差距。</p>
+<p><img src="/images/uva-10114-car-value-vs-loan.svg" alt="範例中每月底的車價與尚欠金額折線圖"></p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">DepreciationRecord</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> month;</span><br><span class="line">    <span class="type">double</span> rate;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">monthsUntilCarIsWorthMore</span><span class="params">(<span class="type">int</span> duration, <span class="type">double</span> downPayment,</span></span></span><br><span class="line"><span class="params"><span class="function">                              <span class="type">double</span> loanAmount,</span></span></span><br><span class="line"><span class="params"><span class="function">                              <span class="type">const</span> vector&lt;DepreciationRecord&gt;&amp; records)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">double</span> monthlyPayment = loanAmount / duration;</span><br><span class="line">    <span class="type">double</span> carValue = downPayment + loanAmount;</span><br><span class="line">    <span class="type">double</span> amountOwed = loanAmount;</span><br><span class="line">    <span class="type">size_t</span> recordIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> month = <span class="number">0</span>; month &lt;= duration; ++month)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (recordIndex + <span class="number">1</span> &lt; records.<span class="built_in">size</span>() &amp;&amp;</span><br><span class="line">               records[recordIndex + <span class="number">1</span>].month &lt;= month)</span><br><span class="line">        &#123;</span><br><span class="line">            ++recordIndex;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Month 0 depreciation applies immediately; later rates apply monthly.</span></span><br><span class="line">        carValue *= <span class="number">1.0</span> - records[recordIndex].rate;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (month &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            amountOwed -= monthlyPayment;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (amountOwed &lt; carValue)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> month;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> duration;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> duration;</span><br><span class="line">    <span class="type">double</span> downPayment;</span><br><span class="line">    <span class="type">double</span> loanAmount;</span><br><span class="line">    <span class="type">int</span> recordCount;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; duration &gt;&gt; downPayment &gt;&gt; loanAmount &gt;&gt; recordCount &amp;&amp;</span><br><span class="line">           duration &gt;= <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">vector&lt;DepreciationRecord&gt; <span class="title">records</span><span class="params">(recordCount)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (DepreciationRecord&amp; record : records)</span><br><span class="line">        &#123;</span><br><span class="line">            cin &gt;&gt; record.month &gt;&gt; record.rate;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> months = <span class="built_in">monthsUntilCarIsWorthMore</span>(</span><br><span class="line">            duration, downPayment, loanAmount, records);</span><br><span class="line"></span><br><span class="line">        cout &lt;&lt; months &lt;&lt; (months == <span class="number">1</span> ? <span class="string">&quot; month\n&quot;</span> : <span class="string">&quot; months\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-提交結果"><a href="#UVa-提交結果" class="headerlink" title="UVa 提交結果"></a>UVa 提交結果</h2><p>UVa submission <strong>31353743</strong>，C++11，Accepted，執行時間 0.000 秒。程式以 UCRT64 g++ 編譯，官方範例與 uDebug 測資的輸出都相符。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/101/10114.pdf">UVa 10114 題目敘述</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10114">uDebug 10114 測資與 Accepted Output</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/07/31/uva-10114-loansome-car-buyer-015/" data-id="cuidE_CJY1CP7gZp2hX51oT1b" data-title="10114 - Loansome Car Buyer" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-11507-bender-b-rodri-guez-problem-016" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/07/31/uva-11507-bender-b-rodri-guez-problem-016/" class="article-date">
+  <time class="dt-published" datetime="2013-07-31T12:47:30.000Z" itemprop="datePublished">2013-07-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-115/">Volume 115</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2013/07/31/uva-11507-bender-b-rodri-guez-problem-016/">11507 - Bender B. Rodríguez Problem</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>題目中的金屬線（metal wire）可以想像成一條可彎折的鐵絲。它的長度為 <code>L</code>，固定端在原點，自由端一開始位於 <code>(L, 0, 0)</code>，因此整條線沿 <code>+x</code> 方向。Bender 從自由端往固定端依序處理 <code>L - 1</code> 個彎折點：<code>No</code> 表示不彎，其他指令表示在該點轉彎 90 度。題目要輸出全部彎折完成後，末段線的方向。</p>
+<h2 id="解法概念：追蹤末段方向"><a href="#解法概念：追蹤末段方向" class="headerlink" title="解法概念：追蹤末段方向"></a>解法概念：追蹤末段方向</h2><p>只要追蹤自由端末段的方向，不必計算自由端最後的位置。用方向向量 <code>d = (x, y, z)</code> 表示目前末段的方向，初始朝 <code>+x</code>，所以 <code>d = (1, 0, 0)</code>。<code>No</code> 不改變方向；其他指令則根據目前方向更新向量。</p>
+<p>以 <code>L = 3</code>、指令依序為 <code>+y</code>、<code>-y</code> 為例，圖中逐步追蹤末段方向；處理完兩個指令後，方向仍是 <code>+x</code>。</p>
+<p>題目只要求末段方向，因此圖只呈現計算時追蹤的向量狀態，不畫整條線的位置座標。箭頭表示依輸入順序處理指令，也就是從自由端往固定端。</p>
+<div id="graphviz-0"></div>
+
+<p>圖中示範了方向狀態如何依序更新；接下來把四種彎折指令整理成一般的向量規則。</p>
+<h2 id="彎折指令的向量規則"><a href="#彎折指令的向量規則" class="headerlink" title="彎折指令的向量規則"></a>彎折指令的向量規則</h2><p>假設彎折前的方向向量是 <code>d = (x, y, z)</code>，彎折後是 <code>d&#39; = (x&#39;, y&#39;, z&#39;)</code>。各指令依下列規則更新分量；右側的 <code>x</code>、<code>y</code>、<code>z</code> 都是彎折前的值：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>彎折後的向量 <code>d&#39;</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>+y</code></td>
+<td><code>(-y, x, z)</code></td>
+</tr>
+<tr>
+<td><code>-y</code></td>
+<td><code>(y, -x, z)</code></td>
+</tr>
+<tr>
+<td><code>+z</code></td>
+<td><code>(-z, y, x)</code></td>
+</tr>
+<tr>
+<td><code>-z</code></td>
+<td><code>(z, y, -x)</code></td>
+</tr>
+</tbody></table>
+<p>以 <code>+y</code> 為例，彎折前朝 <code>+x</code> 的分量會轉向 <code>+y</code>，朝 <code>+y</code> 的分量會轉向 <code>-x</code>，而 z 分量不變。因此彎折前的 <code>d = (x, y, z)</code> 會變成 <code>d&#39; = (-y, x, z)</code>，也就是 <code>x&#39; = -y</code>、<code>y&#39; = x</code>、<code>z&#39; = z</code>。公式右側都是彎折前的分量。這些更新在數學上等價於 90 度旋轉，但程式不必建立旋轉矩陣，也不需要浮點數。</p>
+<p>因為初始方向是座標軸方向，而每次彎折只會交換分量並改變正負號，方向始終是以下六種之一：<code>+x</code>、<code>-x</code>、<code>+y</code>、<code>-y</code>、<code>+z</code>、<code>-z</code>。換句話說，三個分量中只有一個是 <code>1</code> 或 <code>-1</code>，另外兩個是 <code>0</code>。因此可以把這六個方向編號，預先整理每種方向遇到各指令後會變成什麼方向。</p>
+<p>下表就是把上面的向量規則列舉成六種方向的轉換表。列是彎折前的方向，欄是本次指令，交叉處是彎折後的方向。例如目前朝 <code>+z</code> 時，向量是 <code>(0, 0, 1)</code>；套用 <code>+y</code> 規則仍是 <code>(0, 0, 1)</code>，所以方向不變。</p>
+<table>
+<thead>
+<tr>
+<th>目前方向</th>
+<th><code>+y</code></th>
+<th><code>-y</code></th>
+<th><code>+z</code></th>
+<th><code>-z</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>+x</code></td>
+<td><code>+y</code></td>
+<td><code>-y</code></td>
+<td><code>+z</code></td>
+<td><code>-z</code></td>
+</tr>
+<tr>
+<td><code>-x</code></td>
+<td><code>-y</code></td>
+<td><code>+y</code></td>
+<td><code>-z</code></td>
+<td><code>+z</code></td>
+</tr>
+<tr>
+<td><code>+y</code></td>
+<td><code>-x</code></td>
+<td><code>+x</code></td>
+<td><code>+y</code></td>
+<td><code>+y</code></td>
+</tr>
+<tr>
+<td><code>-y</code></td>
+<td><code>+x</code></td>
+<td><code>-x</code></td>
+<td><code>-y</code></td>
+<td><code>-y</code></td>
+</tr>
+<tr>
+<td><code>+z</code></td>
+<td><code>+z</code></td>
+<td><code>+z</code></td>
+<td><code>-x</code></td>
+<td><code>+x</code></td>
+</tr>
+<tr>
+<td><code>-z</code></td>
+<td><code>-z</code></td>
+<td><code>-z</code></td>
+<td><code>+x</code></td>
+<td><code>-x</code></td>
+</tr>
+</tbody></table>
+<h2 id="程式如何套用轉移表"><a href="#程式如何套用轉移表" class="headerlink" title="程式如何套用轉移表"></a>程式如何套用轉移表</h2><p>程式不必真的存三個分量，而是以 <code>0</code> 到 <code>5</code> 分別代表 <code>+x</code>、<code>-x</code>、<code>+y</code>、<code>-y</code>、<code>+z</code>、<code>-z</code>。<code>nextDirection</code> 將向量規則整理成查表：列索引是目前方向，欄索引是 <code>+y</code>、<code>-y</code>、<code>+z</code>、<code>-z</code>。每讀到一個非 <code>No</code> 指令，就查表更新方向；全部處理完後，從名稱表輸出結果。</p>
+<p>每筆測資讀取 <code>L - 1</code> 個指令，時間複雜度為 <code>O(L)</code>，除固定大小的轉移表外只使用常數額外空間。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">getTurnIndex</span><span class="params">(<span class="type">const</span> string&amp; turn)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (turn == <span class="string">&quot;+y&quot;</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (turn == <span class="string">&quot;-y&quot;</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (turn == <span class="string">&quot;+z&quot;</span>) <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (turn == <span class="string">&quot;-z&quot;</span>) <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* directionName[] = &#123;<span class="string">&quot;+x&quot;</span>, <span class="string">&quot;-x&quot;</span>, <span class="string">&quot;+y&quot;</span>, <span class="string">&quot;-y&quot;</span>, <span class="string">&quot;+z&quot;</span>, <span class="string">&quot;-z&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Rows are the current directions; columns are +y, -y, +z, -z.</span></span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> nextDirection[<span class="number">6</span>][<span class="number">4</span>] = &#123;</span><br><span class="line">        &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;,</span><br><span class="line">        &#123;<span class="number">3</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">4</span>&#125;,</span><br><span class="line">        &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>&#125;,</span><br><span class="line">        &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>&#125;,</span><br><span class="line">        &#123;<span class="number">4</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</span><br><span class="line">        &#123;<span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">1</span>&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> length;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; length &amp;&amp; length != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">int</span> direction = <span class="number">0</span>;  <span class="comment">// The wire initially points along +x.</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> bend = <span class="number">1</span>; bend &lt; length; ++bend) &#123;</span><br><span class="line">            string turn;</span><br><span class="line">            cin &gt;&gt; turn;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (turn == <span class="string">&quot;No&quot;</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> turnIndex = <span class="built_in">getTurnIndex</span>(turn);</span><br><span class="line">            <span class="keyword">if</span> (turnIndex != <span class="number">-1</span>) &#123;</span><br><span class="line">                direction = nextDirection[direction][turnIndex];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        cout &lt;&lt; directionName[direction] &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><ul>
+<li>UVa 官方範例通過。</li>
+<li>uDebug 第二組公開測資（24 組彎折組合）通過；第一組 100 筆的轉移結果也與 Accepted Output 相符。</li>
+<li>本機以 C++11 編譯後，與獨立的整數向量旋轉參考程式比對 19,531 組案例：涵蓋 6 次彎折以內的所有指令序列，另含 <code>L = 100000</code> 的長案例，結果一致。</li>
+<li>UVa submission <strong>31353786</strong>：C++11，Accepted，0.010 秒。</li>
+</ul>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/115/11507.pdf">UVa 11507 題目敘述</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/11507">uDebug 公開測資</a></li>
+</ul>
+<script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script><script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script><textarea id="graphviz-0-code" style="display: none">digraph BenderDirectionStates {
+    graph [rankdir=LR, bgcolor="transparent", margin=0.08, nodesep=0.3];
+    node [shape=box, style="rounded,filled", fillcolor="#F1F5F9", color="#94A3B8", fontname="Arial", fontsize=12, margin="0.14,0.1"];
+    edge [fontname="Arial", fontsize=11, color="#475569", arrowsize=0.8];
+
+    initial [label="初始末段方向 d₀\n+x = (1, 0, 0)"];
+    after_first [label="第 1 步後末段方向 d₁\n+y = (0, 1, 0)"];
+    after_second [label="第 2 步後末段方向 d₂\n+x = (1, 0, 0)"];
+
+    initial -> after_first [label="原 x = 2 處\n指令 +y"];
+    after_first -> after_second [label="原 x = 1 處\n指令 -y"];
+}</textarea><script>  var viz = new Viz();  var code = document.getElementById("graphviz-0-code").value;  viz.renderSVGElement(code)  .then(function(element) {    document.getElementById("graphviz-0").append(element)  });</script>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2013/07/31/uva-11507-bender-b-rodri-guez-problem-016/" data-id="cuidqSQHcdMaHMBvnOGiLnkIh" data-title="11507 - Bender B. Rodríguez Problem" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-417-word-index-021" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-417-word-index-021/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:59:15.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-004/">Volume 004</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-417-word-index-021/">417 - Word Index</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 417 要把長度 1 至 5 的小寫字母字串依序編號。有效單字的字母必須嚴格遞增；排序時先按長度，再按字典序。輸入讀到 EOF；每個單字若有效，輸出它在這份清單中的位置，否則輸出 0。整理版用組合數計算排在目標單字前面的單字數，再加 1 得到編號。</p>
+<h2 id="先看編號順序"><a href="#先看編號順序" class="headerlink" title="先看編號順序"></a>先看編號順序</h2><p>單字長度較短的排在前面；相同長度則依字典序排列：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a  -&gt; 1</span><br><span class="line">b  -&gt; 2</span><br><span class="line">...</span><br><span class="line">z  -&gt; 26</span><br><span class="line">ab -&gt; 27</span><br><span class="line">ac -&gt; 28</span><br></pre></td></tr></table></figure>
+
+<p>因此 <code>ac</code> 前面有 26 個一個字母的單字，以及 <code>ab</code> 這一個兩字母單字，編號是 26 + 1 + 1 &#x3D; 28。最後一個有效單字是 <code>vwxyz</code>，編號為 83681。</p>
+<h2 id="計算排在目標之前的單字"><a href="#計算排在目標之前的單字" class="headerlink" title="計算排在目標之前的單字"></a>計算排在目標之前的單字</h2><p>設目標單字長度為 <code>L</code>。先加上所有較短長度的有效單字數：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C(26, 1) + C(26, 2) + ... + C(26, L - 1)</span><br></pre></td></tr></table></figure>
+
+<p>長度為 <code>k</code> 的有效單字，就是從 26 個字母中選出 <code>k</code> 個；選定後字母順序唯一，所以共有 <code>C(26, k)</code> 種。</p>
+<p>接著計算同長度中排在目標之前的單字。從左到右處理每個位置，將「第一個和目標不同的位置」當成分組：前面的字母維持與目標相同，該位置改用一個更小、但仍大於前一個字母的候選字母。若候選字母後面還有 <code>r</code> 個位置，後綴就要從它後方的字母中選 <code>r</code> 個，因此可組成 <code>C(候選字母之後的字母數, r)</code> 個單字。不同位置代表不同的第一個差異點，把各組數量加總，就會得到所有排在目標之前的同長單字，而且不會重複計數。</p>
+<p>程式以 <code>0</code> 至 <code>25</code> 表示 <code>a</code> 至 <code>z</code>。若候選字母索引是 <code>j</code>，它後方還有 <code>25 - j</code> 個字母；尚未填入的字數則是 <code>remainingPositions</code>。因此程式中的 <code>choose[availableLettersAfter][remainingPositions]</code>，正是在計算可選字母中挑出所需後綴的數量。</p>
+<p>因此，編號等於「所有較短長度的有效單字數」加上「同長度中排在目標之前的單字數」，再加 1（目標單字本身的位置）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">編號 = 較短單字數 + 同長度排在前面的單字數 + 1</span><br></pre></td></tr></table></figure>
+
+<p>以 <code>bde</code> 為例：</p>
 <ul>
+<li>第一個字母若由 <code>b</code> 改成 <code>a</code>，後面還有兩個位置，必須從 <code>b</code> 到 <code>z</code> 的 25 個字母中選兩個，所以這一組有 <code>C(25, 2) = 300</code> 個單字。對應程式中的 <code>candidate = 0</code>、<code>availableLettersAfter = 25</code>、<code>remainingPositions = 2</code>，也就是 <code>choose[25][2]</code>。</li>
+<li>若第一個字母仍是 <code>b</code>，第二個字母可以由 <code>d</code> 改成 <code>c</code>。最後一個字母可從 <code>d</code> 到 <code>z</code> 的 23 個字母中選一個，所以有 <code>C(23, 1) = 23</code> 個單字，對應 <code>choose[23][1]</code>。</li>
+<li>若前兩個字母都維持 <code>bd</code>，第三個字母必須大於 <code>d</code>；最小只能是 <code>e</code>，所以沒有比 <code>bde</code> 更早的有效單字。像 <code>bda</code>、<code>bdc</code> 都不符合字母嚴格遞增的條件。</li>
+</ul>
+<p>因此，同長度中排在 <code>bde</code> 前面的單字共有 <code>300 + 23 = 323</code> 個。較短的單字有 <code>C(26, 1) + C(26, 2) = 26 + 325 = 351</code> 個；套用上面的公式，<code>bde</code> 的編號是 <code>351 + 323 + 1 = 675</code>。</p>
+<p>程式沒有分別建立這兩個計數變數，而是把前兩項都累加到 <code>wordsBefore</code>，最後回傳 <code>wordsBefore + 1</code>。它用 Pascal 三角形預先計算 <code>C(n, k)</code>，遞迴關係為 <code>C(n, k) = C(n - 1, k - 1) + C(n - 1, k)</code>。每個輸入字最多檢查 5 個位置，每個位置至多嘗試 26 個候選字母。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isValidWord</span><span class="params">(<span class="type">const</span> string&amp; word)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (word.<span class="built_in">empty</span>() || word.<span class="built_in">size</span>() &gt; <span class="number">5</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; word.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (word[i] &lt; <span class="string">&#x27;a&#x27;</span> || word[i] &gt; <span class="string">&#x27;z&#x27;</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; word[i - <span class="number">1</span>] &gt;= word[i]) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">wordIndex</span><span class="params">(<span class="type">const</span> string&amp; word, <span class="type">const</span> array&lt;array&lt;<span class="type">int</span>, <span class="number">6</span>&gt;, <span class="number">27</span>&gt;&amp; choose)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> length = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(word.<span class="built_in">size</span>());</span><br><span class="line">    <span class="type">int</span> wordsBefore = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> shorterLength = <span class="number">1</span>; shorterLength &lt; length; ++shorterLength) &#123;</span><br><span class="line">        wordsBefore += choose[<span class="number">26</span>][shorterLength];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> previousLetter = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">0</span>; position &lt; length; ++position) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> currentLetter = word[position] - <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> remainingPositions = length - position - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> candidate = previousLetter + <span class="number">1</span>; candidate &lt; currentLetter; ++candidate) &#123;</span><br><span class="line">            <span class="type">const</span> <span class="type">int</span> availableLettersAfter = <span class="number">25</span> - candidate;</span><br><span class="line">            wordsBefore += choose[availableLettersAfter][remainingPositions];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        previousLetter = currentLetter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> wordsBefore + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    array&lt;array&lt;<span class="type">int</span>, 6&gt;, 27&gt; choose = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> n = <span class="number">0</span>; n &lt;= <span class="number">26</span>; ++n) &#123;</span><br><span class="line">        choose[n][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> n = <span class="number">1</span>; n &lt;= <span class="number">26</span>; ++n) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">1</span>; k &lt;= <span class="number">5</span> &amp;&amp; k &lt;= n; ++k) &#123;</span><br><span class="line">            choose[n][k] = choose[n - <span class="number">1</span>][k - <span class="number">1</span>] + choose[n - <span class="number">1</span>][k];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    string word;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; word) &#123;</span><br><span class="line">        cout &lt;&lt; (<span class="built_in">isValidWord</span>(word) ? <span class="built_in">wordIndex</span>(word, choose) : <span class="number">0</span>) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>預先計算組合數需要 <code>O(26 × 5)</code> 時間與空間；每個輸入單字最多處理 5 個位置、每個位置最多嘗試 26 個字母，時間為 <code>O(26L)</code>，其中 <code>L ≤ 5</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯；官方範例、uDebug 第一組前 20 筆資料與邊界案例輸出相符。另依長度、字典序列舉全部 83,681 個有效單字，程式輸出依序為 1 至 83,681；5 個無效單字都輸出 0。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/4/417.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/417">uDebug 測資</a></p>
+<p>組合數排名的實作概念參考：<a target="_blank" rel="noopener" href="https://diadoacm.blogspot.com/2012/08/acm-417-word-index.html">ACM 417 - Word Index 解題文章</a>。</p>
+<p>本篇程式以 C++11 提交 UVa 417，結果為 Accepted。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-417-word-index-021/" data-id="cuidO-p61k7A8ZKawD3vVG2Xz" data-title="417 - Word Index" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10894-problem-h-save-hridoy-022" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-10894-problem-h-save-hridoy-022/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:56:48.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-108/">Volume 108</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-10894-problem-h-save-hridoy-022/">10894 - Save Hridoy</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10894 要依輸入整數 <code>N</code> 的符號與絕對值，輸出 <code>SAVE HRIDOY</code> 的點陣字樣：正數表示橫向排列，負數表示直向排列；字體大小為 <code>S = |N|</code>。每個 <code>5×5</code> 字形中的像素會放大成 <code>S×S</code> 區塊，輸入 <code>0</code> 時停止。程式保存十個字母的樣板，再逐行輸出放大後的圖案。</p>
+<h2 id="放大一個字形像素"><a href="#放大一個字形像素" class="headerlink" title="放大一個字形像素"></a>放大一個字形像素</h2><p>每個字母以 <code>5×5</code> 的 <code>*</code> 和 <code>.</code> 表示。字體大小 <code>S = 2</code> 時，一個像素會展開成 <code>2×2</code> 方塊：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*  -&gt;  **</span><br><span class="line">       **</span><br><span class="line">.  -&gt;  ..</span><br><span class="line">       ..</span><br></pre></td></tr></table></figure>
+
+<p>字母內部的像素也依相同規則放大，因此字體寬度與高度都會乘上 <code>S</code>。</p>
+<h2 id="方向、間距與輸出尺寸"><a href="#方向、間距與輸出尺寸" class="headerlink" title="方向、間距與輸出尺寸"></a>方向、間距與輸出尺寸</h2><p>若 <code>N &gt; 0</code>，圖案水平排列，共輸出 <code>5S</code> 列；若 <code>N &lt; 0</code>，十個字母由上往下排列，字母圖樣保持正向、不旋轉。以下尺寸都以正的字體大小 <code>S = |N|</code> 計算。</p>
+<p>程式用 <code>size</code> 保存輸入的正負值，傳給繪圖函式的 <code>scale</code> 則是正的放大倍率 <code>|size|</code>。</p>
+<p>每個單字內，相鄰字母之間留 <code>S</code> 列或欄的點號；<code>SAVE</code> 和 <code>HRIDOY</code> 之間留 <code>3S</code> 列或欄。兩個單字分別有 4 個和 6 個字母，所以共有 8 個單字內間隔，另有一個單字間隔：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">字母本身：10 × 5S = 50S</span><br><span class="line">單字內間隔：8 × S = 8S</span><br><span class="line">單字間隔：3S</span><br><span class="line">合計：61S</span><br></pre></td></tr></table></figure>
+
+<p>因此水平模式有 <code>5S</code> 列、每列 <code>61S</code> 個字元；垂直模式有 <code>61S</code> 列、每列 <code>5S</code> 個字元。每組測資輸出結束後，還要印出兩個空白列。</p>
+<p>程式不必先建立整張橫幅。水平模式逐列取出十個字母相同位置的樣板列，將每個像素水平重複 <code>S</code> 次，再把整列輸出 <code>S</code> 次。垂直模式則逐字母輸出：每個樣板列先水平放大 <code>S</code> 倍，再輸出 <code>S</code> 次；字母之間另外輸出相應高度的點號列。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 字形依照橫幅文字順序排列：SAVE，接著 HRIDOY。</span></span><br><span class="line"><span class="type">const</span> string glyphs[<span class="number">10</span>][<span class="number">5</span>] = &#123;</span><br><span class="line">    <span class="comment">// SAVE</span></span><br><span class="line">    <span class="comment">// S</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*....&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;....*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// A</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;.***.&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// V</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;.*.*.&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// E</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*....&quot;</span>,</span><br><span class="line">        <span class="string">&quot;***..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*....&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// HRIDOY</span></span><br><span class="line">    <span class="comment">// H</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// R</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*.*..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*..**&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// I</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// D</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;***..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*..*.&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*..*.&quot;</span>,</span><br><span class="line">        <span class="string">&quot;***..&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// O</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*****&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;*****&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// Y</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;*...*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;.*.*.&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span>,</span><br><span class="line">        <span class="string">&quot;..*..&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">printHorizontal</span><span class="params">(<span class="type">int</span> scale)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> row = <span class="number">0</span>; row &lt; <span class="number">5</span>; ++row) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> repeat = <span class="number">0</span>; repeat &lt; scale; ++repeat) &#123;</span><br><span class="line">            string line;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> letter = <span class="number">0</span>; letter &lt; <span class="number">10</span>; ++letter) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> column = <span class="number">0</span>; column &lt; <span class="number">5</span>; ++column) &#123;</span><br><span class="line">                    line.<span class="built_in">append</span>(scale, glyphs[letter][row][column]);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (letter &lt; <span class="number">9</span>) &#123;</span><br><span class="line">                    <span class="type">const</span> <span class="type">int</span> gapWidth = (letter == <span class="number">3</span> ? <span class="number">3</span> : <span class="number">1</span>) * scale;</span><br><span class="line">                    line.<span class="built_in">append</span>(gapWidth, <span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            cout &lt;&lt; line &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">printVertical</span><span class="params">(<span class="type">int</span> scale)</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="type">const</span> string <span class="title">dottedRow</span><span class="params">(<span class="number">5</span> * scale, <span class="string">&#x27;.&#x27;</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> letter = <span class="number">0</span>; letter &lt; <span class="number">10</span>; ++letter) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> row = <span class="number">0</span>; row &lt; <span class="number">5</span>; ++row) &#123;</span><br><span class="line">            string line;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> column = <span class="number">0</span>; column &lt; <span class="number">5</span>; ++column) &#123;</span><br><span class="line">                line.<span class="built_in">append</span>(scale, glyphs[letter][row][column]);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> repeat = <span class="number">0</span>; repeat &lt; scale; ++repeat) &#123;</span><br><span class="line">                cout &lt;&lt; line &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (letter &lt; <span class="number">9</span>) &#123;</span><br><span class="line">            <span class="type">const</span> <span class="type">int</span> gapHeight = (letter == <span class="number">3</span> ? <span class="number">3</span> : <span class="number">1</span>) * scale;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> row = <span class="number">0</span>; row &lt; gapHeight; ++row) &#123;</span><br><span class="line">                cout &lt;&lt; dottedRow &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> size;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; size &amp;&amp; size != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="built_in">printHorizontal</span>(size);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">printVertical</span>(-size);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>輸出圖案本身有 <code>O(S²)</code> 個字元，因此時間複雜度為 <code>O(S²)</code>；程式每次只建立一列字串，額外空間為 <code>O(S)</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯。官方範例輸出與 uDebug 第一組 6 個字體大小的 accepted output 相符；另與保留的舊 AC 程式比較 <code>±1</code>、<code>±2</code>、<code>±3</code>、<code>±17</code>、<code>±50</code>，輸出完全一致。字體大小 <code>1</code>、<code>2</code> 和 <code>50</code> 的兩種方向，列數與每列字元數也都符合公式。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/108/10894.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10894">uDebug 測資</a></p>
+<p>本篇程式以 C++11 提交 UVa，結果為 Accepted。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10894-problem-h-save-hridoy-022/" data-id="cuid-Nt1Q9nxYd3AGjkaXurlA" data-title="10894 - Save Hridoy" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-759-the-return-of-the-roman-empire-023" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-759-the-return-of-the-roman-empire-023/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:53:02.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-007/">Volume 007</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-759-the-return-of-the-roman-empire-023/">759 - The Return of the Roman Empire</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 759 要把輸入的羅馬數字轉成十進位數值；格式不合法時，則輸出 <code>This is not a valid number</code>。本解法先建立「羅馬字串 → 十進位數值」對照表，輸入時查表：找到就取得數值，找不到就判為無效。本程式採用 1 到 3999 的標準羅馬數字範圍；題目沒有另外說明數值上限，而這個範圍只有 3999 種表示，適合預先建表。</p>
+<h2 id="為什麼本題採用建表"><a href="#為什麼本題採用建表" class="headerlink" title="為什麼本題採用建表"></a>為什麼本題採用建表</h2><p>直接解析並算出羅馬數字代表的數值並不難，較費心的是確認輸入符合標準格式。標準寫法只允許 <code>IV</code>、<code>IX</code>、<code>XL</code>、<code>XC</code>、<code>CD</code>、<code>CM</code> 這六種減法組合，因此 <code>IC</code> 不合法。若只用「較小的符號出現在較大的符號前面就相減，否則相加」這個簡化規則，<code>IC</code> 仍會被算成 99；但標準的 99 寫法是 <code>XCIX</code>。這說明只算出數值，還不能判斷輸入是否有效。</p>
+<p>直接解析也可行。常見做法是從左到右比較相鄰符號，只有前述六種合法組合才相減，其餘情況相加。若要靠解析過程直接拒絕所有錯誤格式，還得檢查符號的重複次數和排列順序。如果不想逐條實作這些限制，也可以先用較寬鬆的加減規則算出候選數值，再把它轉回標準寫法與原輸入比對；兩者相同才接受。由於本程式只處理 1 到 3999，可以預先產生這些標準寫法，查表時就能同時取得數值並確認格式正確。</p>
+<p>因此，本解法用一次固定的初始化和少量空間，換取較直接的格式檢查。採用建表是為了簡化實作，不是為了降低時間複雜度。</p>
+<h2 id="建立標準表示的對照表"><a href="#建立標準表示的對照表" class="headerlink" title="建立標準表示的對照表"></a>建立標準表示的對照表</h2><p>標準羅馬數字依符號數值由大到小組合；遇到 900、400、90、40、9、4 時，分別使用對應的減法組合。例如，1998 可拆成 <code>M</code>（1000）、<code>CM</code>（900）、<code>XC</code>（90）和 <code>VIII</code>（8），合起來是 <code>MCMXCVIII</code>。</p>
+<p>程式依序處理範圍內的每個數值。對每個數值，都從最大的符號組合開始嘗試；只要剩餘數值不小於該符號的數值，就把符號加到字串中，再扣掉相應數值。重複這個步驟直到數值歸零，最後將產生的羅馬字串和原數值存入 <code>map</code>。</p>
+<h2 id="查表並處理無效輸入"><a href="#查表並處理無效輸入" class="headerlink" title="查表並處理無效輸入"></a>查表並處理無效輸入</h2><p>程式使用 <code>cin &gt;&gt; numeral</code> 讀取輸入，因此空白行和字串前後的空白都會被略過。若對照表中找得到該字串，就輸出對應數值；否則輸出題目要求的錯誤訊息。</p>
+<p>查詢使用 <code>map::find</code>。若改用 <code>valueOf[numeral]</code>，<code>map</code> 的 <code>operator[]</code> 會在查不到時新增一筆預設值為 0 的資料；<code>find</code> 只負責查詢，不會改動表格。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">toRoman</span><span class="params">(<span class="type">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">int</span> values[] = &#123;<span class="number">1000</span>, <span class="number">900</span>, <span class="number">500</span>, <span class="number">400</span>, <span class="number">100</span>, <span class="number">90</span>, <span class="number">50</span>, <span class="number">40</span>, <span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">1</span>&#125;;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> string symbols[] = &#123;<span class="string">&quot;M&quot;</span>, <span class="string">&quot;CM&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;CD&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;XC&quot;</span>, <span class="string">&quot;L&quot;</span>, <span class="string">&quot;XL&quot;</span>, <span class="string">&quot;X&quot;</span>, <span class="string">&quot;IX&quot;</span>, <span class="string">&quot;V&quot;</span>, <span class="string">&quot;IV&quot;</span>, <span class="string">&quot;I&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">    string numeral;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">13</span>; ++i) &#123;</span><br><span class="line">        <span class="keyword">while</span> (value &gt;= values[i]) &#123;</span><br><span class="line">            numeral += symbols[i];</span><br><span class="line">            value -= values[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> numeral;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    map&lt;string, <span class="type">int</span>&gt; valueOf;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> value = <span class="number">1</span>; value &lt;= <span class="number">3999</span>; ++value) &#123;</span><br><span class="line">        valueOf[<span class="built_in">toRoman</span>(value)] = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    string numeral;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; numeral) &#123;</span><br><span class="line">        map&lt;string, <span class="type">int</span>&gt;::const_iterator found = valueOf.<span class="built_in">find</span>(numeral);</span><br><span class="line">        <span class="keyword">if</span> (found == valueOf.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;This is not a valid number\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; found-&gt;second &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>令 <code>K = 3999</code> 為表格筆數、<code>L</code> 為輸入字串長度。三種查表方式的取捨如下：</p>
+<table>
+<thead>
+<tr>
+<th>容器</th>
+<th>查詢成本</th>
+<th>特性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>map</code></td>
+<td><code>O(L log K)</code></td>
+<td>寫法直接、查詢成本穩定；查詢時需沿樹走訪。</td>
+</tr>
+<tr>
+<td><code>unordered_map</code></td>
+<td>平均 <code>O(L)</code>，最壞 <code>O(KL)</code></td>
+<td>先計算字串 hash 再查 bucket；有 bucket 管理成本，小表不一定較快。</td>
+</tr>
+<tr>
+<td>排序後的 <code>vector</code></td>
+<td><code>O(L log K)</code></td>
+<td>建表後排序一次，再用 <code>lower_bound</code> 查詢；資料連續，可能較有利於快取，但程式需處理排序和二分搜尋。</td>
+</tr>
+</tbody></table>
+<p>以上複雜度不代表實際速度，也沒有固定的筆數門檻。對本題只有 3999 個短字串，<code>map</code> 已足夠簡單、快速；除非實測發現查詢成為瓶頸，否則不必再微調容器。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯，通過官方範例、空白行與空白字元處理案例；也逐一測試 1 到 3999 的全部標準表示，並確認 <code>CCM</code>、<code>IC</code>、<code>MMMM</code>、<code>MMMMM</code> 會回報無效。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/7/759.pdf">UVa 題目敘述</a></p>
+<p>本篇程式以 C++11 提交 UVa 759，結果為 Accepted。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-759-the-return-of-the-roman-empire-023/" data-id="cuidJ--B0gytatpWX4UKYhqGS" data-title="759 - The Return of the Roman Empire" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10415-eb-alto-saxophone-player-024" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:45:00.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-104/">Volume 104</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-10415-eb-alto-saxophone-player-024/">10415 - Eb Alto Saxophone Player</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10415 給一段由 14 種音符組成的樂曲，要求分別計算十根手指按下按鍵的次數。對每個音符，某根手指只有在「這個音符需要它、前一個音符不需要它」時才算按下一次；每首樂曲的第一個音符則視為前一刻沒有手指按著。輸出十個計數，順序是手指 1 到 10。</p>
+<h2 id="用前後音符的按鍵狀態計數"><a href="#用前後音符的按鍵狀態計數" class="headerlink" title="用前後音符的按鍵狀態計數"></a>用前後音符的按鍵狀態計數</h2><p>先把每個音符表示成十根手指的按鍵狀態。以下表格中的數字是手指編號：</p>
+<table>
+<thead>
+<tr>
+<th>音符</th>
+<th>需要按住的手指</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>c</code></td>
+<td>2、3、4、7、8、9、10</td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td>2、3、4、7、8、9</td>
+</tr>
+<tr>
+<td><code>e</code></td>
+<td>2、3、4、7、8</td>
+</tr>
+<tr>
+<td><code>f</code></td>
+<td>2、3、4、7</td>
+</tr>
+<tr>
+<td><code>g</code></td>
+<td>2、3、4</td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td>2、3</td>
+</tr>
+<tr>
+<td><code>b</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>C</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>D</code></td>
+<td>1、2、3、4、7、8、9</td>
+</tr>
+<tr>
+<td><code>E</code></td>
+<td>1、2、3、4、7、8</td>
+</tr>
+<tr>
+<td><code>F</code></td>
+<td>1、2、3、4、7</td>
+</tr>
+<tr>
+<td><code>G</code></td>
+<td>1、2、3、4</td>
+</tr>
+<tr>
+<td><code>A</code></td>
+<td>1、2、3</td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td>1、2</td>
+</tr>
+</tbody></table>
+<p>例如樂曲 <code>abC</code>：第一個音符 <code>a</code> 需要手指 2、3，因此兩者各計一次。切換到 <code>b</code> 時仍需要手指 2，沒有新按下；再切換到 <code>C</code> 時需要手指 3，而前一個音符 <code>b</code> 沒有用到手指 3，所以手指 3 再計一次。結果是手指 2 按 1 次、手指 3 按 2 次，其餘為 0。</p>
+<p>程式用長度 10 的布林陣列保存前一個音符與目前音符的狀態。每讀到一個音符，就依照對照表建立目前狀態；若某個位置目前為 <code>true</code>、前一狀態為 <code>false</code>，便增加該手指的計數。處理完後，將目前狀態存為前一狀態。</p>
+<p>程式用 <code>notes</code> 與 <code>fingering</code> 兩組同索引資料保存對照：<code>notes</code> 中某個音符的位置，就是它在 <code>fingering</code> 中的按鍵字串。按鍵字串以陣列索引 <code>0</code> 到 <code>9</code> 表示手指 1 到 10，所以字元 <code>&#39;0&#39;</code> 代表手指 1；例如音符 <code>c</code> 的字串是 <code>&quot;1236789&quot;</code>，代表手指 2、3、4、7、8、9、10。</p>
+<p>每首曲子都重新把計數和前一狀態設為 0。題目允許空曲子，所以每個測資必須用 <code>getline</code> 讀取一整行；空行會輸出十個 0。讀入測資數後，先用一次 <code>getline</code> 消耗該行剩餘的換行字元，再逐行讀取曲子。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> string notes = <span class="string">&quot;cdefgabCDEFGAB&quot;</span>;</span><br><span class="line">    <span class="type">const</span> string fingering[] = &#123;</span><br><span class="line">        <span class="string">&quot;1236789&quot;</span>, <span class="string">&quot;123678&quot;</span>, <span class="string">&quot;12367&quot;</span>, <span class="string">&quot;1236&quot;</span>, <span class="string">&quot;123&quot;</span>, <span class="string">&quot;12&quot;</span>, <span class="string">&quot;1&quot;</span>,</span><br><span class="line">        <span class="string">&quot;2&quot;</span>, <span class="string">&quot;0123678&quot;</span>, <span class="string">&quot;012367&quot;</span>, <span class="string">&quot;01236&quot;</span>, <span class="string">&quot;0123&quot;</span>, <span class="string">&quot;012&quot;</span>, <span class="string">&quot;01&quot;</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> testCases;</span><br><span class="line">    cin &gt;&gt; testCases;</span><br><span class="line">    string song;</span><br><span class="line">    <span class="built_in">getline</span>(cin, song);  <span class="comment">// Consume the rest of the first line.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (testCases--) &#123;</span><br><span class="line">        <span class="built_in">getline</span>(cin, song);  <span class="comment">// An empty line represents an empty song.</span></span><br><span class="line"></span><br><span class="line">        array&lt;<span class="type">int</span>, 10&gt; presses = &#123;&#125;;</span><br><span class="line">        array&lt;<span class="type">bool</span>, 10&gt; previous = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> note : song) &#123;</span><br><span class="line">            <span class="type">const</span> <span class="type">size_t</span> noteIndex = notes.<span class="built_in">find</span>(note);</span><br><span class="line">            array&lt;<span class="type">bool</span>, 10&gt; current = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">char</span> finger : fingering[noteIndex]) &#123;</span><br><span class="line">                current[finger - <span class="string">&#x27;0&#x27;</span>] = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> finger = <span class="number">0</span>; finger &lt; <span class="number">10</span>; ++finger) &#123;</span><br><span class="line">                <span class="keyword">if</span> (current[finger] &amp;&amp; !previous[finger]) &#123;</span><br><span class="line">                    ++presses[finger];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            previous = current;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        cout &lt;&lt; presses[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> finger = <span class="number">1</span>; finger &lt; <span class="number">10</span>; ++finger) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; presses[finger];</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每個音符查出所需手指後，檢查十個位置一次；一首最多 200 個音符，因此每首曲子的時間為 <code>O(10L)</code>，其中 <code>L ≤ 200</code>。額外狀態只保存十根手指，空間為 <code>O(10)</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯，官方範例與 uDebug 提供的 12 筆資料全部相符；另測試空曲子、同音符連續出現、以及不同測資之間的狀態重設。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/104/10415.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10415">uDebug 測資</a></p>
+<p>本篇程式以 C++11 提交 UVa 10415，結果為 Accepted。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10415-eb-alto-saxophone-player-024/" data-id="cuidHJziyBhvAlGwcSFZKmzYG" data-title="10415 - Eb Alto Saxophone Player" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10878-decode-the-tape-025" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-10878-decode-the-tape-025/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:43:55.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-108/">Volume 108</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-10878-decode-the-tape-025/">10878 - Decode the Tape</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10878 要把紙帶上的孔洞還原成文字。每列代表一個字元；程式從每列的 8 個資料位元重建字元，並在讀到第二條 <code>___________</code> 時停止。</p>
+<h2 id="每列轉成一個字元"><a href="#每列轉成一個字元" class="headerlink" title="每列轉成一個字元"></a>每列轉成一個字元</h2><p>每列左右兩端的 <code>|</code> 是紙帶邊界，中間的 <code>.</code> 用來標示中心位置。略過邊界和點號後，剩下的位置由左至右代表位元 7 到位元 0。讀到 <code>o</code> 就把該位設為 1，讀到空白則設為 0。</p>
+<p>程式以從 0 開始的字串索引讀取固定欄位：左右邊界在 <code>row[0]</code> 和 <code>row[10]</code>，中央的 <code>.</code> 在 <code>row[6]</code>；資料位元位於 <code>row[1]</code> 到 <code>row[5]</code>，以及 <code>row[7]</code> 到 <code>row[9]</code>。因此迴圈檢查索引 1 到 9，並略過索引 6。</p>
+<p>題目沒有明說這 8 個位元要用哪種字元編碼。可以從範例推知：官方範例第一列讀成 <code>01000001₂</code>，換算為十進位是 65；依 ASCII 對應為 <code>A</code>，正好是範例訊息的第一個字元。因此本文按 ASCII 解碼，但要注意這項規則是從範例推得，題目敘述沒有明文交代。</p>
+<p>程式由左至右逐位累積：先把目前值左移一位，再放入新位元。以 <code>01000001</code> 為例，讀完前兩位後目前值是 <code>1</code>；再讀入 <code>0</code> 時，先左移得到 <code>2</code>，再加入 <code>0</code>，後續位元依此類推，最後得到 65。</p>
+<p>輸入的第一條 <code>___________</code> 是紙帶起點；之後每讀到一列就輸出一個字元，直到讀到下一條分隔線。這樣每列都會解碼一次，並保留訊息中的空格、標點和換行字元。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">char</span> <span class="title">decodeRow</span><span class="params">(<span class="type">const</span> string&amp; row)</span> </span>&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> value = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> column = <span class="number">1</span>; column &lt;= <span class="number">9</span>; ++column) &#123;</span><br><span class="line">        <span class="keyword">if</span> (column == <span class="number">6</span>) <span class="keyword">continue</span>;  <span class="comment">// The center dot marks the tape, not a bit.</span></span><br><span class="line">        value = <span class="built_in">static_cast</span>&lt;<span class="type">unsigned</span> <span class="type">char</span>&gt;((value &lt;&lt; <span class="number">1</span>) | (row[column] == <span class="string">&#x27;o&#x27;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> string delimiter = <span class="string">&quot;___________&quot;</span>;</span><br><span class="line">    string row;</span><br><span class="line">    <span class="built_in">getline</span>(cin, row);  <span class="comment">// The first delimiter starts the tape.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">getline</span>(cin, row) &amp;&amp; row != delimiter) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">decodeRow</span>(row);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每列處理固定 8 個資料位元，因此共有 <code>N</code> 列時，時間為 <code>O(N)</code>；程式只保存目前一列和一個位元組，額外空間為 <code>O(1)</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯；以程式產生 0 到 127 的 ASCII 紙帶列，解碼結果逐位元組相符。另用 uDebug 提供的完整紙帶資料解碼，結果與 Accepted Output 相符（將文字欄位正規化的換行形式統一後）。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/108/10878.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10878">uDebug 測資</a></p>
+<p>本篇程式以 C++11 提交 UVa 10878，結果為 Accepted。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10878-decode-the-tape-025/" data-id="cuid8CDbR5yUbwCBjnjkWJhdt" data-title="10878 - Decode the Tape" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10167-birthday-cake-026" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-10167-birthday-cake-026/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:40:42.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-101/">Volume 101</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-10167-birthday-cake-026/">10167 - Birthday Cake</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10167 要用直線把圓形蛋糕切成形狀相同的兩半。蛋糕上有 <code>2N</code> 顆櫻桃，切開後每一半都要有 <code>N</code> 顆，切割線上也不能有櫻桃。要讓兩半形狀相同，切割線必須通過圓心 <code>(0, 0)</code>。將切割線寫成 <code>Ax + By = 0</code>，就能根據每顆櫻桃的 <code>Ax + By</code> 正負判斷它位於哪一側，再搜尋符合條件的整數係數 <code>A</code>、<code>B</code>。</p>
+<h2 id="用內積判斷櫻桃在哪一側"><a href="#用內積判斷櫻桃在哪一側" class="headerlink" title="用內積判斷櫻桃在哪一側"></a>用內積判斷櫻桃在哪一側</h2><p>一般直線可寫成 <code>Ax + By = C</code>。本題的切割線必須通過原點 <code>(0, 0)</code>，因此 <code>C = 0</code>，直線方程式是 <code>Ax + By = 0</code>。向量 <code>(A, B)</code> 是這條直線的法向量，也就是垂直於直線的向量。對每顆櫻桃的座標 <code>(x, y)</code>，計算它與 <code>(A, B)</code> 的內積 <code>(A, B) · (x, y) = Ax + By</code>。這個內積值大於 0 表示櫻桃在法向量所指的一側，小於 0 表示在另一側；等於 0 則表示櫻桃在線上，這組係數不能使用。</p>
+<p>例如官方範例的 <code>N = 2</code>，四顆櫻桃的座標是 <code>(-20, 20)</code>、<code>(-30, 20)</code>、<code>(-10, -50)</code>、<code>(10, -5)</code>。取 <code>(A, B) = (0, 1)</code> 時，切割線是 <code>y = 0</code>，內積值就是各點的 <code>y</code> 座標。前兩顆位於直線上方，後兩顆位於下方，因此兩側各有兩顆櫻桃。</p>
+<p>下圖把這個切割方式畫在圓形蛋糕上：綠色箭頭是法向量 <code>(A, B) = (0, 1)</code>，與水平切割線 <code>y = 0</code> 垂直。藍色點在直線上方，橘色點在下方；右側列出每顆櫻桃的座標和內積值，方便對照正負號與位置。</p>
+<p><img src="/images/uva-10167-birthday-cake-sample.svg" alt="UVa 10167 官方範例：切割線 y &#x3D; 0，列出櫻桃座標與內積值"></p>
+<h2 id="搜尋係數"><a href="#搜尋係數" class="headerlink" title="搜尋係數"></a>搜尋係數</h2><p>題目保證每組輸入至少有一組解，且 <code>A</code>、<code>B</code> 都在 <code>[-500, 500]</code>；兩者不能同時為 0，否則方程式不代表一條直線。又因為 <code>N ≤ 50</code>，最多只有 100 顆櫻桃，所以可以枚舉係數，逐一檢查每顆櫻桃。<code>(A, B)</code> 與 <code>(-A, -B)</code> 表示同一條線，只會把正、負兩側對調；因此只搜尋 <code>A ≥ 0</code> 不會漏掉答案。當 <code>A = 0</code> 時，方程式變成 <code>By = 0</code>，只要 <code>B</code> 不為 0，就等同於 <code>y = 0</code>，因此只需檢查 <code>(0, 1)</code>。題目接受任一組符合條件的答案，找到第一組就可以輸出。</p>
+<p>檢查一組係數時，如果發現櫻桃在線上，就停止檢查這組係數；如果任一側已經超過 <code>N</code> 顆，也可以提早停止，因為後續櫻桃無法讓數量平衡。找到兩側各有 <code>N</code> 顆櫻桃的係數後，就輸出答案。利用 <code>(A, B)</code> 與 <code>(-A, -B)</code> 的對稱性後，最多檢查約五十萬組係數；每組最多檢查 <code>2N ≤ 100</code> 顆櫻桃，最壞情況約要判斷五千萬次櫻桃位於切割線哪一側，因此直接搜尋就足以應付本題。時間複雜度為 <code>O(500^2 N)</code>，額外空間為 <code>O(N)</code>。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    <span class="type">int</span> x;</span><br><span class="line">    <span class="type">int</span> y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cutsFairly</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">const</span> vector&lt;Point&gt;&amp; cherries)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> half = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(cherries.<span class="built_in">size</span>()) / <span class="number">2</span>;</span><br><span class="line">    <span class="type">int</span> positive = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> negative = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> Point&amp; cherry : cherries) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> side = a * cherry.x + b * cherry.y;</span><br><span class="line">        <span class="keyword">if</span> (side == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (side &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            ++positive;</span><br><span class="line">            <span class="keyword">if</span> (positive &gt; half) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ++negative;</span><br><span class="line">            <span class="keyword">if</span> (negative &gt; half) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> positive == half &amp;&amp; negative == half;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">findCut</span><span class="params">(<span class="type">const</span> vector&lt;Point&gt;&amp; cherries, <span class="type">int</span>&amp; cutA, <span class="type">int</span>&amp; cutB)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> a = <span class="number">0</span>; a &lt;= <span class="number">500</span>; ++a) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">cutsFairly</span>(a, <span class="number">1</span>, cherries)) &#123;</span><br><span class="line">                cutA = a;</span><br><span class="line">                cutB = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">cutsFairly</span>(a, <span class="number">0</span>, cherries)) &#123;</span><br><span class="line">            cutA = a;</span><br><span class="line">            cutB = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> absB = <span class="number">1</span>; absB &lt;= <span class="number">500</span>; ++absB) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">cutsFairly</span>(a, absB, cherries)) &#123;</span><br><span class="line">                cutA = a;</span><br><span class="line">                cutB = absB;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">cutsFairly</span>(a, -absB, cherries)) &#123;</span><br><span class="line">                cutA = a;</span><br><span class="line">                cutB = -absB;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; n &amp;&amp; n != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="function">vector&lt;Point&gt; <span class="title">cherries</span><span class="params">(<span class="number">2</span> * n)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (Point&amp; cherry : cherries) &#123;</span><br><span class="line">            cin &gt;&gt; cherry.x &gt;&gt; cherry.y;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> a;</span><br><span class="line">        <span class="type">int</span> b;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">findCut</span>(cherries, a, b)) &#123;</span><br><span class="line">            cout &lt;&lt; a &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; b &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic</code> 編譯，通過官方範例及自建案例。uDebug 提供 256 組測資；由於本題允許多組答案，逐組依題目條件檢查係數範圍、切割線上沒有櫻桃，且兩側各有 <code>N</code> 顆。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/101/10167.pdf">UVa 題目敘述</a> · <a target="_blank" rel="noopener" href="https://www.udebug.com/UVa/10167">uDebug 測資</a></p>
+<p>本篇程式以 C++11 提交 UVa 10167，結果為 Accepted，執行時間 0.010 秒。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10167-birthday-cake-026/" data-id="cuidDWwS_NjrgYzdDkpwOWx_y" data-title="10167 - Birthday Cake" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10125-sumsets-027" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-10125-sumsets-027/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:39:08.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-101/">Volume 101</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-10125-sumsets-027/">10125 - Sumsets</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>每筆輸入是一組互不相同的整數：先給元素數量 <code>n</code>（<code>1 ≤ n ≤ 1000</code>），再給 <code>n</code> 個整數；輸入以 <code>n = 0</code> 結束。從集合中選出四個不同的數值 <code>a, b, c, d</code>，使 <code>a + b + c = d</code>。如果有多組答案，輸出最大的 <code>d</code>；若沒有答案，輸出 <code>no solution</code>。</p>
+<h2 id="解法摘要"><a href="#解法摘要" class="headerlink" title="解法摘要"></a>解法摘要</h2><p>將 <code>a + b + c = d</code> 改寫成 <code>a + b = d - c</code>。由大到小嘗試 <code>d</code>，對每個 <code>c</code> 查詢是否有兩個數的和等於 <code>d - c</code>。為了加速這些查詢，先建立所有兩數和並排序，再用 binary search（二分搜尋）找目標值；每筆和都保留組成數對的索引，以排除重複使用元素。最壞時間複雜度為 <code>O(n² log n)</code>，額外空間複雜度為 <code>O(n²)</code>。</p>
+<h2 id="從-2SUM、3SUM-到-4SUM"><a href="#從-2SUM、3SUM-到-4SUM" class="headerlink" title="從 2SUM、3SUM 到 4SUM"></a>從 2SUM、3SUM 到 4SUM</h2><p><strong>2SUM</strong>：給定一組數和目標和 <code>t</code>，找兩個不同的數 <code>a</code>、<code>b</code>，使 <code>a + b = t</code>。數列排序後，可以用雙指標在 <code>O(n)</code> 時間回答一次查詢。</p>
+<p><strong>3SUM</strong>：給定目標和 <code>t</code>，找三個數使總和等於 <code>t</code>。固定其中一個數 <code>a</code>，剩下的問題就是目標為 <code>t - a</code> 的 2SUM；排序後逐一固定 <code>a</code>，總時間為 <code>O(n²)</code>。</p>
+<p><strong>4SUM</strong>：給定目標和 <code>t</code>，找四個數使總和等於 <code>t</code>。把四個數分成兩對，可改寫成 <code>x₁ + x₂ = t - (x₃ + x₄)</code>。預先建立所有數對的和，再查詢互補的和，就能把直接枚舉四個數的 <code>O(n⁴)</code> 降為 <code>O(n² log n)</code>，代價是使用 <code>O(n²)</code> 空間。</p>
+<p>本題和 4SUM 一樣要選四個互異的數，但右側的 <code>d</code> 也必須來自集合，且題目要求最大的 <code>d</code>。因此可以把每個候選 <code>d</code> 看成一次目標值為 <code>d</code> 的 3SUM；更進一步固定 <code>d</code> 和 <code>c</code>，就得到目標值為 <code>d - c</code> 的 2SUM。這個轉換讓我們能把所有 2SUM 查詢共用同一張兩數和表。</p>
+<p>以官方範例 <code>2, 3, 5, 7, 12</code> 為例，先嘗試最大的 <code>d = 12</code>。固定 <code>c = 2</code> 後，目標值是 <code>12 - 2 = 10</code>；數對 <code>(3, 7)</code> 的和為 10，而且四個數互異，因此答案是 12。</p>
+<h2 id="如何選擇查詢方法"><a href="#如何選擇查詢方法" class="headerlink" title="如何選擇查詢方法"></a>如何選擇查詢方法</h2><p><code>d</code>、<code>c</code> 都要從集合中選，最多會有 <code>n(n - 1)</code> 組候選，也就是最多 <code>O(n²)</code> 次 2SUM 查詢。可以按下列方式選擇每次查詢的演算法：</p>
+<table>
+<thead>
+<tr>
+<th>做法</th>
+<th>單次 2SUM 查詢</th>
+<th>最壞總時間</th>
+<th>額外空間</th>
+<th>取捨</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>每次掃描全部數對</td>
+<td><code>O(n²)</code></td>
+<td><code>O(n⁴)</code></td>
+<td><code>O(1)</code></td>
+<td>寫法直接，但查詢很多時較慢</td>
+</tr>
+<tr>
+<td>排序原數列後用雙指標（跳過 <code>c</code>、<code>d</code>）</td>
+<td><code>O(n)</code></td>
+<td><code>O(n³)</code></td>
+<td><code>O(1)</code></td>
+<td>省空間，需為每組 <code>(d, c)</code> 重做查詢</td>
+</tr>
+<tr>
+<td>預先建立並排序兩數和，再用二分搜尋</td>
+<td><code>O(log n)</code></td>
+<td><code>O(n² log n)</code></td>
+<td><code>O(n²)</code></td>
+<td>多用空間，換取較低的最壞時間；本解法採用此方法</td>
+</tr>
+</tbody></table>
+<p>若優先省記憶體，可以選排序加雙指標，接受 <code>O(n³)</code> 的最壞時間。這題的 <code>n</code> 最大為 1000，兩數和表最多有 499,500 筆；因此本解法使用 <code>O(n²)</code> 空間預存結果，將最壞時間降為 <code>O(n² log n)</code>。而題目只要求最大的 <code>d</code>，所以由大到小測試 <code>d</code>，一找到答案即可停止；若高 <code>d</code> 很快找到，實際查詢會更少，但無解時的最壞複雜度不變。</p>
+<h2 id="如何確保四個數互異"><a href="#如何確保四個數互異" class="headerlink" title="如何確保四個數互異"></a>如何確保四個數互異</h2><p>兩數和表找到總和符合的數對後，還要確認它沒有重用 <code>c</code> 或 <code>d</code>。否則雖然和正確，仍不符合四個數互異的要求。</p>
+<p>題目保證輸入的數值互不相同。固定目標和 <code>t = d - c</code> 後，若數對包含 <code>c</code>，另一個數只能是 <code>t - c = d - 2c</code>，所以最多只有一組數對會包含 <code>c</code>；若數對包含 <code>d</code>，另一個數只能是 <code>t - d = -c</code>，所以最多只有一組會包含 <code>d</code>。因此最多兩組數對會因為重用 <code>c</code> 或 <code>d</code> 而無效。若 <code>(c, d)</code> 本身也剛好是目標和為 <code>t</code> 的數對（例如 <code>c = 0</code>），它會同時落在這兩類，但仍只算一組無效數對。</p>
+<p>所以，如果同總和至少有三組數對，檢查其中前三組就一定能找到有效數對；如果只有一組或兩組，則要逐組檢查索引，確認是否有一組避開 <code>c</code>、<code>d</code>。</p>
+<p>回到集合 <code>{ -2, -1, 0, 1, 2, 3, 4, 5 }</code> 的例子，固定 <code>d = 5</code>、<code>c = 2</code>，程式中的查詢目標 <code>target</code>（以下記作 <code>t</code>）是 <code>d - c = 3</code>。兩數和表中，總和等於 <code>t</code> 的數對如下：</p>
+<table>
+<thead>
+<tr>
+<th>數對</th>
+<th>檢查結果</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>(-2, 5)</code></td>
+<td>排除</td>
+<td>重用了 <code>d = 5</code></td>
+</tr>
+<tr>
+<td><code>(-1, 4)</code></td>
+<td>可用</td>
+<td>沒有重用 <code>c</code> 或 <code>d</code></td>
+</tr>
+<tr>
+<td><code>(0, 3)</code></td>
+<td>可用</td>
+<td>沒有重用 <code>c</code> 或 <code>d</code></td>
+</tr>
+<tr>
+<td><code>(1, 2)</code></td>
+<td>排除</td>
+<td>重用了 <code>c = 2</code></td>
+</tr>
+</tbody></table>
+<p>程式用 <code>lower_bound</code> 找到第一筆總和等於 <code>t</code> 的紀錄，接著最多檢查三筆同總和的數對；如果數對索引等於 <code>c</code> 或 <code>d</code> 就跳過，否則表示找到答案。表格中的數對順序可能不同，但最多只有兩筆會被排除，所以前三筆中一定有可用的數對。程式函式的參數名稱 <code>target</code> 就是這裡的 <code>t</code>。</p>
+<h2 id="複雜度"><a href="#複雜度" class="headerlink" title="複雜度"></a>複雜度</h2><p>令兩數和表的大小為 <code>M = n(n - 1)/2</code>。建立表需要 <code>O(n²)</code> 時間，排序需要 <code>O(M log M) = O(n² log n)</code>；最多查詢 <code>O(n²)</code> 次，每次二分搜尋為 <code>O(log M) = O(log n)</code>。因此整體時間複雜度是 <code>O(n² log n)</code>，額外空間複雜度是 <code>O(n²)</code>。原數列排序的 <code>O(n log n)</code> 比表的排序成本低階，不影響總複雜度。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstddef&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">PairSum</span> &#123;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> sum;</span><br><span class="line">    <span class="type">int</span> first;</span><br><span class="line">    <span class="type">int</span> second;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">hasDisjointPair</span><span class="params">(<span class="type">const</span> vector&lt;PairSum&gt;&amp; pairSums, <span class="type">long</span> <span class="type">long</span> target,</span></span></span><br><span class="line"><span class="params"><span class="function">                     <span class="type">int</span> excludedFirst, <span class="type">int</span> excludedSecond)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> it = <span class="built_in">lower_bound</span>(pairSums.<span class="built_in">begin</span>(), pairSums.<span class="built_in">end</span>(), target,</span><br><span class="line">                          [](<span class="type">const</span> PairSum&amp; pair, <span class="type">long</span> <span class="type">long</span> value) &#123;</span><br><span class="line">                              <span class="keyword">return</span> pair.sum &lt; value;</span><br><span class="line">                          &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 輸入數值互不相同，固定索引和總和時，最多只有一筆數對會包含該索引。</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> checked = <span class="number">0</span>;</span><br><span class="line">         checked &lt; <span class="number">3</span> &amp;&amp; it != pairSums.<span class="built_in">end</span>() &amp;&amp; it-&gt;sum == target;</span><br><span class="line">         ++checked, ++it) &#123;</span><br><span class="line">        <span class="keyword">if</span> (it-&gt;first != excludedFirst &amp;&amp; it-&gt;second != excludedFirst &amp;&amp;</span><br><span class="line">            it-&gt;first != excludedSecond &amp;&amp; it-&gt;second != excludedSecond) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; n &amp;&amp; n != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">long</span> <span class="type">long</span>&gt; <span class="title">values</span><span class="params">(n)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">long</span> <span class="type">long</span>&amp; value : values) &#123;</span><br><span class="line">            cin &gt;&gt; value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">sort</span>(values.<span class="built_in">begin</span>(), values.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        vector&lt;PairSum&gt; pairSums;</span><br><span class="line">        pairSums.<span class="built_in">reserve</span>(<span class="built_in">static_cast</span>&lt;std::<span class="type">size_t</span>&gt;(n) * (n - <span class="number">1</span>) / <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> first = <span class="number">0</span>; first &lt; n; ++first) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> second = first + <span class="number">1</span>; second &lt; n; ++second) &#123;</span><br><span class="line">                pairSums.<span class="built_in">push_back</span>(</span><br><span class="line">                    &#123;values[first] + values[second], first, second&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">sort</span>(pairSums.<span class="built_in">begin</span>(), pairSums.<span class="built_in">end</span>(),</span><br><span class="line">             [](<span class="type">const</span> PairSum&amp; left, <span class="type">const</span> PairSum&amp; right) &#123;</span><br><span class="line">                 <span class="keyword">return</span> left.sum &lt; right.sum;</span><br><span class="line">             &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="type">bool</span> found = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> d = n - <span class="number">1</span>; d &gt;= <span class="number">0</span> &amp;&amp; !found; --d) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> c = n - <span class="number">1</span>; c &gt;= <span class="number">0</span> &amp;&amp; !found; --c) &#123;</span><br><span class="line">                <span class="keyword">if</span> (c == d) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="type">const</span> <span class="type">long</span> <span class="type">long</span> target = values[d] - values[c];</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">hasDisjointPair</span>(pairSums, target, c, d)) &#123;</span><br><span class="line">                    cout &lt;&lt; values[d] &lt;&lt; endl;</span><br><span class="line">                    found = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!found) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;no solution&quot;</span> &lt;&lt; endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 MSYS2 UCRT64 g++、<code>-std=c++11 -Wall -Wextra -pedantic -O2</code> 編譯。官方範例、邊界案例、200 組隨機小資料（與暴力解比對）及 <code>n = 1000</code> 無解案例均通過。uDebug 的 6 組輸入中，5 組已直接用編譯後執行檔比對；第 4 組有 50 筆資料，在頁面內逐筆計算後與 50 行 Accepted Output 全數相符，但完整輸入尚未直接餵給本機執行檔。</p>
+<p>本文目前程式以 C++11 提交至 UVa 10125，獲得 <strong>Accepted</strong>（submission <strong>31357313</strong>，20 ms）。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/101/10125.pdf">UVa 10125 - Sumsets 題目敘述</a></li>
+<li>原文曾註明解法參考 UVa 討論區，但原討論串連結已遺失。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-10125-sumsets-027/" data-id="cuidrkAjkKIKtJRICLz54zbcv" data-title="10125 - Sumsets" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-296-safebreaker-028" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/20/uva-296-safebreaker-028/" class="article-date">
+  <time class="dt-published" datetime="2012-10-20T15:35:59.000Z" itemprop="datePublished">2012-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-002/">Volume 002</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/20/uva-296-safebreaker-028/">296 - Safebreaker</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 296 是類似「幾 A 幾 B」的四位數猜密碼題。可以把 <code>0000</code> 到 <code>9999</code> 想成候選清單：每條猜測都附有一組 A&#x2F;B 線索，我們逐條排除不符合的候選。最後剩下 0 個、1 個或多個候選，就分別輸出 <code>impossible</code>、密碼或 <code>indeterminate</code>。</p>
+<h2 id="A-B-線索怎麼判斷"><a href="#A-B-線索怎麼判斷" class="headerlink" title="A&#x2F;B 線索怎麼判斷"></a>A&#x2F;B 線索怎麼判斷</h2><p><code>A</code> 表示數字和位置都正確；<code>B</code> 表示數字正確，但位置錯誤。假設秘密是 <code>3321</code>，猜測 <code>1223</code>：只有第三位的 <code>2</code> 相同，所以 <code>A = 1</code>。猜測和秘密都含有 <code>1</code>、<code>2</code>、<code>3</code> 各一個，合計有 3 個數字相符；扣掉位置正確的 1 個，得到 <code>B = 2</code>，所以線索是 <code>1/2</code>。</p>
+<p>計算相符數量時要考慮重複數字。猜測裡即使有兩個 <code>2</code>，秘密只有一個 <code>2</code>，也只能算一個相符；因此每個數字依兩邊實際出現次數配對，最多配對 <code>min(猜測次數, 秘密次數)</code> 次。</p>
+<h2 id="逐條排除候選"><a href="#逐條排除候選" class="headerlink" title="逐條排除候選"></a>逐條排除候選</h2><p>候選清單是解題的想法，程式不必真的存下 10,000 個數。只要依序檢查 <code>0000</code> 到 <code>9999</code>，對每個候選逐條計算 A&#x2F;B；有一條線索不符就排除，通過全部線索才保留。找到第二個候選時就能確定是多解，不必再檢查後面的數字。</p>
+<p>密碼可能以 0 開頭。程式把猜測讀成四個字元，並將數字候選拆成四位，所以 <code>0000</code> 也會保留完整位數；輸出唯一答案時則固定補成四位數。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Clue</span> &#123;</span><br><span class="line">    array&lt;<span class="type">int</span>, 4&gt; digits;</span><br><span class="line">    array&lt;<span class="type">int</span>, 10&gt; frequency&#123;&#125;;</span><br><span class="line">    <span class="type">int</span> exact;</span><br><span class="line">    <span class="type">int</span> misplaced;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">array&lt;<span class="type">int</span>, 4&gt; <span class="title">digitsOf</span><span class="params">(<span class="type">int</span> code)</span> </span>&#123;</span><br><span class="line">    array&lt;<span class="type">int</span>, 4&gt; digits&#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">3</span>; position &gt;= <span class="number">0</span>; --position) &#123;</span><br><span class="line">        digits[position] = code % <span class="number">10</span>;</span><br><span class="line">        code /= <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> digits;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">matchesAllClues</span><span class="params">(<span class="type">int</span> code, <span class="type">const</span> vector&lt;Clue&gt;&amp; clues)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> array&lt;<span class="type">int</span>, 4&gt; candidate = <span class="built_in">digitsOf</span>(code);</span><br><span class="line">    array&lt;<span class="type">int</span>, 10&gt; candidateFrequency&#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> digit : candidate) &#123;</span><br><span class="line">        ++candidateFrequency[digit];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> Clue&amp; clue : clues) &#123;</span><br><span class="line">        <span class="type">int</span> exact = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> sharedDigits = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">0</span>; position &lt; <span class="number">4</span>; ++position) &#123;</span><br><span class="line">            <span class="keyword">if</span> (candidate[position] == clue.digits[position]) &#123;</span><br><span class="line">                ++exact;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> digit = <span class="number">0</span>; digit &lt; <span class="number">10</span>; ++digit) &#123;</span><br><span class="line">            sharedDigits += <span class="built_in">min</span>(candidateFrequency[digit], clue.frequency[digit]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> misplaced = sharedDigits - exact;</span><br><span class="line">        <span class="keyword">if</span> (exact != clue.exact || misplaced != clue.misplaced) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> testCases;</span><br><span class="line">    <span class="keyword">if</span> (!(cin &gt;&gt; testCases)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (testCases--) &#123;</span><br><span class="line">        <span class="type">int</span> guessCount;</span><br><span class="line">        cin &gt;&gt; guessCount;</span><br><span class="line">        <span class="function">vector&lt;Clue&gt; <span class="title">clues</span><span class="params">(guessCount)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Clue&amp; clue : clues) &#123;</span><br><span class="line">            string code;</span><br><span class="line">            <span class="type">char</span> slash;</span><br><span class="line">            cin &gt;&gt; code &gt;&gt; clue.exact &gt;&gt; slash &gt;&gt; clue.misplaced;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> position = <span class="number">0</span>; position &lt; <span class="number">4</span>; ++position) &#123;</span><br><span class="line">                clue.digits[position] = code[position] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                ++clue.frequency[clue.digits[position]];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> solutionCount = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> solution = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> code = <span class="number">0</span>; code &lt; <span class="number">10000</span>; ++code) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">matchesAllClues</span>(code, clues)) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            solution = code;</span><br><span class="line">            <span class="keyword">if</span> (++solutionCount == <span class="number">2</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (solutionCount == <span class="number">0</span>) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;impossible\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (solutionCount &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;indeterminate\n&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; <span class="built_in">setw</span>(<span class="number">4</span>) &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; solution &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>對每個候選密碼，最多檢查 10 條線索；每條線索只需比較 4 個位置與 10 種數字的出現次數。因此單筆測資的時間複雜度為 <code>O(10^4 G)</code>，其中 <code>G ≤ 10</code>；額外空間為 <code>O(G)</code>。</p>
+<h2 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h2><p>整理版以 C++11 和 <code>-Wall -Wextra -pedantic</code> 編譯通過，官方範例輸出為 <code>3411</code>、<code>1234</code>、<code>indeterminate</code>、<code>impossible</code>。自建案例也涵蓋 <code>0000</code> 的前導零輸出、重複數字、互相矛盾的線索和沒有任何線索時的多解判定。</p>
+<p>舊版有三筆 uHunt 紀錄：submission 10665198 和 10665202 為 Wrong Answer，submission 10665259 Accepted。整理版另以 C++11 提交，submission <strong>31355530</strong> Accepted，0.020 秒。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/2/296.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/20/uva-296-safebreaker-028/" data-id="cuid3GhxO6IRJJV3lIVRKQSN0" data-title="296 - Safebreaker" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一頁</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一頁 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
         
           <li>
-            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列</a>
           </li>
         
           <li>
-            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
-          </li>
-        
-          <li>
-            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">C++ 編譯選項：用 -D 定義巨集</a>
           </li>
         
           <li>
             <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-489-hangman-judge-005/">489 - Hangman Judge</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/11/uva-696-how-many-knights-006/">696 - How Many Knights</a>
           </li>
         
       </ul>
