@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 520" role="img" aria-labelledby="title desc">
-  <title id="title">UVa 10167 官方範例：以 y = 0 平分櫻桃</title>
+  <title id="title">依 UVa 10167 官方範例資料自行繪製：以 y = 0 平分櫻桃</title>
   <desc id="desc">圓形蛋糕以原點為中心，紅色水平線 y = 0 通過圓心。綠色箭頭是係數向量 (A, B) = (0, 1)，垂直於切割線。藍色櫻桃位於直線上方，橘色櫻桃位於下方，兩側各兩顆，線上沒有櫻桃。右側列出四個座標與內積值。</desc>
   <style>
     text { font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; fill: #344054; }
@@ -21,7 +21,7 @@
     </marker>
   </defs>
 
-  <text x="410" y="34" text-anchor="middle" class="title">官方範例：切割線 y = 0</text>
+  <text x="410" y="34" text-anchor="middle" class="title">依官方範例資料繪製：切割線 y = 0</text>
 
   <circle cx="300" cy="260" r="185" class="cake" />
   <line x1="300" y1="70" x2="300" y2="450" class="axis" stroke-dasharray="4 5" />

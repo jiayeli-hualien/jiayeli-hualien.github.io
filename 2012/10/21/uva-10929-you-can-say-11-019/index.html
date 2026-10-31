@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+
+  <title>10929 - You Can Say 11 | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="輸入多筆最多 1000 位的正整數，以 0 表示結束；對每筆數字，要輸出它是否為 11 的倍數。數字可能超過整數型別可表示的範圍，因此讀成字串。從左到右將奇數位置的數字相加、偶數位置的數字相減；若交錯和是 11 的倍數，原數也是 11 的倍數。 用 112233 看交錯和從左到右交替加減各位數： 11 − 1 + 2 − 2 + 3 − 3 &#x3D; 0  差為 0，所以 112233 是 11 的倍數">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10929 - You Can Say 11">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/10/21/uva-10929-you-can-say-11-019/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="輸入多筆最多 1000 位的正整數，以 0 表示結束；對每筆數字，要輸出它是否為 11 的倍數。數字可能超過整數型別可表示的範圍，因此讀成字串。從左到右將奇數位置的數字相加、偶數位置的數字相減；若交錯和是 11 的倍數，原數也是 11 的倍數。 用 112233 看交錯和從左到右交替加減各位數： 11 − 1 + 2 − 2 + 3 − 3 &#x3D; 0  差為 0，所以 112233 是 11 的倍數">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-10-20T16:10:38.000Z">
+<meta property="article:modified_time" content="2026-10-30T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+
+<link rel="stylesheet" href="/css/article-dates.css">
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/css/mathjax.css">
+
+<link rel="stylesheet" href="/css/content-license.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+
+          <a class="main-nav-link" href="/">Home</a>
+
+          <a class="main-nav-link" href="/archives">Archives</a>
+
+      </nav>
+      <nav id="sub-nav">
+
+
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-10929-you-can-say-11-019" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+
+<div class="article-dates">
+  <a href="/2012/10/21/uva-10929-you-can-say-11-019/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-10-20T16:10:38.000Z" itemprop="datePublished">2012-10-21</time>
+  </a>
+
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-30T16:00:00.000Z" itemprop="dateModified">2026-10-31</time>
+  </span>
+
+</div>
+
+
+
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-109/">Volume 109</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+
+
+      <header class="article-header">
+
+
+    <h1 class="p-name article-title" itemprop="headline name">
+      10929 - You Can Say 11
+    </h1>
+
+
+      </header>
+
+    <div class="e-content article-entry" itemprop="articleBody">
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>輸入多筆最多 1000 位的正整數，以 <code>0</code> 表示結束；對每筆數字，要輸出它是否為 11 的倍數。數字可能超過整數型別可表示的範圍，因此讀成字串。從左到右將奇數位置的數字相加、偶數位置的數字相減；若交錯和是 11 的倍數，原數也是 11 的倍數。</p>
+<h2 id="用-112233-看交錯和"><a href="#用-112233-看交錯和" class="headerlink" title="用 112233 看交錯和"></a>用 <code>112233</code> 看交錯和</h2><p>從左到右交替加減各位數：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 − 1 + 2 − 2 + 3 − 3 = 0</span><br></pre></td></tr></table></figure>
+
+<p>差為 0，所以 <code>112233</code> 是 11 的倍數。相對地，<code>112234</code> 的交錯和是 <code>1 − 1 + 2 − 2 + 3 − 4 = -1</code>，不是 11 的倍數。</p>
+<h2 id="為什麼交錯和可以判斷-11-的倍數"><a href="#為什麼交錯和可以判斷-11-的倍數" class="headerlink" title="為什麼交錯和可以判斷 11 的倍數"></a>為什麼交錯和可以判斷 11 的倍數</h2><p>從最右位開始，十進位的位值依序是 <code>1</code>、<code>10</code>、<code>100</code> 等；因為 <code>10 ≡ -1 (mod 11)</code>，每一位對 11 的貢獻會在 <code>+digit</code>、<code>-digit</code> 之間交替。因此，從最右位開始的交錯和與原數模 11 同餘，兩者能否被 11 整除的判斷相同。程式從最左位開始；依位數奇偶，這個交錯和可能與從右端開始的結果相同，或只差一個負號。正負號不影響交錯和是否為 11 的倍數，所以仍能正確判斷原數是否為 11 的倍數。</p>
+<h2 id="範例輸入與輸出"><a href="#範例輸入與輸出" class="headerlink" title="範例輸入與輸出"></a>範例輸入與輸出</h2><p>以下輸入與輸出引用自 <a target="_blank" rel="noopener" href="https://onlinejudge.org/external/109/10929.pdf">UVa 10929 官方範例</a>，用來對照交錯和的判斷結果。最後的 <code>0</code> 只表示結束，不需輸出：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">112233</span><br><span class="line">30800</span><br><span class="line">2937</span><br><span class="line">323455693</span><br><span class="line">5038297</span><br><span class="line">112234</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+
+<p>前五個數字的交錯和都是 0 或 11 的倍數，只有 <code>112234</code> 的交錯和為 −1，因此輸出：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">112233 is a multiple of 11.</span><br><span class="line">30800 is a multiple of 11.</span><br><span class="line">2937 is a multiple of 11.</span><br><span class="line">323455693 is a multiple of 11.</span><br><span class="line">5038297 is a multiple of 11.</span><br><span class="line">112234 is not a multiple of 11.</span><br></pre></td></tr></table></figure>
+
+<p>交錯和不必恰好為 0。例如 <code>209</code> 的交錯和為 <code>2 − 0 + 9 = 11</code>，也符合條件；程式應檢查 <code>alternatingSum % 11 == 0</code>。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><p>程式從左到右掃描字串，偶數索引的數字加上去、奇數索引的數字減掉。最多 1000 位時，加減兩側各至多有 500 個數字，因此交錯和的絕對值不超過 4500，使用 <code>int</code> 足夠。讀到字串 <code>0</code> 時停止，不輸出該筆資料。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    string number;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; number &amp;&amp; number != <span class="string">&quot;0&quot;</span>) &#123;</span><br><span class="line">        <span class="type">int</span> alternatingSum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; number.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="type">int</span> digit = number[i] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">            alternatingSum += (i % <span class="number">2</span> == <span class="number">0</span>) ? digit : -digit;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        cout &lt;&lt; number &lt;&lt; <span class="string">&quot; is &quot;</span></span><br><span class="line">             &lt;&lt; (alternatingSum % <span class="number">11</span> == <span class="number">0</span> ? <span class="string">&quot;a multiple of 11.&quot;</span> : <span class="string">&quot;not a multiple of 11.&quot;</span>)</span><br><span class="line">             &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每個數字只掃描一次，時間複雜度為 <code>O(d)</code>；字串儲存輸入，額外空間為 <code>O(d)</code>，其中 <code>d</code> 是位數。</p>
+<h2 id="補充：逐位計算餘數"><a href="#補充：逐位計算餘數" class="headerlink" title="補充：逐位計算餘數"></a>補充：逐位計算餘數</h2><p>也可以模擬長除法，從左到右讀取各位數，只保留目前除以 11 的餘數 <code>r</code>。每讀入一個數字 <code>digit</code>，就更新：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r = (r × 10 + digit) % 11</span><br></pre></td></tr></table></figure>
+
+<p>原因是十進位數字每往右增加一位，就等於把原數乘以 10，再加上新的一位；原數中已經是 11 倍數的部分不會影響新的餘數，因此只需保存 <code>r</code>。</p>
+<p>例如 <code>209</code> 從 <code>r = 0</code> 開始，依序得到餘數 <code>2 → 9 → 0</code>，最後餘數為 0，所以它是 11 的倍數。每一步的 <code>r</code> 都介於 0 到 10，<code>r × 10 + digit</code> 最多為 109，不會因輸入有 1000 位而溢位。</p>
+<p>兩種方法都只需掃描一次字串，時間為 <code>O(d)</code>。交錯和利用 11 的特性；逐位求餘則可用於其他正整數除數，但要另外確認中間運算不會溢位。本文完整程式採用交錯和版本。</p>
+<h2 id="UVa-判題結果"><a href="#UVa-判題結果" class="headerlink" title="UVa 判題結果"></a>UVa 判題結果</h2><p>UVa 提交 31353817（C++11）獲得 Accepted，執行時間為 0.010 秒。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/109/10929.pdf">UVa 10929 題目敘述</a></li>
+</ul>
+
+
+    </div>
+
+      <aside class="article-license" aria-label="文章授權">
+  <p>除另有註明外，本站原創文章採 <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">CC BY 4.0</a>、原創程式碼採 <a href="/licenses/MIT.txt">MIT</a> 授權。詳見<a href="/licensing/">授權與引用方式</a>。</p>
+</aside>
+
+
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/10/21/uva-10929-you-can-say-11-019/" data-id="cuidaOT6oo40h1WjqFpDINBUB" data-title="10929 - You Can Say 11" class="article-share-link"><span class="fa fa-share">Share</span></a>
+
+
+
+    </footer>
+  </div>
+
+
+<nav id="article-nav">
+
+    <a href="/2012/10/21/uva-10970-big-chocolate-018/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+
+          10970 - Big Chocolate
+
+      </div>
+    </a>
+
+
+    <a href="/2012/10/21/uva-583-prime-factors-020/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">583 - Prime Factors</div>
+    </a>
+
+</nav>
+
+
+</article>
+
+
+</section>
+
+          <aside id="sidebar">
+
+
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-003/">Volume 003</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-005/">Volume 005</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-109/">Volume 109</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+
+
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列</a>
+          </li>
+
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+
+          <li>
+            <a href="/2013/12/14/uva-489-hangman-judge-005/">489 - Hangman Judge</a>
+          </li>
+
+          <li>
+            <a href="/2013/12/11/uva-696-how-many-knights-006/">696 - How Many Knights</a>
+          </li>
+
+      </ul>
+    </div>
+  </div>
+
+
+</aside>
+
+      </div>
+      <footer id="footer">
+
+  <div class="outer">
+    <div id="footer-info" class="inner">
+
+      <a href="/licensing/">授權與引用方式</a><br>
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+
+    <a href="/" class="mobile-nav-link">Home</a>
+
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+
+</nav>
+
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -6,12 +6,12 @@
   
   <title>10284 - Chessboard in FEN | Leaf&#39;s Programming Note</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  為了確認哪裡寫錯，寫了兩個版本。 最後發現是陣列索引值範圍檢查打錯。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162">
+  <meta name="description" content="題目要求每行輸入一個以 FEN 表示的西洋棋盤，求沒有棋子、也沒有受到任何棋子攻擊的格子有幾個。棋盤不一定是合法棋局，因此只需依各棋子的攻擊規則判斷。 FEN 從棋盤最上列寫到最下列，以 &#x2F; 分隔各列；數字表示連續的空格數。大寫字母是白棋，小寫字母是黑棋，例如 P、p 分別代表白兵、黑兵。 解法先解碼出棋盤，再逐一處理棋子的攻擊範圍。用另一個 attacked 陣列標記受攻擊的格子，最後統計棋盤為">
 <meta property="og:type" content="article">
 <meta property="og:title" content="10284 - Chessboard in FEN">
 <meta property="og:url" content="https://jiayeli-hualien.github.io/2013/12/14/uva-10284-chessboard-in-fen-004/index.html">
 <meta property="og:site_name" content="Leaf&#39;s Programming Note">
-<meta property="og:description" content="初版驗證狀態：尚未完成目前程式與原始 Accepted 紀錄的比對；後續確認後會補上驗證資訊。  為了確認哪裡寫錯，寫了兩個版本。 最後發現是陣列索引值範圍檢查打錯。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162">
+<meta property="og:description" content="題目要求每行輸入一個以 FEN 表示的西洋棋盤，求沒有棋子、也沒有受到任何棋子攻擊的格子有幾個。棋盤不一定是合法棋局，因此只需依各棋子的攻擊規則判斷。 FEN 從棋盤最上列寫到最下列，以 &#x2F; 分隔各列；數字表示連續的空格數。大寫字母是白棋，小寫字母是黑棋，例如 P、p 分別代表白兵、黑兵。 解法先解碼出棋盤，再逐一處理棋子的攻擊範圍。用另一個 attacked 陣列標記受攻擊的格子，最後統計棋盤為">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2013-12-14T02:35:43.000Z">
 <meta property="article:modified_time" content="2026-10-26T16:00:00.000Z">
@@ -35,10 +35,14 @@
   
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
 
-<meta name="generator" content="Hexo 8.0.0"><link rel="stylesheet" href="/css/article-dates.css">
+
+<link rel="stylesheet" href="/css/article-dates.css">
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/css/mathjax.css">
 
 <link rel="stylesheet" href="/css/content-license.css">
-</head>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
 
 <body>
   <div id="container">
@@ -78,7 +82,8 @@
       <div class="outer">
         <section id="main"><article id="post-uva-10284-chessboard-in-fen-004" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <div class="article-dates">
+
+<div class="article-dates">
   <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/" class="article-date">
     <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2013-12-14T02:35:43.000Z" itemprop="datePublished">2013-12-14</time>
   </a>
@@ -88,9 +93,11 @@
   </span>
   
 </div>
+
+
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-102/">Volume 102</a>
   </div>
 
   </div>
@@ -146,9 +153,11 @@
 
       
     </div>
-<aside class="article-license" aria-label="文章授權">
-  <p>除另有註明外，本站原創文章採 <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">CC BY 4.0</a>、原創程式碼採 <a href="/licenses/MIT.txt">MIT</a> 授權。詳見<a href="/licensing/">授權與引用方式</a>。</p>
+
+      <aside class="article-license" aria-label="文章授權">
+  <p>除另有註明外，本站原創文章採 <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">CC BY 4.0</a>、原創程式碼採 <a href="/licenses/MIT.txt">MIT</a> 授權。詳見<a href="/licensing/">授權與引用方式</a>。</p>
 </aside>
+
 
     <footer class="article-footer">
       <a data-url="https://jiayeli-hualien.github.io/2013/12/14/uva-10284-chessboard-in-fen-004/" data-id="cuidMfsyX1Cw9f4mo9LW5TkxB" data-title="10284 - Chessboard in FEN" class="article-share-link"><span class="fa fa-share">Share</span></a>
@@ -161,11 +170,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          10284 - Chessboard in FEN
+          Command line option and macro preprocessor
         
       </div>
     </a>
@@ -190,7 +199,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分類</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-003/">Volume 003</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-005/">Volume 005</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-109/">Volume 109</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -205,7 +214,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">九月 2011</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
     </div>
   </div>
 
@@ -217,9 +226,8 @@
     <div class="widget">
       <ul>
         
-        
           <li>
-            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列</a>
           </li>
         
           <li>
@@ -227,11 +235,15 @@
           </li>
         
           <li>
-            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
           </li>
         
           <li>
-            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+            <a href="/2013/12/14/uva-489-hangman-judge-005/">489 - Hangman Judge</a>
+          </li>
+
+          <li>
+            <a href="/2013/12/11/uva-696-how-many-knights-006/">696 - How Many Knights</a>
           </li>
         
       </ul>
