@@ -762,6 +762,184 @@
 
 
   
+    <article id="post-uva-568-just-the-facts-034" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+
+<div class="article-dates">
+  <a href="/2012/07/07/uva-568-just-the-facts-034/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T06:20:36.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+
+</div>
+
+
+
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-005/">Volume 005</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+
+
+      <header class="article-header">
+
+
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-568-just-the-facts-034/">568 - Just the Facts</a>
+    </h1>
+
+
+      </header>
+
+    <div class="e-content article-entry" itemprop="articleBody">
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 568 要求輸入多個 <code>n</code>（<code>0 ≤ n ≤ 10000</code>），輸出 <code>n!</code> 最後一個非零位數。每行先以寬度 5 靠右印出 <code>n</code>，接著輸出 <code>-&gt;</code> 和答案。<code>0! = 1</code>，所以輸入 0 時答案是 1。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/5/568.pdf">題目敘述</a></p>
+<p>解法是先從 <code>0!</code> 開始逐項相乘，每次去掉尾零並保留最後 14 位，預先建立 <code>0</code> 到 <code>10000</code> 的查詢表。之後每讀入一個 <code>n</code>，直接取出該項的個位數即可。本題保留六位就足夠，十四位實作則留有較寬裕的位數；詳細推導放在程式後，理解主要做法後再閱讀即可。</p>
+<h2 id="逐步計算並移除尾端零"><a href="#逐步計算並移除尾端零" class="headerlink" title="逐步計算並移除尾端零"></a>逐步計算並移除尾端零</h2><p>不需要保存完整的階乘。從 <code>0! = 1</code> 開始，每一步乘上下一個整數，並立刻移除結果末尾所有的零。末尾零來自因數 10，也就是一個因數 2 和一個因數 5 配成一組；移除它們不會改變最後非零位數。</p>
+<p>程式依序進行三個動作：</p>
+<ol>
+<li>將前一步保存的數值乘上 <code>n</code>。</li>
+<li>只要個位數是 0，就除以 10，直到尾端不再有零。</li>
+<li>對 <code>10^14</code> 取餘數，保留最後 14 位，供下一步使用。</li>
+</ol>
+<p>這裡保留的是最後 14 位數字，其中仍然可以有 0，不是挑出 14 個非零數字。初始化 <code>factorialTail[0] = 1</code>，也能正確處理 <code>0!</code>。</p>
+<p><code>factorialTail[n]</code> 保存的是這個截位算法算到第 <code>n</code> 項時留下的值，不保證等於完整階乘去零後的最後 14 位；我們需要保證的是它的個位數正確。讀入查詢後，以 <code>factorialTail[n] % 10</code> 取得答案。</p>
+<h2 id="為什麼不能只留個位數？"><a href="#為什麼不能只留個位數？" class="headerlink" title="為什麼不能只留個位數？"></a>為什麼不能只留個位數？</h2><p>乘法的進位由低位往高位傳遞，被截掉的高位不會回頭影響乘積的低位；但除以 10 會讓較高位的數字移到個位。因此，還需要保存後續去尾零時會用到的數字。例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">保留完整數值：12 × 5 = 60，去掉尾零後得到 6。</span><br><span class="line">只保留個位數： 2 × 5 = 10，去掉尾零後得到 1。</span><br></pre></td></tr></table></figure>
+
+<p>兩者乘積的個位數原本都是 0，但去掉尾零後就不同了。程式保留 14 位，是為了保存後續除法需要的低位資訊。本題其實保留 6 位就足夠，理由見程式後的補充推導；目前實作保留較寬裕的 14 位。乘法前的值小於 <code>10^14</code>，而 <code>n ≤ 10000</code>，所以乘積小於 <code>10^18</code>，可由 <code>long long</code> 保存。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAX_N = <span class="number">10000</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">long</span> <span class="type">long</span> MOD = <span class="number">100000000000000LL</span>;  <span class="comment">// Keep the last 14 nonzero digits.</span></span><br><span class="line"><span class="type">long</span> <span class="type">long</span> factorialTail[MAX_N + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    factorialTail[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> n = <span class="number">1</span>; n &lt;= MAX_N; ++n) &#123;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> value = factorialTail[n - <span class="number">1</span>] * n;</span><br><span class="line">        <span class="keyword">while</span> (value % <span class="number">10</span> == <span class="number">0</span>) value /= <span class="number">10</span>;</span><br><span class="line">        factorialTail[n] = value % MOD;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; n) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">setw</span>(<span class="number">5</span>) &lt;&lt; n &lt;&lt; <span class="string">&quot; -&gt; &quot;</span> &lt;&lt; factorialTail[n] % <span class="number">10</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>令預算上限為 <code>N</code>。去尾零的總次數等於 <code>1</code> 到 <code>N</code> 中因數 5 的總個數，也是 <code>O(N)</code>；因此建立表的時間與空間都是 <code>O(N)</code>，每筆查詢只需 <code>O(1)</code> 時間。</p>
+<h2 id="補充：本題保留六位就足夠"><a href="#補充：本題保留六位就足夠" class="headerlink" title="補充：本題保留六位就足夠"></a>補充：本題保留六位就足夠</h2><p><strong>當 <code>n ≤ 10000</code>，這個算法保留最後六位，就能保證答案正確。程式保留十四位，也符合這個條件。</strong> 我們不需要保存完整的階乘，只需要保證「乘上下一個數、去掉尾零」之後，個位數仍然正確。</p>
+<p>原因可以分成兩件事：</p>
+<ul>
+<li>任意一段後續運算，把乘法補進的因數 2 也算進去，最多只會淨消耗五個因數 2。</li>
+<li>保留六位時，被截掉的部分一定含有至少六個因數 2；即使消耗五個，剩下的差距仍是 10 的倍數，不會影響個位數。</li>
+</ul>
+<p>下面先用數字看這個目標，再說明這兩件事為什麼成立。</p>
+<h3 id="結果可以不同，只要最後一位相同"><a href="#結果可以不同，只要最後一位相同" class="headerlink" title="結果可以不同，只要最後一位相同"></a>結果可以不同，只要最後一位相同</h3><p>以計算 <code>15!</code> 為例：<code>14! = 87,178,291,200</code>，去掉尾零後是 <code>871,782,912</code>。下一步要乘上 15，比較完整保存、保留六位，以及只保留個位數的結果：</p>
+<style>
+.factorial-example th, .factorial-example td { padding: 8px 6px; }
+</style>
+
+<div class="factorial-example">
+
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th align="right">保存值</th>
+<th align="right">乘以 15 後</th>
+<th align="right">去尾零後</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>完整保存</td>
+<td align="right">871,<wbr>782,<wbr>912</td>
+<td align="right">13,<wbr>076,<wbr>743,<wbr>680</td>
+<td align="right">1,<wbr>307,<wbr>674,<wbr>368</td>
+</tr>
+<tr>
+<td>保留六位</td>
+<td align="right">782,<wbr>912</td>
+<td align="right">11,<wbr>743,<wbr>680</td>
+<td align="right">1,<wbr>174,<wbr>368</td>
+</tr>
+<tr>
+<td>只留個位</td>
+<td align="right">2</td>
+<td align="right">30</td>
+<td align="right">3</td>
+</tr>
+</tbody></table>
+</div>
+
+<p>表格中的保存值，都是各版本從 <code>1!</code> 逐步算到 <code>14!</code> 時實際留下的值；不是另外挑選的數字。完整保存與六位版本去零後的個位數同樣是 8，只留個位數則錯成 3。<strong>截位算法要保證的是最後一位，而不是整個數值都和完整計算相同。</strong></p>
+<p>六位版本去零後還會再取餘數，將 <code>1,174,368</code> 保存成 <code>174,368</code>，供下一次乘法使用。這個例子中，它與完整結果的個位數相同；接下來要證明，本題的所有步驟都能維持這個性質。</p>
+<h3 id="去尾零會用掉因數-2，乘法也會補回來"><a href="#去尾零會用掉因數-2，乘法也會補回來" class="headerlink" title="去尾零會用掉因數 2，乘法也會補回來"></a>去尾零會用掉因數 2，乘法也會補回來</h3><p>一個尾零來自一對因數 2、5。以乘上 5 為例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">乘以 5，再除以 10 去掉尾零，相當於將原值除以 2。</span><br><span class="line">乘以 25，再除以 100 去掉兩個尾零，相當於將原值除以 4。</span><br></pre></td></tr></table></figure>
+
+<p>階乘先前累積了足夠的因數 2，因此乘到 5 的倍數時，可以這樣去零。另一方面，乘到偶數又會補進新的因數 2；例如乘上 8，就補進三個。</p>
+<p>因此，不能只看某一次多出幾個零，還要看一整段乘法：<strong>去零需要多少個因數 2，扣掉這段乘數補進的因數 2，才是實際的淨消耗。</strong></p>
+<h3 id="為什麼任意一段最多淨消耗五個？"><a href="#為什麼任意一段最多淨消耗五個？" class="headerlink" title="為什麼任意一段最多淨消耗五個？"></a>為什麼任意一段最多淨消耗五個？</h3><p>去零需要的因數 2 個數，等於這段乘數帶進的因數 5 個數。要比較兩者，可以分層數倍數：</p>
+<table>
+<thead>
+<tr>
+<th align="right">層級</th>
+<th align="right">數因數 2 的倍數</th>
+<th align="right">數因數 5 的倍數</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">5</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right">25</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">8</td>
+<td align="right">125</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td align="right">16</td>
+<td align="right">625</td>
+</tr>
+<tr>
+<td align="right">5</td>
+<td align="right">32</td>
+<td align="right">3125</td>
+</tr>
+</tbody></table>
+<p>例如 <code>25</code> 在第一層算一次，因為它是 5 的倍數；第二層再算一次，因為它也是 25 的倍數，合計兩個因數 5。因數 2 也用同樣方式計算。</p>
+<p>在同一段連續整數中，表格左側倍數的間隔較短，數量最多只會比右側少一個。這個一個的差距可能出現在區間邊界：例如範圍只含整數 5，就沒有 2 的倍數，卻有一個 5 的倍數。</p>
+<p>本題的乘數不超過 10000，而 <code>5^6 = 15625</code> 已超出範圍，所以因數 5 只需計算表中的五層。<strong>每層最多缺一個，五層合計最多缺五個。</strong> 更高層的因數 2 只會補進更多，不會增加淨消耗。</p>
+<p>這個界限適用於任意一段連續乘數，因此也涵蓋後面多次去尾零的影響。</p>
+<h3 id="六位如何保護最後一位？"><a href="#六位如何保護最後一位？" class="headerlink" title="六位如何保護最後一位？"></a>六位如何保護最後一位？</h3><p><strong>保留六位之所以足夠，是因為被截掉的高位，經過後續運算後造成的差距，仍然是 10 的倍數。兩個數相差 10 的倍數，個位數就相同。</strong></p>
+<p>先接回前面的 <code>14!</code> 例子：完整保存是 <code>871,782,912</code>，六位版本保存 <code>782,912</code>，兩者相差 <code>871,000,000</code>，也就是 871 個一百萬。一般來說，保留最後六位時，被丟掉的部分一定是一百萬的整數倍。</p>
+<p>因此，只要確認「每一個一百萬，在後續運算中會變成什麼」，就能知道丟掉這些高位會不會影響答案。</p>
+<p>前一節已證明，任意一段後續運算最多淨消耗五個因數 2，相當於需要除以 <code>2^5 = 32</code>。這已經把中間乘法補回的因數 2 算進去，不是只數去掉了幾個尾零。對一百萬而言：</p>
+<mjx-container class="MathJax" jax="SVG" display="true"><svg style="vertical-align: -0.439ex;" xmlns="http://www.w3.org/2000/svg" width="36.706ex" height="1.946ex" role="img" focusable="false" viewBox="0 -666 16224 860"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path data-c="2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z" transform="translate(500,0)"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(778,0)"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(1278,0)"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(1778,0)"></path><path data-c="2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z" transform="translate(2278,0)"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(2556,0)"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(3056,0)"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(3556,0)"></path></g><g data-mml-node="mo" transform="translate(4278.2,0)"><path data-c="F7" d="M318 466Q318 500 339 518T386 537Q418 537 438 517T458 466Q458 438 440 417T388 396Q355 396 337 417T318 466ZM56 237T56 250T70 270H706Q721 262 721 250T706 230H70Q56 237 56 250ZM318 34Q318 68 339 86T386 105Q418 105 438 85T458 34Q458 6 440 -15T388 -36Q355 -36 337 -15T318 34Z"></path></g><g data-mml-node="mn" transform="translate(5278.4,0)"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z" transform="translate(500,0)"></path></g><g data-mml-node="mo" transform="translate(6556.2,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mn" transform="translate(7612,0)"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" transform="translate(500,0)"></path><path data-c="2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z" transform="translate(1000,0)"></path><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z" transform="translate(1278,0)"></path><path data-c="35" d="M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z" transform="translate(1778,0)"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(2278,0)"></path></g><g data-mml-node="mo" transform="translate(10667.8,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mn" transform="translate(11723.6,0)"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path><path data-c="2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z" transform="translate(500,0)"></path><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" transform="translate(778,0)"></path><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z" transform="translate(1278,0)"></path><path data-c="35" d="M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z" transform="translate(1778,0)"></path></g><g data-mml-node="mo" transform="translate(14223.8,0)"><path data-c="D7" d="M630 29Q630 9 609 9Q604 9 587 25T493 118L389 222L284 117Q178 13 175 11Q171 9 168 9Q160 9 154 15T147 29Q147 36 161 51T255 146L359 250L255 354Q174 435 161 449T147 471Q147 480 153 485T168 490Q173 490 175 489Q178 487 284 383L389 278L493 382Q570 459 587 475T609 491Q630 491 630 471Q630 464 620 453T522 355L418 250L522 145Q606 61 618 48T630 29Z"></path></g><g data-mml-node="mn" transform="translate(15224,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(500,0)"></path></g></g></g></svg></mjx-container>
+
+<p>即使淨消耗五個因數 2，剩下的 <code>31,250</code> 仍是 10 的倍數。若只需要除以 2、4、8 或 16，結果也都以 0 結尾；其他留下來的乘法因數，只會把它再乘上一個整數，仍然是 10 的倍數。</p>
+<p><strong>所以丟掉一個一百萬，不會影響後續結果的個位數；丟掉 871 個一百萬也一樣。</strong> 每次截位都符合這個條件，多次截位造成的差距加起來，仍不會改變個位數。</p>
+<p>反過來，若只保留五位，截位差距的基本單位就變成十萬。<code>100,000 ÷ 32 = 3,125</code>，不再是 10 的倍數，因此可能影響個位數。實際上，五位版本計算 <code>9375!</code> 時會得到最後非零位數 3，正確答案則是 8。</p>
+<p>這份程式保留十四位，比六位更寬裕，乘法也仍在 <code>long long</code> 範圍內。</p>
+<details>
+<summary>進一步確認：截位會不會連去零次數也算錯？</summary>
+
+<p>去掉全部尾零後，精確的階乘值不含因數 5。截位差距原有的 <code>5^6</code> 會一直保留，因為後續去零時用掉的因數 5，都是後續乘數帶進的。因此保存值也不會平白變成 5 的倍數。前面的界限又確保去零所需的因數 2 足夠，所以保存值與精確值在下一步會去掉同樣數量的尾零。</p>
+</details>
+
+<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>這份 C++11 程式的 UVa 提交 31355600 獲得 <strong>Accepted</strong>，執行時間為 0.000 秒。</p>
+
+
+    </div>
+
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-568-just-the-facts-034/" data-id="cuidIdL6uyJbKoCCOG6fyIZd9" data-title="568 - Just the Facts" class="article-share-link"><span class="fa fa-share">Share</span></a>
+
+
+
+    </footer>
+  </div>
+
+</article>
+
+
+
+
     <article id="post-uva-10783-odd-sum-036" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     
