@@ -1,0 +1,21 @@
+.article-license {
+  padding: 0 20px;
+  color: #666;
+  font-size: 0.9em;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.article-license p {
+  margin: 0;
+  padding: 16px 0;
+  border-top: 1px solid #ddd;
+}
+
+.article-license a {
+  color: #258fb8;
+}
+
+.article-license a:hover {
+  text-decoration: underline;
+}
