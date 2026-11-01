@@ -110,8 +110,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><pre><code>    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css&quot;&gt;&lt;p&gt;C&amp;#x2F;C++ 實作 linked list 已經講到爛掉、大家熟練到爛掉了，而且 C++ 也有 STL 可以用，網路上也有很多文件，為什麼還要寫這篇文章?&lt;/p&gt;
-</code></pre>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>C&#x2F;C++ 實作 linked list 已經講到爛掉、大家熟練到爛掉了，而且 C++ 也有 STL 可以用，網路上也有很多文件，為什麼還要寫這篇文章?</p>
 <p>主要目的是要幫助自己記憶，而且面試常常會被考基本問題的延伸變化，就算會寫什麼高深的演算法，遇到需要用 linked list 時被問倒還是不太好。</p>
 <p>因此寫筆記來輔助自己記憶。之後看要教別人程式或是自己複習預習(遇襲?)，這些筆記都會很好用。</p>
 <p>因為是第一篇文，所以先說名一下寫作風格: 寫筆記搭配應用的時候會盡量找 Uva &#x2F; Leetcode &#x2F; Zerojudge 上面的題目舉例。如果可以找到實際應用，會找實際應用的 code 來說明(例如: Linux kernel)。</p>
@@ -242,7 +241,7 @@ node [shape=record];
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+      <a class="p-name article-title" href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">C++ 編譯選項：用 -D 定義巨集</a>
     </h1>
   
 
@@ -250,31 +249,23 @@ node [shape=record];
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><pre><code>    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css&quot;&gt;&lt;p&gt;The &lt;code&gt;-D name&lt;/code&gt; option defines &lt;code&gt;name&lt;/code&gt; as a macro with the value &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
-</code></pre>
-<p>For example, pass this option when compiling:</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-DONLINE_JUDGE</span><br></pre></td></tr></table></figure>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p><code>-D</code> 可以在編譯時定義巨集。加入 <code>-DONLINE_JUDGE</code> 後，程式中的 <code>ONLINE_JUDGE</code> 就會被定義為 <code>1</code>，可以用 <code>#ifdef</code> 判斷是否啟用對應程式碼。</p>
+<p>例如，以下程式只在定義 <code>ONLINE_JUDGE</code> 時輸出訊息：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> ONLINE_JUDGE</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;ONLINE_JUDGE is defined\n&quot;</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>The source file can check whether the macro is defined:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifdef</span> ONLINE_JUDGE</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>使用 <code>g++</code> 編譯時，把 <code>-D</code> 選項放在編譯指令中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -DONLINE_JUDGE macro_demo.cpp -o macro_demo</span><br></pre></td></tr></table></figure>
 
-<p>Example C++ source file:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> ONLINE_JUDGE</span></span><br><span class="line"><span class="built_in">puts</span>(<span class="string">&quot;-DONLINE_JUDGE\n&quot;</span>);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>執行編譯後的程式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./macro_demo</span><br></pre></td></tr></table></figure>
 
-<p>Compile it with:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc gcc_macro_test.cpp -o gcc_macro_test.exe -DONLINE_JUDGE</span><br></pre></td></tr></table></figure>
-
-<p>Run the program:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc_macro_test.exe</span><br></pre></td></tr></table></figure>
-
-
-
+<p>若省略 <code>-DONLINE_JUDGE</code>，<code>#ifdef</code> 區塊中的程式碼就不會編譯。這個方式可讓同一份原始碼依編譯選項切換不同功能。</p>
 
       
     </div>
-
+    
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/" data-id="cuidNXFHGAsgndggGx7QS5BJq" data-title="Command line option and macro preprocessor" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/" data-id="cuidNXFHGAsgndggGx7QS5BJq" data-title="C++ 編譯選項：用 -D 定義巨集" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1263,7 +1254,7 @@ node [shape=record];
           </li>
         
           <li>
-            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">C++ 編譯選項：用 -D 定義巨集</a>
           </li>
         
           <li>

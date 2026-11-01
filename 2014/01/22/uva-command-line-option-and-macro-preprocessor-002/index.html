@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   
   
-  <title>Command line option and macro preprocessor | Leaf&#39;s Programming Note</title>
+  <title>C++ 編譯選項：用 -D 定義巨集 | Leaf&#39;s Programming Note</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="The -D name option defines name as a macro with the value 1. For example, pass this option when compiling: 1-DONLINE_JUDGE  The source file can check whether the macro is defined: 12345#ifdef ONLINE_J">
+  <meta name="description" content="-D 可以在編譯時定義巨集。加入 -DONLINE_JUDGE 後，程式中的 ONLINE_JUDGE 就會被定義為 1，可以用 #ifdef 判斷是否啟用對應程式碼。 例如，以下程式只在定義 ONLINE_JUDGE 時輸出訊息： 1234567#include &lt;iostream&gt;int main() &#123;#ifdef ONLINE_JUDGE    std::cout &amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Command line option and macro preprocessor">
+<meta property="og:title" content="C++ 編譯選項：用 -D 定義巨集">
 <meta property="og:url" content="https://jiayeli-hualien.github.io/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/index.html">
 <meta property="og:site_name" content="Leaf&#39;s Programming Note">
-<meta property="og:description" content="The -D name option defines name as a macro with the value 1. For example, pass this option when compiling: 1-DONLINE_JUDGE  The source file can check whether the macro is defined: 12345#ifdef ONLINE_J">
+<meta property="og:description" content="-D 可以在編譯時定義巨集。加入 -DONLINE_JUDGE 後，程式中的 ONLINE_JUDGE 就會被定義為 1，可以用 #ifdef 判斷是否啟用對應程式碼。 例如，以下程式只在定義 ONLINE_JUDGE 時輸出訊息： 1234567#include &lt;iostream&gt;int main() &#123;#ifdef ONLINE_JUDGE    std::cout &amp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2014-01-22T14:34:12.000Z">
 <meta property="article:modified_time" content="2014-01-22T14:34:12.000Z">
@@ -35,10 +35,14 @@
   
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
 
-<meta name="generator" content="Hexo 8.0.0"><link rel="stylesheet" href="/css/article-dates.css">
+  
+<link rel="stylesheet" href="/css/article-dates.css">
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/css/mathjax.css">
 
 <link rel="stylesheet" href="/css/content-license.css">
-</head>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
 
 <body>
   <div id="container">
@@ -78,15 +82,18 @@
       <div class="outer">
         <section id="main"><article id="post-uva-command-line-option-and-macro-preprocessor-002" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <div class="article-dates">
+    
+<div class="article-dates">
   <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/" class="article-date">
     <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2014-01-22T14:34:12.000Z" itemprop="datePublished">2014-01-22</time>
   </a>
   
 </div>
+
+
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/UVa/">UVa</a>
+    <a class="article-category-link" href="/categories/C/">C++</a>►<a class="article-category-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a>
   </div>
 
   </div>
@@ -97,7 +104,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      Command line option and macro preprocessor
+      C++ 編譯選項：用 -D 定義巨集
     </h1>
   
 
@@ -105,31 +112,28 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>The <code>-D name</code> option defines <code>name</code> as a macro with the value <code>1</code>.</p>
-<p>For example, pass this option when compiling:</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-DONLINE_JUDGE</span><br></pre></td></tr></table></figure>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p><code>-D</code> 可以在編譯時定義巨集。加入 <code>-DONLINE_JUDGE</code> 後，程式中的 <code>ONLINE_JUDGE</code> 就會被定義為 <code>1</code>，可以用 <code>#ifdef</code> 判斷是否啟用對應程式碼。</p>
+<p>例如，以下程式只在定義 <code>ONLINE_JUDGE</code> 時輸出訊息：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> ONLINE_JUDGE</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;ONLINE_JUDGE is defined\n&quot;</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>The source file can check whether the macro is defined:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifdef</span> ONLINE_JUDGE</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>使用 <code>g++</code> 編譯時，把 <code>-D</code> 選項放在編譯指令中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -DONLINE_JUDGE macro_demo.cpp -o macro_demo</span><br></pre></td></tr></table></figure>
 
-<p>Example C++ source file:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> ONLINE_JUDGE</span></span><br><span class="line"><span class="built_in">puts</span>(<span class="string">&quot;-DONLINE_JUDGE\n&quot;</span>);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>執行編譯後的程式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./macro_demo</span><br></pre></td></tr></table></figure>
 
-<p>Compile it with:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc gcc_macro_test.cpp -o gcc_macro_test.exe -DONLINE_JUDGE</span><br></pre></td></tr></table></figure>
-
-<p>Run the program:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc_macro_test.exe</span><br></pre></td></tr></table></figure>
-
+<p>若省略 <code>-DONLINE_JUDGE</code>，<code>#ifdef</code> 區塊中的程式碼就不會編譯。這個方式可讓同一份原始碼依編譯選項切換不同功能。</p>
 
       
     </div>
-<aside class="article-license" aria-label="文章授權">
-  <p>除另有註明外，本站原創文章採 <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">CC BY 4.0</a>、原創程式碼採 <a href="/licenses/MIT.txt">MIT</a> 授權。詳見<a href="/licensing/">授權與引用方式</a>。</p>
+    
+      <aside class="article-license" aria-label="文章授權">
+  <p>除另有註明外，本站原創文章採 <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">CC BY 4.0</a>、原創程式碼採 <a href="/licenses/MIT.txt">MIT</a> 授權。詳見<a href="/licensing/">授權與引用方式</a>。</p>
 </aside>
 
+    
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/" data-id="cuidNXFHGAsgndggGx7QS5BJq" data-title="Command line option and macro preprocessor" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/" data-id="cuidNXFHGAsgndggGx7QS5BJq" data-title="C++ 編譯選項：用 -D 定義巨集" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -143,13 +147,13 @@
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Linked List 鏈結串列 (draft)
+          Linked List 鏈結串列
         
       </div>
     </a>
   
   
-    <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">10284 - Chessboard in FEN</div>
     </a>
@@ -168,22 +172,36 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分類</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-003/">Volume 003</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-005/">Volume 005</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-100/">Volume 100</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-109/">Volume 109</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-111/">Volume 111</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
     </div>
   </div>
 
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E4%B8%B2%E8%99%95%E7%90%86/" rel="tag">字串處理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E9%80%9F%E5%86%AA/" rel="tag">快速冪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B2%AA%E5%BF%83%E6%B3%95/" rel="tag">貪心法</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E5%AD%97%E4%B8%B2%E8%99%95%E7%90%86/" style="font-size: 10px;">字串處理</a> <a href="/tags/%E5%BF%AB%E9%80%9F%E5%86%AA/" style="font-size: 10px;">快速冪</a> <a href="/tags/%E8%B2%AA%E5%BF%83%E6%B3%95/" style="font-size: 10px;">貪心法</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">九月 2011</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
     </div>
   </div>
 
@@ -195,21 +213,24 @@
     <div class="widget">
       <ul>
         
-        
           <li>
-            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列 (draft)</a>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列</a>
           </li>
         
           <li>
-            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
-          </li>
-        
-          <li>
-            <a href="/2013/12/14/uva-10284-chessboard-in-fen-003/">10284 - Chessboard in FEN</a>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">C++ 編譯選項：用 -D 定義巨集</a>
           </li>
         
           <li>
             <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-489-hangman-judge-005/">489 - Hangman Judge</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/11/uva-696-how-many-knights-006/">696 - How Many Knights</a>
           </li>
         
       </ul>
