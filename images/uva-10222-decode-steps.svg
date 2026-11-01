@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="180" viewBox="0 0 720 180" role="img" aria-labelledby="title desc">
+<title id="title">大寫 I 的解碼流程</title>
+<desc id="desc">收到大寫 I，先轉成小寫 i，再查同一列往左兩格的位置，輸出小寫 y。</desc>
+<rect width="720" height="180" rx="16" fill="#f8fafc"/>
+<rect x="16" y="16" width="168" height="148" rx="12" fill="#dbeafe" stroke="#94a3b8"/><text x="100" y="89" text-anchor="middle" font-family="monospace" font-size="62" fill="#0f172a">I</text><text x="100" y="137" text-anchor="middle" font-family="sans-serif" font-size="23" fill="#334155">收到的字元</text>
+<rect x="276" y="16" width="168" height="148" rx="12" fill="#fff" stroke="#94a3b8"/><text x="360" y="89" text-anchor="middle" font-family="monospace" font-size="62" fill="#0f172a">i</text><text x="360" y="137" text-anchor="middle" font-family="sans-serif" font-size="23" fill="#334155">先轉小寫</text>
+<rect x="536" y="16" width="168" height="148" rx="12" fill="#ffedd5" stroke="#94a3b8"/><text x="620" y="89" text-anchor="middle" font-family="monospace" font-size="62" fill="#0f172a">y</text><text x="620" y="137" text-anchor="middle" font-family="sans-serif" font-size="23" fill="#334155">解碼結果</text>
+<text x="230" y="81" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#334155">轉小寫</text><text x="230" y="123" text-anchor="middle" font-size="40" fill="#475569">→</text>
+<text x="490" y="81" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#334155">左兩格</text><text x="490" y="123" text-anchor="middle" font-size="40" fill="#475569">→</text>
+</svg>

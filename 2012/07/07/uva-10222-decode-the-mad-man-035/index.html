@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>10222 - Decode the Mad man | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="UVa 10222 給一段由鍵盤誤打的訊息：原本想輸入某個字元，卻按到標準鍵盤上同一列右邊兩格的按鍵。因此，解碼時要把收到的字元往左還原兩格；空白鍵不需要還原。輸入是一段訊息，輸出解碼後的內容。題目敘述 看圖還原按鍵收到的按鍵往左數兩格，就是原本要輸入的按鍵。 下圖以 I 為例：向左經過 U，找到 Y。藍色標出收到的按鍵，橘色標出還原後的位置；圖中鍵帽以大寫標示，程式輸出則使用小寫。  題目範例中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10222 - Decode the Mad man">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/07/07/uva-10222-decode-the-mad-man-035/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="UVa 10222 給一段由鍵盤誤打的訊息：原本想輸入某個字元，卻按到標準鍵盤上同一列右邊兩格的按鍵。因此，解碼時要把收到的字元往左還原兩格；空白鍵不需要還原。輸入是一段訊息，輸出解碼後的內容。題目敘述 看圖還原按鍵收到的按鍵往左數兩格，就是原本要輸入的按鍵。 下圖以 I 為例：向左經過 U，找到 Y。藍色標出收到的按鍵，橘色標出還原後的位置；圖中鍵帽以大寫標示，程式輸出則使用小寫。  題目範例中">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://jiayeli-hualien.github.io/images/uva-10222-keyboard-decode.svg">
+<meta property="og:image" content="https://jiayeli-hualien.github.io/images/uva-10222-decode-steps.svg">
+<meta property="article:published_time" content="2012-07-07T06:14:21.000Z">
+<meta property="article:modified_time" content="2026-10-31T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jiayeli-hualien.github.io/images/uva-10222-keyboard-decode.svg">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/article-dates.css">
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/css/mathjax.css">
+
+<link rel="stylesheet" href="/css/content-license.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-10222-decode-the-mad-man-035" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-10222-decode-the-mad-man-035/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T06:14:21.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-102/">Volume 102</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      10222 - Decode the Mad man
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10222 給一段由鍵盤誤打的訊息：原本想輸入某個字元，卻按到標準鍵盤上同一列右邊兩格的按鍵。因此，解碼時要把收到的字元往左還原兩格；空白鍵不需要還原。輸入是一段訊息，輸出解碼後的內容。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/102/10222.pdf">題目敘述</a></p>
+<h2 id="看圖還原按鍵"><a href="#看圖還原按鍵" class="headerlink" title="看圖還原按鍵"></a>看圖還原按鍵</h2><p><strong>收到的按鍵往左數兩格，就是原本要輸入的按鍵。</strong> 下圖以 <code>I</code> 為例：向左經過 <code>U</code>，找到 <code>Y</code>。藍色標出收到的按鍵，橘色標出還原後的位置；圖中鍵帽以大寫標示，程式輸出則使用小寫。</p>
+<p><img src="/images/uva-10222-keyboard-decode.svg" alt="四列鍵盤配置，I 向左經過 U，對應到 Y"></p>
+<p>題目範例中的大寫 <code>I</code> 會解成小寫 <code>y</code>，所以程式先轉小寫，再查鍵盤位置：</p>
+<p><img src="/images/uva-10222-decode-steps.svg" alt="I 先轉成小寫 i，再往左兩格得到 y"></p>
+<p>這兩張圖依標準鍵盤配置自行繪製。空白鍵不需要移位。</p>
+<h2 id="密碼對應表"><a href="#密碼對應表" class="headerlink" title="密碼對應表"></a>密碼對應表</h2><p>表格的方向是「收到的字元 → 解碼後的字元」，例如 <code>k → h</code>、<code>[ → o</code>。字母先轉小寫再查表；每列分開對照，不跨到上一列或下一列。</p>
+<style>
+.uva10222-mapping {display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:16px 0;}
+.uva10222-mapping section {min-width:0;}
+.uva10222-mapping table {width:100%;table-layout:fixed;}
+.uva10222-mapping th,.uva10222-mapping td {padding:6px;text-align:center;}
+.uva10222-mapping caption {font-weight:bold;padding:8px;}
+</style>
+
+<details>
+<summary>展開完整鍵盤對照表</summary>
+<div class="uva10222-mapping">
+<section><table><caption>數字列</caption><thead><tr><th>收到的字元</th><th>解碼後</th></tr></thead><tbody>
+<tr><td><code>2</code></td><td><code>`</code></td></tr>
+<tr><td><code>3</code></td><td><code>1</code></td></tr>
+<tr><td><code>4</code></td><td><code>2</code></td></tr>
+<tr><td><code>5</code></td><td><code>3</code></td></tr>
+<tr><td><code>6</code></td><td><code>4</code></td></tr>
+<tr><td><code>7</code></td><td><code>5</code></td></tr>
+<tr><td><code>8</code></td><td><code>6</code></td></tr>
+<tr><td><code>9</code></td><td><code>7</code></td></tr>
+<tr><td><code>0</code></td><td><code>8</code></td></tr>
+<tr><td><code>-</code></td><td><code>9</code></td></tr>
+<tr><td><code>=</code></td><td><code>0</code></td></tr>
+</tbody></table></section>
+<section><table><caption>上排字母列</caption><thead><tr><th>收到的字元</th><th>解碼後</th></tr></thead><tbody>
+<tr><td><code>e</code></td><td><code>q</code></td></tr>
+<tr><td><code>r</code></td><td><code>w</code></td></tr>
+<tr><td><code>t</code></td><td><code>e</code></td></tr>
+<tr><td><code>y</code></td><td><code>r</code></td></tr>
+<tr><td><code>u</code></td><td><code>t</code></td></tr>
+<tr><td><code>i</code></td><td><code>y</code></td></tr>
+<tr><td><code>o</code></td><td><code>u</code></td></tr>
+<tr><td><code>p</code></td><td><code>i</code></td></tr>
+<tr><td><code>[</code></td><td><code>o</code></td></tr>
+<tr><td><code>]</code></td><td><code>p</code></td></tr>
+<tr><td><code>\</code></td><td><code>[</code></td></tr>
+</tbody></table></section>
+<section><table><caption>中排字母列</caption><thead><tr><th>收到的字元</th><th>解碼後</th></tr></thead><tbody>
+<tr><td><code>d</code></td><td><code>a</code></td></tr>
+<tr><td><code>f</code></td><td><code>s</code></td></tr>
+<tr><td><code>g</code></td><td><code>d</code></td></tr>
+<tr><td><code>h</code></td><td><code>f</code></td></tr>
+<tr><td><code>j</code></td><td><code>g</code></td></tr>
+<tr><td><code>k</code></td><td><code>h</code></td></tr>
+<tr><td><code>l</code></td><td><code>j</code></td></tr>
+<tr><td><code>;</code></td><td><code>k</code></td></tr>
+<tr><td><code>&#x27;</code></td><td><code>l</code></td></tr>
+</tbody></table></section>
+<section><table><caption>下排字母列</caption><thead><tr><th>收到的字元</th><th>解碼後</th></tr></thead><tbody>
+<tr><td><code>c</code></td><td><code>z</code></td></tr>
+<tr><td><code>v</code></td><td><code>x</code></td></tr>
+<tr><td><code>b</code></td><td><code>c</code></td></tr>
+<tr><td><code>n</code></td><td><code>v</code></td></tr>
+<tr><td><code>m</code></td><td><code>b</code></td></tr>
+<tr><td><code>,</code></td><td><code>n</code></td></tr>
+<tr><td><code>.</code></td><td><code>m</code></td></tr>
+<tr><td><code>/</code></td><td><code>,</code></td></tr>
+</tbody></table></section>
+</div>
+</details>
+
+<p>表中只列出左側有兩個按鍵、能依規則還原的字元。接著用一段訊息，看看如何逐字查表。</p>
+<p>以<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/102/10222.pdf">官方範例</a>的 <code>k[r dyt I[o</code> 為例，逐字還原後會得到 <code>how are you</code>：</p>
+<table>
+<thead>
+<tr>
+<th>收到的單字</th>
+<th>逐字對照</th>
+<th>解碼結果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>k[r</code></td>
+<td><code>k → h</code>、<code>[ → o</code>、<code>r → w</code></td>
+<td><code>how</code></td>
+</tr>
+<tr>
+<td><code>dyt</code></td>
+<td><code>d → a</code>、<code>y → r</code>、<code>t → e</code></td>
+<td><code>are</code></td>
+</tr>
+<tr>
+<td><code>I[o</code></td>
+<td><code>I → i → y</code>、<code>[ → o</code>、<code>o → u</code></td>
+<td><code>you</code></td>
+</tr>
+</tbody></table>
+<h2 id="按鍵盤列查找"><a href="#按鍵盤列查找" class="headerlink" title="按鍵盤列查找"></a>按鍵盤列查找</h2><p>有了上面的對照規則，程式就不必逐一列出所有配對，只要把鍵盤的四列分別存成字串。</p>
+<p><code>rows</code> 是由 <code>string</code> 組成的一維陣列，每個字串保存一列鍵盤。因為字串內又有多個字元，所以可以像二維陣列一樣，用 <code>rows[i][j]</code> 取得第 <code>i</code> 列的第 <code>j</code> 個字元，索引從 0 開始。例如 <code>rows[1]</code> 是上排字母列，<code>rows[1][2]</code> 就是字元 <code>e</code>。</p>
+<p><code>for (const string&amp; row : rows)</code> 會依序取出每一列字串，並以 <code>row</code> 存取該列。<code>decode</code> 先將字母轉成小寫，再找到它所在列的位置 <code>position</code>；當 <code>position &gt;= 2</code> 時，取出 <code>row[position - 2]</code>，就是解碼後的字元。</p>
+<p>空白鍵不需要還原：空白字元不在這四列字串中，查不到時會原樣傳回。程式也會保留每列最左邊兩個按鍵及表外字元，避免查到字串範圍外；字母則已在查找前轉成小寫。最後，逐字解碼並依原順序輸出，即可得到還原後的訊息。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cctype&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">char</span> <span class="title">decode</span><span class="params">(<span class="type">char</span> ch)</span> </span>&#123;</span><br><span class="line">    ch = <span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(<span class="built_in">tolower</span>(<span class="built_in">static_cast</span>&lt;<span class="type">unsigned</span> <span class="type">char</span>&gt;(ch)));</span><br><span class="line">    <span class="type">const</span> string rows[] = &#123;</span><br><span class="line">        <span class="string">&quot;`1234567890-=&quot;</span>,</span><br><span class="line">        <span class="string">&quot;qwertyuiop[]\\&quot;</span>,</span><br><span class="line">        <span class="string">&quot;asdfghjkl;&#x27;&quot;</span>,</span><br><span class="line">        <span class="string">&quot;zxcvbnm,./&quot;</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> string&amp; row : rows) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">size_t</span> position = row.<span class="built_in">find</span>(ch);</span><br><span class="line">        <span class="keyword">if</span> (position != string::npos) &#123;</span><br><span class="line">            <span class="keyword">return</span> position &gt;= <span class="number">2</span> ? row[position - <span class="number">2</span>] : ch;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ch;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    string line;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">getline</span>(cin, line)) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span>&amp; ch : line) ch = <span class="built_in">decode</span>(ch);</span><br><span class="line">        cout &lt;&lt; line &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>這份程式以 C++11 提交至 UVa，結果為 <strong>Accepted</strong>（submission <strong>31355609</strong>，0.000 秒）。</p>
+
+      
+    </div>
+    
+      <aside class="article-license" aria-label="文章授權">
+  <p>除另有註明外，本站原創文章採 <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">CC BY 4.0</a>、原創程式碼採 <a href="/licenses/MIT.txt">MIT</a> 授權。詳見<a href="/licensing/">授權與引用方式</a>。</p>
+</aside>
+
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10222-decode-the-mad-man-035/" data-id="cuidysNm8YhAQxBTr1xPdmAtb" data-title="10222 - Decode the Mad man" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/07/07/uva-568-just-the-facts-034/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          568 - Just the Facts
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/07/07/uva-10783-odd-sum-036/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10783 - Odd Sum</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-003/">Volume 003</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-005/">Volume 005</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-109/">Volume 109</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-489-hangman-judge-005/">489 - Hangman Judge</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/11/uva-696-how-many-knights-006/">696 - How Many Knights</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      <a href="/licensing/">授權與引用方式</a><br>
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

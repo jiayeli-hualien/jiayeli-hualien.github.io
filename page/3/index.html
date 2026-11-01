@@ -141,7 +141,7 @@
 
 
 
-
+  
     <article id="post-uva-10167-birthday-cake-026" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
 
@@ -205,7 +205,7 @@
 
 
 
-
+  
     <article id="post-uva-10125-sumsets-027" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
 
@@ -342,7 +342,7 @@
 
 
 
-
+  
     <article id="post-uva-296-safebreaker-028" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     
@@ -405,7 +405,7 @@
 
 
 
-
+  
     <article id="post-uva-311-packets-029" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
 
@@ -494,7 +494,7 @@
 
 
 
-
+  
     <article id="post-uva-714-copying-books-030" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
 
@@ -682,7 +682,7 @@
 
 
 
-
+  
     <article id="post-uva-438-the-circumference-of-the-circle-033" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
 
@@ -939,17 +939,17 @@
 
 
 
-
-    <article id="post-uva-10783-odd-sum-036" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    <article id="post-uva-10222-decode-the-mad-man-035" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     
 <div class="article-dates">
-  <a href="/2012/07/07/uva-10783-odd-sum-036/" class="article-date">
-    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T06:11:24.000Z" itemprop="datePublished">2012-07-07</time>
+  <a href="/2012/07/07/uva-10222-decode-the-mad-man-035/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T06:14:21.000Z" itemprop="datePublished">2012-07-07</time>
   </a>
   
   <span class="article-date">
-    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-26T16:00:00.000Z" itemprop="dateModified">2026-10-27</time>
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
   </span>
   
 </div>
@@ -957,7 +957,7 @@
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-107/">Volume 107</a>
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-102/">Volume 102</a>
   </div>
 
   </div>
@@ -968,7 +968,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2012/07/07/uva-10783-odd-sum-036/">10783 - Odd Sum</a>
+      <a class="p-name article-title" href="/2012/07/07/uva-10222-decode-the-mad-man-035/">10222 - Decode the Mad man</a>
     </h1>
   
 
@@ -976,19 +976,113 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10783 要求計算閉區間 <code>[a, b]</code> 中所有奇數的總和。輸入先給測資數 <code>T</code>，接著每筆提供 <code>a</code>、<code>b</code>（<code>0 ≤ a ≤ b ≤ 100</code>）；每筆輸出 <code>Case i: sum</code>。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/107/10783.pdf">題目敘述</a></p>
-<h2 id="用前綴和計算區間總和"><a href="#用前綴和計算區間總和" class="headerlink" title="用前綴和計算區間總和"></a>用前綴和計算區間總和</h2><p>定義 <code>oddPrefix[i]</code> 為小於 <code>i</code> 的奇數總和。以 <code>[3, 9]</code> 為例，<code>oddPrefix[10]</code> 是 <code>1 + 3 + 5 + 7 + 9 = 25</code>，<code>oddPrefix[3]</code> 是 <code>1</code>，相減後得到區間內的總和 <code>24</code>。</p>
-<p>所以 <code>[a, b]</code> 的答案是 <code>oddPrefix[b + 1] - oddPrefix[a]</code>。用 <code>b + 1</code> 納入右端點；這個寫法也能直接處理 <code>a = 0</code>，不必存取 <code>a - 1</code>。</p>
-<p>前綴和只需從 0 到 100 建立一次。每格先複製前一格的總和，遇到奇數再加上它；每筆測資就能用一次相減在常數時間內回答。</p>
-<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// oddPrefix[i] is the sum of odd numbers less than i.</span></span><br><span class="line"><span class="type">int</span> oddPrefix[<span class="number">102</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> x = <span class="number">0</span>; x &lt;= <span class="number">100</span>; ++x) &#123;</span><br><span class="line">        oddPrefix[x + <span class="number">1</span>] = oddPrefix[x];</span><br><span class="line">        <span class="comment">// Even numbers keep the copied sum; odd numbers add to it.</span></span><br><span class="line">        <span class="keyword">if</span> (x % <span class="number">2</span> == <span class="number">1</span>) &#123;</span><br><span class="line">            oddPrefix[x + <span class="number">1</span>] += x;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> cases, a, b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;cases);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= cases; ++i) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Case %d: %d\n&quot;</span>, i, oddPrefix[b + <span class="number">1</span>] - oddPrefix[a]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10222 給一段由鍵盤誤打的訊息：原本想輸入某個字元，卻按到標準鍵盤上同一列右邊兩格的按鍵。因此，解碼時要把收到的字元往左還原兩格；空白鍵不需要還原。輸入是一段訊息，輸出解碼後的內容。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/102/10222.pdf">題目敘述</a></p>
+<h2 id="看圖還原按鍵"><a href="#看圖還原按鍵" class="headerlink" title="看圖還原按鍵"></a>看圖還原按鍵</h2><p><strong>收到的按鍵往左數兩格，就是原本要輸入的按鍵。</strong> 下圖以 <code>I</code> 為例：向左經過 <code>U</code>，找到 <code>Y</code>。藍色標出收到的按鍵，橘色標出還原後的位置；圖中鍵帽以大寫標示，程式輸出則使用小寫。</p>
+<p><img src="/images/uva-10222-keyboard-decode.svg" alt="四列鍵盤配置，I 向左經過 U，對應到 Y"></p>
+<p>題目範例中的大寫 <code>I</code> 會解成小寫 <code>y</code>，所以程式先轉小寫，再查鍵盤位置：</p>
+<p><img src="/images/uva-10222-decode-steps.svg" alt="I 先轉成小寫 i，再往左兩格得到 y"></p>
+<p>這兩張圖依標準鍵盤配置自行繪製。空白鍵不需要移位。</p>
+<h2 id="密碼對應表"><a href="#密碼對應表" class="headerlink" title="密碼對應表"></a>密碼對應表</h2><p>表格的方向是「收到的字元 → 解碼後的字元」，例如 <code>k → h</code>、<code>[ → o</code>。字母先轉小寫再查表；每列分開對照，不跨到上一列或下一列。</p>
+<style>
+.uva10222-mapping {display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:16px 0;}
+.uva10222-mapping section {min-width:0;}
+.uva10222-mapping table {width:100%;table-layout:fixed;}
+.uva10222-mapping th,.uva10222-mapping td {padding:6px;text-align:center;}
+.uva10222-mapping caption {font-weight:bold;padding:8px;}
+</style>
 
-<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>文章中的程式以 C++11 重新提交至 UVa，結果為 <strong>Accepted</strong>（submission <strong>31355667</strong>）。</p>
+<details>
+<summary>展開完整鍵盤對照表</summary>
+<div class="uva10222-mapping">
+<section><table><caption>數字列</caption><thead><tr><th>收到的字元</th><th>解碼後</th></tr></thead><tbody>
+<tr><td><code>2</code></td><td><code>`</code></td></tr>
+<tr><td><code>3</code></td><td><code>1</code></td></tr>
+<tr><td><code>4</code></td><td><code>2</code></td></tr>
+<tr><td><code>5</code></td><td><code>3</code></td></tr>
+<tr><td><code>6</code></td><td><code>4</code></td></tr>
+<tr><td><code>7</code></td><td><code>5</code></td></tr>
+<tr><td><code>8</code></td><td><code>6</code></td></tr>
+<tr><td><code>9</code></td><td><code>7</code></td></tr>
+<tr><td><code>0</code></td><td><code>8</code></td></tr>
+<tr><td><code>-</code></td><td><code>9</code></td></tr>
+<tr><td><code>=</code></td><td><code>0</code></td></tr>
+</tbody></table></section>
+<section><table><caption>上排字母列</caption><thead><tr><th>收到的字元</th><th>解碼後</th></tr></thead><tbody>
+<tr><td><code>e</code></td><td><code>q</code></td></tr>
+<tr><td><code>r</code></td><td><code>w</code></td></tr>
+<tr><td><code>t</code></td><td><code>e</code></td></tr>
+<tr><td><code>y</code></td><td><code>r</code></td></tr>
+<tr><td><code>u</code></td><td><code>t</code></td></tr>
+<tr><td><code>i</code></td><td><code>y</code></td></tr>
+<tr><td><code>o</code></td><td><code>u</code></td></tr>
+<tr><td><code>p</code></td><td><code>i</code></td></tr>
+<tr><td><code>[</code></td><td><code>o</code></td></tr>
+<tr><td><code>]</code></td><td><code>p</code></td></tr>
+<tr><td><code>\</code></td><td><code>[</code></td></tr>
+</tbody></table></section>
+<section><table><caption>中排字母列</caption><thead><tr><th>收到的字元</th><th>解碼後</th></tr></thead><tbody>
+<tr><td><code>d</code></td><td><code>a</code></td></tr>
+<tr><td><code>f</code></td><td><code>s</code></td></tr>
+<tr><td><code>g</code></td><td><code>d</code></td></tr>
+<tr><td><code>h</code></td><td><code>f</code></td></tr>
+<tr><td><code>j</code></td><td><code>g</code></td></tr>
+<tr><td><code>k</code></td><td><code>h</code></td></tr>
+<tr><td><code>l</code></td><td><code>j</code></td></tr>
+<tr><td><code>;</code></td><td><code>k</code></td></tr>
+<tr><td><code>&#x27;</code></td><td><code>l</code></td></tr>
+</tbody></table></section>
+<section><table><caption>下排字母列</caption><thead><tr><th>收到的字元</th><th>解碼後</th></tr></thead><tbody>
+<tr><td><code>c</code></td><td><code>z</code></td></tr>
+<tr><td><code>v</code></td><td><code>x</code></td></tr>
+<tr><td><code>b</code></td><td><code>c</code></td></tr>
+<tr><td><code>n</code></td><td><code>v</code></td></tr>
+<tr><td><code>m</code></td><td><code>b</code></td></tr>
+<tr><td><code>,</code></td><td><code>n</code></td></tr>
+<tr><td><code>.</code></td><td><code>m</code></td></tr>
+<tr><td><code>/</code></td><td><code>,</code></td></tr>
+</tbody></table></section>
+</div>
+</details>
+
+<p>表中只列出左側有兩個按鍵、能依規則還原的字元。接著用一段訊息，看看如何逐字查表。</p>
+<p>以<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/102/10222.pdf">官方範例</a>的 <code>k[r dyt I[o</code> 為例，逐字還原後會得到 <code>how are you</code>：</p>
+<table>
+<thead>
+<tr>
+<th>收到的單字</th>
+<th>逐字對照</th>
+<th>解碼結果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>k[r</code></td>
+<td><code>k → h</code>、<code>[ → o</code>、<code>r → w</code></td>
+<td><code>how</code></td>
+</tr>
+<tr>
+<td><code>dyt</code></td>
+<td><code>d → a</code>、<code>y → r</code>、<code>t → e</code></td>
+<td><code>are</code></td>
+</tr>
+<tr>
+<td><code>I[o</code></td>
+<td><code>I → i → y</code>、<code>[ → o</code>、<code>o → u</code></td>
+<td><code>you</code></td>
+</tr>
+</tbody></table>
+<h2 id="按鍵盤列查找"><a href="#按鍵盤列查找" class="headerlink" title="按鍵盤列查找"></a>按鍵盤列查找</h2><p>有了上面的對照規則，程式就不必逐一列出所有配對，只要把鍵盤的四列分別存成字串。</p>
+<p><code>rows</code> 是由 <code>string</code> 組成的一維陣列，每個字串保存一列鍵盤。因為字串內又有多個字元，所以可以像二維陣列一樣，用 <code>rows[i][j]</code> 取得第 <code>i</code> 列的第 <code>j</code> 個字元，索引從 0 開始。例如 <code>rows[1]</code> 是上排字母列，<code>rows[1][2]</code> 就是字元 <code>e</code>。</p>
+<p><code>for (const string&amp; row : rows)</code> 會依序取出每一列字串，並以 <code>row</code> 存取該列。<code>decode</code> 先將字母轉成小寫，再找到它所在列的位置 <code>position</code>；當 <code>position &gt;= 2</code> 時，取出 <code>row[position - 2]</code>，就是解碼後的字元。</p>
+<p>空白鍵不需要還原：空白字元不在這四列字串中，查不到時會原樣傳回。程式也會保留每列最左邊兩個按鍵及表外字元，避免查到字串範圍外；字母則已在查找前轉成小寫。最後，逐字解碼並依原順序輸出，即可得到還原後的訊息。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cctype&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">char</span> <span class="title">decode</span><span class="params">(<span class="type">char</span> ch)</span> </span>&#123;</span><br><span class="line">    ch = <span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(<span class="built_in">tolower</span>(<span class="built_in">static_cast</span>&lt;<span class="type">unsigned</span> <span class="type">char</span>&gt;(ch)));</span><br><span class="line">    <span class="type">const</span> string rows[] = &#123;</span><br><span class="line">        <span class="string">&quot;`1234567890-=&quot;</span>,</span><br><span class="line">        <span class="string">&quot;qwertyuiop[]\\&quot;</span>,</span><br><span class="line">        <span class="string">&quot;asdfghjkl;&#x27;&quot;</span>,</span><br><span class="line">        <span class="string">&quot;zxcvbnm,./&quot;</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> string&amp; row : rows) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">size_t</span> position = row.<span class="built_in">find</span>(ch);</span><br><span class="line">        <span class="keyword">if</span> (position != string::npos) &#123;</span><br><span class="line">            <span class="keyword">return</span> position &gt;= <span class="number">2</span> ? row[position - <span class="number">2</span>] : ch;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ch;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    string line;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">getline</span>(cin, line)) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span>&amp; ch : line) ch = <span class="built_in">decode</span>(ch);</span><br><span class="line">        cout &lt;&lt; line &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>這份程式以 C++11 提交至 UVa，結果為 <strong>Accepted</strong>（submission <strong>31355609</strong>，0.000 秒）。</p>
 
       
     </div>
-
+    
     <footer class="article-footer">
-      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10783-odd-sum-036/" data-id="cuidXiGfwTw8Zp0PkA03CC9jF" data-title="10783 - Odd Sum" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10222-decode-the-mad-man-035/" data-id="cuidysNm8YhAQxBTr1xPdmAtb" data-title="10222 - Decode the Mad man" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1004,7 +1098,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一頁</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一頁</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一頁 &raquo;</a>
   </nav>
 
 </section>
