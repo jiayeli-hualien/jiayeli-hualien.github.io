@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>10041 - Vito&#39;s Family | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="題目要求第一行是測試筆數。每筆測資給定親戚人數和各家的門牌，請替 Vito 選一個住址，讓他到所有親戚家的距離總和最小，並輸出這個總和。兩個門牌的距離是兩者相減後的絕對值；多人也可能住在同一個門牌。 本題可以用兩種方式解：暴力法逐一嘗試親戚家的門牌；排序法則直接選中位數。 剛開始學迴圈，可以先看暴力法；已熟悉排序，就可以直接用中位數減少計算量。 關鍵性質：最佳住址可以選中位數將門牌排序後，選中間的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10041 - Vito&#39;s Family">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/07/07/uva-10041-vito-s-family-042/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="題目要求第一行是測試筆數。每筆測資給定親戚人數和各家的門牌，請替 Vito 選一個住址，讓他到所有親戚家的距離總和最小，並輸出這個總和。兩個門牌的距離是兩者相減後的絕對值；多人也可能住在同一個門牌。 本題可以用兩種方式解：暴力法逐一嘗試親戚家的門牌；排序法則直接選中位數。 剛開始學迴圈，可以先看暴力法；已熟悉排序，就可以直接用中位數減少計算量。 關鍵性質：最佳住址可以選中位數將門牌排序後，選中間的">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-07-07T05:54:52.000Z">
+<meta property="article:modified_time" content="2026-10-31T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/article-dates.css">
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/css/mathjax.css">
+
+<link rel="stylesheet" href="/css/content-license.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-10041-vito-s-family-042" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-10041-vito-s-family-042/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T05:54:52.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-100/">Volume 100</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      10041 - Vito&#39;s Family
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>第一行是測試筆數。每筆測資給定親戚人數和各家的門牌，請替 Vito 選一個住址，讓他到所有親戚家的距離總和最小，並輸出這個總和。兩個門牌的距離是兩者相減後的絕對值；多人也可能住在同一個門牌。</p>
+<p>本題可以用兩種方式解：<strong>暴力法逐一嘗試親戚家的門牌；排序法則直接選中位數。</strong> 剛開始學迴圈，可以先看暴力法；已熟悉排序，就可以直接用中位數減少計算量。</p>
+<h2 id="關鍵性質：最佳住址可以選中位數"><a href="#關鍵性質：最佳住址可以選中位數" class="headerlink" title="關鍵性質：最佳住址可以選中位數"></a>關鍵性質：最佳住址可以選中位數</h2><p>將門牌排序後，選中間的位置當住址，就能讓到所有親戚家的距離總和最小。這是中位數使絕對距離總和最小的性質，可參考 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Median#Optimality_property">Wikipedia：Median 的最佳化性質</a>。</p>
+<p>直覺上，把最左邊與最右邊的親戚配成一對，只要住址在兩者之間，到這一對的距離總和就相同。由外向內配對後，各對區間共同包含的中間位置，就是最佳選擇。</p>
+<p>人數是奇數時，選正中間的門牌；人數是偶數時，兩個中間門牌之間的任一位置都能得到最小值，不必特地取兩者的平均。例如親戚住在 <code>2</code> 和 <code>4</code>，選 <code>2</code>、<code>3</code> 或 <code>4</code> 的距離總和都是 <code>2</code>。</p>
+<h2 id="解法一：暴力枚舉候選住址"><a href="#解法一：暴力枚舉候選住址" class="headerlink" title="解法一：暴力枚舉候選住址"></a>解法一：暴力枚舉候選住址</h2><p>把每位親戚的門牌輪流當作候選住址，計算到所有親戚家的距離總和，再取最小值。外層迴圈選住址，內層迴圈累加距離。</p>
+<p>為什麼只試親戚家的門牌就夠？奇數人時，中位數就是其中一家的門牌；偶數人時，兩個中間門牌都是最佳區間的端點。因此，候選之中一定有最佳住址，不需要把所有可能的門牌逐一試過。</p>
+<p>若有 <code>r</code> 位親戚，共有 <code>r</code> 個候選，每個候選要計算 <code>r</code> 次距離，所以時間為 <code>O(r²)</code>。題目的 <code>r &lt; 500</code>，距離計算最多為 <code>499 × 499 = 249001</code> 次，這個做法也足以通過。</p>
+<h3 id="C-11-程式：暴力法"><a href="#C-11-程式：暴力法" class="headerlink" title="C++11 程式：暴力法"></a>C++11 程式：暴力法</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstddef&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;limits&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    std::cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> testCaseCount;</span><br><span class="line">    std::cin &gt;&gt; testCaseCount;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (testCaseCount--) &#123;</span><br><span class="line">        <span class="type">int</span> relativeCount;</span><br><span class="line">        std::cin &gt;&gt; relativeCount;</span><br><span class="line"></span><br><span class="line">        <span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">streetNumbers</span><span class="params">(<span class="keyword">static_cast</span>&lt;std::<span class="type">size_t</span>&gt;(relativeCount))</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span>&amp; streetNumber : streetNumbers) &#123;</span><br><span class="line">            std::cin &gt;&gt; streetNumber;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> minimumDistanceSum = std::numeric_limits&lt;<span class="type">int</span>&gt;::<span class="built_in">max</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> candidate : streetNumbers) &#123;</span><br><span class="line">            <span class="type">int</span> distanceSum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> address : streetNumbers) &#123;</span><br><span class="line">                distanceSum += std::<span class="built_in">abs</span>(address - candidate);</span><br><span class="line">            &#125;</span><br><span class="line">            minimumDistanceSum = std::<span class="built_in">min</span>(minimumDistanceSum, distanceSum);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; minimumDistanceSum &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這份暴力法程式以 C++11 提交至 UVa，獲得 <strong>Accepted</strong>（submission <strong>31357185</strong>，20 ms）。</p>
+<h2 id="解法二：排序後取中位數"><a href="#解法二：排序後取中位數" class="headerlink" title="解法二：排序後取中位數"></a>解法二：排序後取中位數</h2><p>先把門牌由小到大排序，取出中位數，再逐一計算各家到中位數的距離並加總。</p>
+<p>索引從 0 開始，所以可直接取 <code>streetNumbers[r / 2]</code>：奇數人時是正中間的門牌；偶數人時是兩個中間門牌中較大的那一個，也在最佳區間內。</p>
+<p>例如門牌為 <code>6、2、4</code>，排序後是 <code>2、4、6</code>，選 <code>4</code>，距離總和為 <code>2 + 0 + 2 = 4</code>。</p>
+<p>排序需要 <code>O(r log r)</code>，最後累加距離需要 <code>O(r)</code>，總時間為 <code>O(r log r)</code>。兩份程式都用 <code>vector</code> 保存門牌，需要 <code>O(r)</code> 空間。</p>
+<h3 id="C-11-程式：排序法"><a href="#C-11-程式：排序法" class="headerlink" title="C++11 程式：排序法"></a>C++11 程式：排序法</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstddef&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    std::cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> testCaseCount;</span><br><span class="line">    std::cin &gt;&gt; testCaseCount;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (testCaseCount--) &#123;</span><br><span class="line">        <span class="type">int</span> relativeCount;</span><br><span class="line">        std::cin &gt;&gt; relativeCount;</span><br><span class="line"></span><br><span class="line">        <span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">streetNumbers</span><span class="params">(<span class="keyword">static_cast</span>&lt;std::<span class="type">size_t</span>&gt;(relativeCount))</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span>&amp; streetNumber : streetNumbers) &#123;</span><br><span class="line">            std::cin &gt;&gt; streetNumber;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::<span class="built_in">sort</span>(streetNumbers.<span class="built_in">begin</span>(), streetNumbers.<span class="built_in">end</span>());</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> median = streetNumbers[streetNumbers.<span class="built_in">size</span>() / <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> distanceSum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> address : streetNumbers) &#123;</span><br><span class="line">            distanceSum += std::<span class="built_in">abs</span>(address - median);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; distanceSum &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這份排序法程式以 C++11 提交至 UVa，獲得 <strong>Accepted</strong>（submission <strong>31362863</strong>，0 ms）。</p>
+<h2 id="兩種做法怎麼選？"><a href="#兩種做法怎麼選？" class="headerlink" title="兩種做法怎麼選？"></a>兩種做法怎麼選？</h2><table>
+<thead>
+<tr>
+<th>做法</th>
+<th>主要步驟</th>
+<th>時間複雜度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>暴力法</td>
+<td>每個候選住址都算一次總距離</td>
+<td><code>O(r²)</code></td>
+</tr>
+<tr>
+<td>排序法</td>
+<td>排序取中位數，只算一次總距離</td>
+<td><code>O(r log r)</code></td>
+</tr>
+</tbody></table>
+<p>暴力法不需要先學會排序，但要知道候選住址為什麼包含最佳解。理解中位數的性質後，排序法能直接找到最佳住址，也能應付更多親戚的情況。兩種做法都適用於本題。</p>
+<p>題目中每個門牌小於 <code>30000</code>、親戚少於 <code>500</code>，距離總和小於 <code>15000000</code>，使用 32 位元 <code>int</code> 足以保存。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/100/10041.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    
+      <aside class="article-license" aria-label="文章授權">
+  <p>除另有註明外，本站原創文章採 <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">CC BY 4.0</a>、原創程式碼採 <a href="/licenses/MIT.txt">MIT</a> 授權。詳見<a href="/licensing/">授權與引用方式</a>。</p>
+</aside>
+
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10041-vito-s-family-042/" data-id="cuidsVWmF-xU4oDtzxpisPnNg" data-title="10041 - Vito&#39;s Family" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/07/07/uva-424-integer-inquiry-041/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          424 - Integer Inquiry
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/07/07/uva-382-perfection-043/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">382 - Perfection</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-003/">Volume 003</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-005/">Volume 005</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-100/">Volume 100</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-109/">Volume 109</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-111/">Volume 111</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E4%B8%B2%E8%99%95%E7%90%86/" rel="tag">字串處理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E9%80%9F%E5%86%AA/" rel="tag">快速冪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B2%AA%E5%BF%83%E6%B3%95/" rel="tag">貪心法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E5%AD%97%E4%B8%B2%E8%99%95%E7%90%86/" style="font-size: 10px;">字串處理</a> <a href="/tags/%E5%BF%AB%E9%80%9F%E5%86%AA/" style="font-size: 10px;">快速冪</a> <a href="/tags/%E8%B2%AA%E5%BF%83%E6%B3%95/" style="font-size: 10px;">貪心法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-489-hangman-judge-005/">489 - Hangman Judge</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/11/uva-696-how-many-knights-006/">696 - How Many Knights</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      <a href="/licensing/">授權與引用方式</a><br>
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

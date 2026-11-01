@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="580" viewBox="0 0 520 580" role="img" aria-labelledby="title desc">
+<title id="title">第三刀分成三段，新增三塊披薩</title>
+<desc id="desc">前兩刀為一條水平線與一條垂直線，將圓形披薩分成四塊。紅色第三刀斜穿左下、左上與右上三個區塊，與前兩刀在 A、B 兩個不同位置相交，因此分成三段；每段切開一個區塊，最後共七塊。</desc>
+<rect width="520" height="580" rx="18" fill="#f8fafc"/>
+<text x="260" y="35" text-anchor="middle" font-family="sans-serif" font-size="25" fill="#0f172a">第三刀：兩個交點 → 三段 → 新增三塊</text>
+<circle cx="260" cy="245" r="175" fill="#fff7df" stroke="#a16207" stroke-width="4"/>
+<path d="M85 245 H435 M260 70 V420" stroke="#64748b" stroke-width="4"/>
+<clipPath id="pizza"><circle cx="260" cy="245" r="174"/></clipPath>
+<path d="M70 365 L450 -15" stroke="#dc2626" stroke-width="5" clip-path="url(#pizza)"/>
+<circle cx="133.15" cy="271.85" r="17" fill="white" stroke="#dc2626" stroke-width="2"/><text x="133.15" y="278.85" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#dc2626">1</text>
+<circle cx="210.00" cy="195.00" r="17" fill="white" stroke="#dc2626" stroke-width="2"/><text x="210.00" y="202.00" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#dc2626">2</text>
+<circle cx="286.85" cy="118.15" r="17" fill="white" stroke="#dc2626" stroke-width="2"/><text x="286.85" y="125.15" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#dc2626">3</text>
+<circle cx="190" cy="245" r="6" fill="#0f172a"/><text x="184" y="273" font-family="sans-serif" font-size="22" fill="#0f172a">B</text>
+<circle cx="260" cy="175" r="6" fill="#0f172a"/><text x="281" y="180" font-family="sans-serif" font-size="22" fill="#0f172a">A</text>
+<path d="M30 458 H66" stroke="#64748b" stroke-width="4"/><text x="80" y="466" font-family="sans-serif" font-size="22" fill="#334155">灰線：前兩刀，原本分成四塊</text>
+<path d="M30 498 H66" stroke="#dc2626" stroke-width="5"/><text x="80" y="506" font-family="sans-serif" font-size="22" fill="#334155">紅線：第三刀，①②③ 各切開一塊</text>
+<text x="260" y="552" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="bold" fill="#0f172a">原有 4 塊 ＋ 新增 3 塊 ＝ 7 塊</text>
+</svg>

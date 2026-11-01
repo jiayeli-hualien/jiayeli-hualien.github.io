@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>483 - Word Scramble | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="題目要求輸入是多行文字；每個單字都是一段連續的非空白字元。請反轉每個單字內的字元順序，但保留單字原本的排列、空白和換行。例如 I love you. 會變成 I evol .uoy，句點也會跟著單字一起反轉。 解法用 getline 一次讀一行，再由左向右尋找非空白字元組成的區段。找到一個單字後，只反轉這段字元，接著從區段後面繼續掃描。空格、Tab 等分隔字元不會移動，因此行內的空白排列也會保留。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="483 - Word Scramble">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/07/07/uva-483-word-scramble-044/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="題目要求輸入是多行文字；每個單字都是一段連續的非空白字元。請反轉每個單字內的字元順序，但保留單字原本的排列、空白和換行。例如 I love you. 會變成 I evol .uoy，句點也會跟著單字一起反轉。 解法用 getline 一次讀一行，再由左向右尋找非空白字元組成的區段。找到一個單字後，只反轉這段字元，接著從區段後面繼續掃描。空格、Tab 等分隔字元不會移動，因此行內的空白排列也會保留。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-07-07T05:52:00.000Z">
+<meta property="article:modified_time" content="2026-10-31T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/article-dates.css">
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/css/mathjax.css">
+
+<link rel="stylesheet" href="/css/content-license.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-483-word-scramble-044" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-483-word-scramble-044/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T05:52:00.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-004/">Volume 004</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      483 - Word Scramble
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>輸入是多行文字；每個單字都是一段連續的非空白字元。請反轉每個單字內的字元順序，但保留單字原本的排列、空白和換行。例如 <code>I love you.</code> 會變成 <code>I evol .uoy</code>，句點也會跟著單字一起反轉。</p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>用 <code>getline</code> 一次讀一行，再由左向右尋找非空白字元組成的區段。找到一個單字後，只反轉這段字元，接著從區段後面繼續掃描。空格、Tab 等分隔字元不會移動，因此行內的空白排列也會保留。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cctype&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isWhitespace</span><span class="params">(<span class="type">char</span> character)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> std::<span class="built_in">isspace</span>(<span class="built_in">static_cast</span>&lt;<span class="type">unsigned</span> <span class="type">char</span>&gt;(character)) != <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">reverseWords</span><span class="params">(std::string&amp; line)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> begin = line.<span class="built_in">begin</span>();</span><br><span class="line">    <span class="keyword">while</span> (begin != line.<span class="built_in">end</span>()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isWhitespace</span>(*begin)) &#123;</span><br><span class="line">            ++begin;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">auto</span> end = begin;</span><br><span class="line">        <span class="keyword">while</span> (end != line.<span class="built_in">end</span>() &amp;&amp; !<span class="built_in">isWhitespace</span>(*end)) &#123;</span><br><span class="line">            ++end;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::<span class="built_in">reverse</span>(begin, end);</span><br><span class="line">        begin = end;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string line;</span><br><span class="line">    <span class="keyword">while</span> (std::<span class="built_in">getline</span>(std::cin, line)) &#123;</span><br><span class="line">        <span class="built_in">reverseWords</span>(line);</span><br><span class="line">        std::cout &lt;&lt; line &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若一行有 <code>L</code> 個字元，掃描與反轉合計需要 <code>O(L)</code> 時間；字串需要 <code>O(L)</code> 空間。每個字元只會被掃描一次，並且只在所屬單字的區段內交換位置。</p>
+<h2 id="注意：保留換行與單字之間的空白"><a href="#注意：保留換行與單字之間的空白" class="headerlink" title="注意：保留換行與單字之間的空白"></a>注意：保留換行與單字之間的空白</h2><p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/4/483.pdf">官方題目</a>以空白字元分隔單字，但沒有保證單字之間只有一個空格。因此不假設分隔空白的數量，讓它們留在原位即可。</p>
+<p>直接用 <code>cin &gt;&gt; word</code> 讀單字時，空格、Tab 和換行都會被略過。只看讀出的單字，無法知道原本在哪裡換行，也無法還原單字之間有幾個空格。</p>
+<p>先用 <code>getline</code> 讀一整行，再用 <code>stringstream &gt;&gt; word</code> 切單字，可以保留行的界線，但仍會丟掉行內分隔空白的數量與種類。例如自訂的這一行有三個空格：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">原文：ab   cd</span><br><span class="line">結果：ba   dc</span><br></pre></td></tr></table></figure>
+
+<p>若讀出 <code>ab</code>、<code>cd</code> 後統一補一個空格，就會變成 <code>ba dc</code>，改變原本的排列。</p>
+<p>本文採用 <strong><code>getline</code> 加上原字串內的區段搜尋</strong>：讀入一行後，找出每個單字的起點與終點，只反轉這段字元，空格和 Tab 都留在原位；處理完再輸出換行。這樣既保留行的界線，也不必重新組合單字之間的空白。</p>
+<p>另外也可以用 <code>cin.get(ch)</code> 逐字元讀取，自行辨識單字與分隔字元；並非一定要用 <code>getline + stringstream</code> 才能處理換行。</p>
+<p>本文程式以 C++11 提交至 UVa 483，獲得 <strong>Accepted</strong>（submission <strong>31357204</strong>，0 ms）。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/4/483.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    
+      <aside class="article-license" aria-label="文章授權">
+  <p>除另有註明外，本站原創文章採 <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">CC BY 4.0</a>、原創程式碼採 <a href="/licenses/MIT.txt">MIT</a> 授權。詳見<a href="/licensing/">授權與引用方式</a>。</p>
+</aside>
+
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-483-word-scramble-044/" data-id="cuid5VSSoaYFBhav6bfn2X6_R" data-title="483 - Word Scramble" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/07/07/uva-382-perfection-043/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          382 - Perfection
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/07/07/uva-10079-pizza-cutting-045/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10079 - Pizza Cutting</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-003/">Volume 003</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-005/">Volume 005</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-100/">Volume 100</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-109/">Volume 109</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-111/">Volume 111</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E4%B8%B2%E8%99%95%E7%90%86/" rel="tag">字串處理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E9%80%9F%E5%86%AA/" rel="tag">快速冪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B2%AA%E5%BF%83%E6%B3%95/" rel="tag">貪心法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E5%AD%97%E4%B8%B2%E8%99%95%E7%90%86/" style="font-size: 10px;">字串處理</a> <a href="/tags/%E5%BF%AB%E9%80%9F%E5%86%AA/" style="font-size: 10px;">快速冪</a> <a href="/tags/%E8%B2%AA%E5%BF%83%E6%B3%95/" style="font-size: 10px;">貪心法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-489-hangman-judge-005/">489 - Hangman Judge</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/11/uva-696-how-many-knights-006/">696 - How Many Knights</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      <a href="/licensing/">授權與引用方式</a><br>
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>424 - Integer Inquiry | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="用大整數加法求總和輸入多個非負整數，最後一行的 0 表示輸入結束，請輸出所有數字的總和。題目最多有 100 個數，每個數最多 100 位，連 long long 也放不下。 解法是用陣列分開保存各位數，再像直式加法一樣相加與進位。 先用字串讀入完整數字，就不必把整個數值塞進單一整數變數。本篇先用「陣列一格存一位」說明原理，程式再採用「一格存四位」減少需要處理的格數。 就像直式加法例如 999 +">
+<meta property="og:type" content="article">
+<meta property="og:title" content="424 - Integer Inquiry">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/07/07/uva-424-integer-inquiry-041/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="用大整數加法求總和輸入多個非負整數，最後一行的 0 表示輸入結束，請輸出所有數字的總和。題目最多有 100 個數，每個數最多 100 位，連 long long 也放不下。 解法是用陣列分開保存各位數，再像直式加法一樣相加與進位。 先用字串讀入完整數字，就不必把整個數值塞進單一整數變數。本篇先用「陣列一格存一位」說明原理，程式再採用「一格存四位」減少需要處理的格數。 就像直式加法例如 999 +">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-07-07T05:57:20.000Z">
+<meta property="article:modified_time" content="2026-10-31T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/article-dates.css">
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/css/mathjax.css">
+
+<link rel="stylesheet" href="/css/content-license.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-424-integer-inquiry-041" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-424-integer-inquiry-041/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T05:57:20.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-004/">Volume 004</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      424 - Integer Inquiry
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="用大整數加法求總和"><a href="#用大整數加法求總和" class="headerlink" title="用大整數加法求總和"></a>用大整數加法求總和</h2><p>輸入多個非負整數，最後一行的 <code>0</code> 表示輸入結束，請輸出所有數字的總和。題目最多有 100 個數，每個數最多 100 位，連 <code>long long</code> 也放不下。</p>
+<p><strong>解法是用陣列分開保存各位數，再像直式加法一樣相加與進位。</strong> 先用字串讀入完整數字，就不必把整個數值塞進單一整數變數。本篇先用「陣列一格存一位」說明原理，程式再採用「一格存四位」減少需要處理的格數。</p>
+<h2 id="就像直式加法"><a href="#就像直式加法" class="headerlink" title="就像直式加法"></a>就像直式加法</h2><p>例如 <code>999 + 2</code>，從個位開始相加，滿 10 就向左進位：</p>
+<style>
+.article-entry pre.uva424-vertical,.article-entry pre.uva424-vertical code {
+  font-family:Menlo,Consolas,"Liberation Mono",monospace;
+  font-variant-ligatures:none;
+  white-space:pre;
+}
+.article-entry pre.uva424-vertical {overflow-x:auto;line-height:1.6;}
+</style>
+<pre class="uva424-vertical"><code>  999
++   2
+-----
+ 1001</code></pre>
+
+<p>個位的 <code>9 + 2 = 11</code>，保存 1、進位 1；十位與百位都因為接到進位而得到 10，各保存 0、繼續進位，最後得到 1001。大整數加法就是把這個過程寫成程式。</p>
+<h2 id="先從陣列一格存一位開始"><a href="#先從陣列一格存一位開始" class="headerlink" title="先從陣列一格存一位開始"></a>先從陣列一格存一位開始</h2><p>將 <code>999</code> 存成 <code>[9, 9, 9, 0, …]</code>，<code>2</code> 存成 <code>[2, 0, 0, 0, …]</code>。<strong>索引 0 保存個位</strong>，索引 1 保存十位，依此類推。這樣迴圈從索引 0 往後走，就能按照低位到高位的順序處理。</p>
+<p>每格計算 <code>total = 原有數字 + 新數字 + carry</code>，其中 <code>carry</code> 是前一格傳來的進位：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">本格保存 = total % 10</span><br><span class="line">下一格進位 = total / 10</span><br></pre></td></tr></table></figure>
+
+<p>這裡的除法是整數除法。例如 <code>11 % 10 = 1</code>、<code>11 / 10 = 1</code>，正好對應「保存 1、進位 1」。算完 <code>999 + 2</code>，陣列會是 <code>[1, 0, 0, 1, 0, …]</code>；輸出時由高位往低位讀，就得到 <code>1001</code>。</p>
+<h2 id="程式為什麼一格存四位？"><a href="#程式為什麼一格存四位？" class="headerlink" title="程式為什麼一格存四位？"></a>程式為什麼一格存四位？</h2><p>一格一位已經能解這題。一格四位則把相鄰的四個十進位數字合成一段，讓需要處理的格數約縮成四分之一；加法與進位的原理相同，只是由<strong>滿 10 進位，改成滿 10000 進位</strong>。</p>
+<p>例如 <code>123456789</code> 從右側每四位切一段，得到 <code>1、2345、6789</code>，陣列反向存成 <code>[6789, 2345, 1, 0, …]</code>，讓索引 0 仍代表最低段。每段的值介於 0 到 9999。</p>
+<p>對應到程式，<code>BASE = 10000</code>，每段計算：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">total = 總和原有的段值 + 新數字的段值 + carry</span><br><span class="line">本段保存 = total % 10000</span><br><span class="line">下一段進位 = total / 10000</span><br></pre></td></tr></table></figure>
+
+<p>以 <code>99999999 + 2</code> 為例，每四位一組的直式加法如下：</p>
+<pre class="uva424-vertical"><code>   9999 9999
++         2
+-----------
+1  0000 0001</code></pre>
+
+<p>每組滿 10000 就向左進位，結果是 <code>100000001</code>，陣列存成 <code>[1, 0, 1, 0, …]</code>。程式每次都先合併低位並向高位進位，已處理的段就會保持在 0 到 9999 之間；讀完所有輸入後，陣列保存的就是完整總和。</p>
+<h3 id="加法安全，乘法也安全嗎？"><a href="#加法安全，乘法也安全嗎？" class="headerlink" title="加法安全，乘法也安全嗎？"></a>加法安全，乘法也安全嗎？</h3><p>本題一次把一個新數字加進總和，每段相加連同進位，最大為 <code>9999 + 9999 + 1 = 19999</code>，使用 32 位元 <code>int</code> 足夠。</p>
+<p><strong>若改做乘法，就要重新估算中間值，不能直接沿用加法的安全範圍。</strong> 單次兩段相乘最多為 <code>9999 × 9999 = 99980001</code>，仍放得進 32 位元 <code>int</code>；但如果先把多個乘積累加到同一格、最後才進位，就可能溢位。例如累加 50 個最大乘積會得到 <code>4999000050</code>，已超過 <code>2147483647</code>。</p>
+<p>因此，寫乘法時要連同累加項數與進位估算上限，再決定分段大小、中間值型別和進位時機。若需要 <code>long long</code>，也要讓乘法在該型別下進行，例如 <code>1LL * a[i] * b[j]</code>，而不是等乘法算完才轉型。本題只有加法，目前的四位分段與 <code>int</code> 已足夠。</p>
+<h2 id="輸出與容量"><a href="#輸出與容量" class="headerlink" title="輸出與容量"></a>輸出與容量</h2><p>最高的非零段直接輸出，其餘較低的段都固定補成四位，才能保留每段的位置。例如 <code>[1, 1]</code> 要由高到低印成 <code>1</code> 接上 <code>0001</code>，得到 <code>10001</code>，不能直接接成 <code>11</code>。上面的連續進位例子則印出 <code>1</code>、<code>0000</code>、<code>0001</code>，接起來才是 <code>100000001</code>。</p>
+<p>若總和為 0，仍保留並輸出索引 0 的段，避免往陣列範圍外尋找非零段。輸入即使帶有前導零，輸出也會自然省略多餘的零。</p>
+<p>程式使用 50 段的容量，可保存 200 位十進位數字。題目最多將 100 個 100 位數相加，總和最多 102 位，因此容量足夠。</p>
+<h2 id="競賽時也可以用語言提供的大整數"><a href="#競賽時也可以用語言提供的大整數" class="headerlink" title="競賽時也可以用語言提供的大整數"></a>競賽時也可以用語言提供的大整數</h2><p>若競賽允許使用 Python，這題可以直接把輸入字串轉成 <code>int</code> 再累加，不必自行分段與處理進位。Python 的 <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/stdtypes.html#numeric-types-int-float-complex"><code>int</code></a> 支援任意精度整數，可以保存本題的 100 位數與總和。</p>
+<p>Java 的標準函式庫則提供 <a target="_blank" rel="noopener" href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/BigInteger.html"><code>java.math.BigInteger</code></a>，可從字串建立大整數，並以 <code>add</code> 方法相加；一般的 <code>int</code>、<code>long</code> 仍有固定範圍，不會自動變成大整數。</p>
+<p>實際比賽時，可依允許的語言與時間限制選擇寫法。下面的 C++ 程式示範如何自行實作，重點是理解分段保存與進位的原理。</p>
+<h2 id="程式"><a href="#程式" class="headerlink" title="程式"></a>程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> BASE = <span class="number">10000</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> BLOCK_DIGITS = <span class="number">4</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAX_BLOCKS = <span class="number">50</span>;</span><br><span class="line"><span class="keyword">using</span> BigInteger = array&lt;<span class="type">int</span>, MAX_BLOCKS&gt;;</span><br><span class="line"></span><br><span class="line"><span class="function">BigInteger <span class="title">readNumber</span><span class="params">(<span class="type">const</span> string&amp; number)</span> </span>&#123;</span><br><span class="line">    BigInteger value = &#123;&#125;;</span><br><span class="line">    <span class="type">int</span> block = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> end = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(number.<span class="built_in">size</span>()); end &gt; <span class="number">0</span>; end -= BLOCK_DIGITS) &#123;</span><br><span class="line">        <span class="type">int</span> start = <span class="built_in">max</span>(<span class="number">0</span>, end - BLOCK_DIGITS);</span><br><span class="line">        value[block++] = <span class="built_in">stoi</span>(number.<span class="built_in">substr</span>(start, end - start));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">addTo</span><span class="params">(BigInteger&amp; sum, <span class="type">const</span> BigInteger&amp; number)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> carry = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_BLOCKS; ++i) &#123;</span><br><span class="line">        <span class="type">int</span> total = sum[i] + number[i] + carry;</span><br><span class="line">        sum[i] = total % BASE;</span><br><span class="line">        carry = total / BASE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">printNumber</span><span class="params">(<span class="type">const</span> BigInteger&amp; number)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> top = MAX_BLOCKS - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (top &gt; <span class="number">0</span> &amp;&amp; number[top] == <span class="number">0</span>) --top;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; number[top];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = top - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; <span class="built_in">setw</span>(BLOCK_DIGITS) &lt;&lt; number[i];</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    BigInteger sum = &#123;&#125;;</span><br><span class="line">    string number;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; number &amp;&amp; number != <span class="string">&quot;0&quot;</span>) &#123;</span><br><span class="line">        <span class="built_in">addTo</span>(sum, <span class="built_in">readNumber</span>(number));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printNumber</span>(sum);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>令陣列容量為 <code>B</code>、輸入筆數為 <code>N</code>，每筆加法需要 <code>O(B)</code> 時間，總時間為 <code>O(NB)</code>，額外空間為 <code>O(B)</code>；本程式的 <code>B = 50</code>。</p>
+<h2 id="UVa-判題結果"><a href="#UVa-判題結果" class="headerlink" title="UVa 判題結果"></a>UVa 判題結果</h2><p>本篇程式以 C++11 提交 UVa，獲得 <strong>Accepted</strong>（submission <strong>31356157</strong>，0.000 秒）。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/4/424.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    
+      <aside class="article-license" aria-label="文章授權">
+  <p>除另有註明外，本站原創文章採 <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">CC BY 4.0</a>、原創程式碼採 <a href="/licenses/MIT.txt">MIT</a> 授權。詳見<a href="/licensing/">授權與引用方式</a>。</p>
+</aside>
+
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-424-integer-inquiry-041/" data-id="cuidqWNzti13d2vgJ5c3xbTNO" data-title="424 - Integer Inquiry" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/07/07/uva-11172-relational-operator-040/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          11172 - Relational Operator
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/07/07/uva-10041-vito-s-family-042/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">10041 - Vito&#39;s Family</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-003/">Volume 003</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-005/">Volume 005</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-100/">Volume 100</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-109/">Volume 109</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-111/">Volume 111</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E4%B8%B2%E8%99%95%E7%90%86/" rel="tag">字串處理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E9%80%9F%E5%86%AA/" rel="tag">快速冪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B2%AA%E5%BF%83%E6%B3%95/" rel="tag">貪心法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E5%AD%97%E4%B8%B2%E8%99%95%E7%90%86/" style="font-size: 10px;">字串處理</a> <a href="/tags/%E5%BF%AB%E9%80%9F%E5%86%AA/" style="font-size: 10px;">快速冪</a> <a href="/tags/%E8%B2%AA%E5%BF%83%E6%B3%95/" style="font-size: 10px;">貪心法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-489-hangman-judge-005/">489 - Hangman Judge</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/11/uva-696-how-many-knights-006/">696 - How Many Knights</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      <a href="/licensing/">授權與引用方式</a><br>
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

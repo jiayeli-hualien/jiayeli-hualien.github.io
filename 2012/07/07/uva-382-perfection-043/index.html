@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>382 - Perfection | Leaf&#39;s Programming Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="題目要求輸入是一串正整數，以 0 表示結束；每個數值介於 1 和 60000，輸入筆數 N 符合 1 &lt; N &lt; 100。對每個數字 n，加總所有小於 n、且能整除 n 的正整數，這些數就是本題要計算的真因數。比較總和與原本的數字 n：  完美數（PERFECT）：真因數總和等於 n。例如 6 的真因數是 1、2、3，總和也是 6。 豐沛數（ABUNDANT）：真因數總和大於 n。例如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="382 - Perfection">
+<meta property="og:url" content="https://jiayeli-hualien.github.io/2012/07/07/uva-382-perfection-043/index.html">
+<meta property="og:site_name" content="Leaf&#39;s Programming Note">
+<meta property="og:description" content="題目要求輸入是一串正整數，以 0 表示結束；每個數值介於 1 和 60000，輸入筆數 N 符合 1 &lt; N &lt; 100。對每個數字 n，加總所有小於 n、且能整除 n 的正整數，這些數就是本題要計算的真因數。比較總和與原本的數字 n：  完美數（PERFECT）：真因數總和等於 n。例如 6 的真因數是 1、2、3，總和也是 6。 豐沛數（ABUNDANT）：真因數總和大於 n。例如">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-07-07T05:54:10.000Z">
+<meta property="article:modified_time" content="2026-10-31T16:00:00.000Z">
+<meta property="article:author" content="Leaf (Jia-Ye Li)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Leaf's Programming Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/article-dates.css">
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/css/mathjax.css">
+
+<link rel="stylesheet" href="/css/content-license.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Leaf&#39;s Programming Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜尋"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jiayeli-hualien.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-uva-382-perfection-043" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-382-perfection-043/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T05:54:10.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-003/">Volume 003</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      382 - Perfection
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>輸入是一串正整數，以 <code>0</code> 表示結束；每個數值介於 <code>1</code> 和 <code>60000</code>，輸入筆數 <code>N</code> 符合 <code>1 &lt; N &lt; 100</code>。對每個數字 <code>n</code>，加總所有<strong>小於 <code>n</code>、且能整除 <code>n</code> 的正整數</strong>，這些數就是本題要計算的真因數。比較總和與原本的數字 <code>n</code>：</p>
+<ul>
+<li><strong>完美數（PERFECT）</strong>：真因數總和等於 <code>n</code>。例如 <code>6</code> 的真因數是 <code>1、2、3</code>，總和也是 <code>6</code>。</li>
+<li><strong>豐沛數（ABUNDANT）</strong>：真因數總和大於 <code>n</code>。例如 <code>12</code> 的真因數是 <code>1、2、3、4、6</code>，總和為 <code>16</code>。</li>
+<li><strong>不足數（DEFICIENT）</strong>：真因數總和小於 <code>n</code>。例如 <code>9</code> 的真因數是 <code>1、3</code>，總和為 <code>4</code>。</li>
+</ul>
+<p>本題可直接檢查到 <code>n - 1</code>，也可以利用因數成對出現的性質，只檢查到 <code>√n</code>。兩種做法最後都依同一規則分類。</p>
+<p>輸出第一行是 <code>PERFECTION OUTPUT</code>，最後一行是 <code>END OF OUTPUT</code>。每個數字要靠右對齊在 5 個字元內，後面接兩個空格與分類名稱。輸入值 <code>1</code> 沒有真因數，總和為 <code>0</code>，因此是不足數；結束標記 <code>0</code> 不分類也不輸出。</p>
+<h2 id="解法一：逐一檢查到-n-−-1"><a href="#解法一：逐一檢查到-n-−-1" class="headerlink" title="解法一：逐一檢查到 n − 1"></a>解法一：逐一檢查到 n − 1</h2><p>從 <code>1</code> 到 <code>n - 1</code>，逐一檢查哪些數字能整除 <code>n</code>，把它們加起來即可。迴圈不包含 <code>n</code>，自然排除了數字本身；當 <code>n = 1</code>，迴圈不執行，總和維持為 <code>0</code>。</p>
+<p>每個 <code>n</code> 最多檢查 <code>n - 1</code> 次，時間複雜度為 <code>O(n)</code>，額外空間為 <code>O(1)</code>。本題數值不超過 <code>60000</code>、輸入少於 100 筆，這個直接的做法也足夠。</p>
+<h3 id="C-11-程式：逐一檢查"><a href="#C-11-程式：逐一檢查" class="headerlink" title="C++11 程式：逐一檢查"></a>C++11 程式：逐一檢查</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">sumProperDivisors</span><span class="params">(<span class="type">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> divisor = <span class="number">1</span>; divisor &lt; number; ++divisor) &#123;</span><br><span class="line">        <span class="keyword">if</span> (number % divisor == <span class="number">0</span>) &#123;</span><br><span class="line">            sum += divisor;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;PERFECTION OUTPUT\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> number;</span><br><span class="line">    <span class="keyword">while</span> (std::cin &gt;&gt; number &amp;&amp; number != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> sum = <span class="built_in">sumProperDivisors</span>(number);</span><br><span class="line">        <span class="type">const</span> <span class="type">char</span>* classification;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (sum == number) &#123;</span><br><span class="line">            classification = <span class="string">&quot;PERFECT&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &gt; number) &#123;</span><br><span class="line">            classification = <span class="string">&quot;ABUNDANT&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            classification = <span class="string">&quot;DEFICIENT&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; std::<span class="built_in">setw</span>(<span class="number">5</span>) &lt;&lt; number &lt;&lt; <span class="string">&quot;  &quot;</span> &lt;&lt; classification &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;END OF OUTPUT\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這份逐一檢查的程式已於 UVa 382 獲得 <strong>Accepted</strong>（submission <strong>31357197</strong>，0.000 秒）。</p>
+<h2 id="解法二：因數成對，只檢查到-√n"><a href="#解法二：因數成對，只檢查到-√n" class="headerlink" title="解法二：因數成對，只檢查到 √n"></a>解法二：因數成對，只檢查到 √n</h2><p>如果 <code>d</code> 能整除 <code>n</code>，那麼 <code>n / d</code> 也是因數，兩者相乘就是 <code>n</code>。例如 <code>12</code> 的因數可以配成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 × 12</span><br><span class="line">2 ×  6</span><br><span class="line">3 ×  4</span><br></pre></td></tr></table></figure>
+
+<p><strong>每一對因數，至少有一個不大於 <code>√n</code>。</strong> 因為如果兩個都大於 <code>√n</code>，乘積就會大於 <code>n</code>，不可能是 <code>n</code> 的因數對。因此，只要檢查到 <code>√n</code>，每找到一個因數 <code>d</code>，就可以同時找到另一個 <code>n / d</code>；不必再把較大的因數逐一檢查一遍。</p>
+<p>以 <code>12</code> 為例，檢查 <code>1、2、3</code> 就能找到上面的三對因數。排除 <code>12</code> 本身後，加總 <code>1 + 2 + 6 + 3 + 4 = 16</code>。</p>
+<h3 id="完全平方數：相同因數只加一次"><a href="#完全平方數：相同因數只加一次" class="headerlink" title="完全平方數：相同因數只加一次"></a>完全平方數：相同因數只加一次</h3><p>當 <code>n</code> 是完全平方數，最後一對因數會相同。例如 <code>36</code> 的因數對為：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1 × 36</span><br><span class="line">2 × 18</span><br><span class="line">3 × 12</span><br><span class="line">4 ×  9</span><br><span class="line">6 ×  6</span><br></pre></td></tr></table></figure>
+
+<p>最後的 <code>6</code> 只是一個因數，不能因為寫成 <code>6 × 6</code> 就加兩次。因此程式先加 <code>d</code>，再判斷 <code>n / d != d</code>，不同時才加入另一個因數。正確總和是 <code>1 + 2 + 18 + 3 + 12 + 4 + 9 + 6 = 55</code>。</p>
+<h3 id="程式如何排除-n-本身？"><a href="#程式如何排除-n-本身？" class="headerlink" title="程式如何排除 n 本身？"></a>程式如何排除 n 本身？</h3><p>先處理 <code>n = 1</code>，直接回傳 <code>0</code>。對其他數字，先將總和設為 <code>1</code>，再從 <code>d = 2</code> 開始找因數。這樣 <code>1 × n</code> 這一對只會加入 <code>1</code>，不會誤加 <code>n</code>。</p>
+<p>迴圈條件使用 <code>d * d &lt;= n</code>，等同只檢查到 <code>√n</code>，也會包含完全平方數的平方根，不需要另外呼叫開根號函數。本題 <code>n &lt;= 60000</code>，這個條件中的乘法使用 32 位元 <code>int</code> 足夠。</p>
+<h3 id="C-11-程式：成對找因數"><a href="#C-11-程式：成對找因數" class="headerlink" title="C++11 程式：成對找因數"></a>C++11 程式：成對找因數</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">sumProperDivisors</span><span class="params">(<span class="type">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> sum = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> divisor = <span class="number">2</span>; divisor * divisor &lt;= number; ++divisor) &#123;</span><br><span class="line">        <span class="keyword">if</span> (number % divisor == <span class="number">0</span>) &#123;</span><br><span class="line">            sum += divisor;</span><br><span class="line">            <span class="type">const</span> <span class="type">int</span> pairedDivisor = number / divisor;</span><br><span class="line">            <span class="keyword">if</span> (pairedDivisor != divisor) &#123;</span><br><span class="line">                sum += pairedDivisor;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;PERFECTION OUTPUT\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> number;</span><br><span class="line">    <span class="keyword">while</span> (std::cin &gt;&gt; number &amp;&amp; number != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> sum = <span class="built_in">sumProperDivisors</span>(number);</span><br><span class="line">        <span class="type">const</span> <span class="type">char</span>* classification;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (sum == number) &#123;</span><br><span class="line">            classification = <span class="string">&quot;PERFECT&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &gt; number) &#123;</span><br><span class="line">            classification = <span class="string">&quot;ABUNDANT&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            classification = <span class="string">&quot;DEFICIENT&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; std::<span class="built_in">setw</span>(<span class="number">5</span>) &lt;&lt; number &lt;&lt; <span class="string">&quot;  &quot;</span> &lt;&lt; classification &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;END OF OUTPUT\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這份根號版本以 C++11 提交至 UVa 382，獲得 <strong>Accepted</strong>（submission <strong>31362904</strong>，0.000 秒）。</p>
+<p>每個 <code>n</code> 的時間複雜度為 <code>O(√n)</code>，額外空間仍為 <code>O(1)</code>。當 <code>n = 60000</code>，只需檢查 <code>d = 2</code> 到 <code>244</code>，相較直接檢查 <code>1</code> 到 <code>59999</code>，可省下許多次整除判斷。</p>
+<h2 id="兩種做法怎麼選？"><a href="#兩種做法怎麼選？" class="headerlink" title="兩種做法怎麼選？"></a>兩種做法怎麼選？</h2><p>剛開始學迴圈與取餘數，可以先寫逐一檢查的版本；理解因數成對出現後，就能改用根號版本減少計算量。兩種做法都要排除 <code>n</code> 本身，而根號版本還要注意完全平方數不能重複加上平方根。</p>
+<p>比賽時，若題目給定的資料範圍小，簡單的做法就能在時間限制內完成，可以優先選擇容易實作、較不容易寫錯的方法。本題兩個版本在 UVa 的執行時間都顯示為 <code>0 ms</code>，因此直接逐一檢查也是合理的選擇。</p>
+<p>不過，<code>0 ms</code> 不代表兩者的計算量相同；根號版本的複雜度較低，當資料範圍變大時，更能發揮優勢。選擇時應先依題目範圍估算計算量，而不是只看這次判題顯示的時間。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/3/382.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    
+      <aside class="article-license" aria-label="文章授權">
+  <p>除另有註明外，本站原創文章採 <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">CC BY 4.0</a>、原創程式碼採 <a href="/licenses/MIT.txt">MIT</a> 授權。詳見<a href="/licensing/">授權與引用方式</a>。</p>
+</aside>
+
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-382-perfection-043/" data-id="cuid_nwfO_8hBRX0-4yx09L7a" data-title="382 - Perfection" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/07/07/uva-10041-vito-s-family-042/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          10041 - Vito&#39;s Family
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/07/07/uva-483-word-scramble-044/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">483 - Word Scramble</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-003/">Volume 003</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-005/">Volume 005</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-100/">Volume 100</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-109/">Volume 109</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-111/">Volume 111</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E4%B8%B2%E8%99%95%E7%90%86/" rel="tag">字串處理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E9%80%9F%E5%86%AA/" rel="tag">快速冪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B2%AA%E5%BF%83%E6%B3%95/" rel="tag">貪心法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E5%AD%97%E4%B8%B2%E8%99%95%E7%90%86/" style="font-size: 10px;">字串處理</a> <a href="/tags/%E5%BF%AB%E9%80%9F%E5%86%AA/" style="font-size: 10px;">快速冪</a> <a href="/tags/%E8%B2%AA%E5%BF%83%E6%B3%95/" style="font-size: 10px;">貪心法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/08/10/Linked-List/">Linked List 鏈結串列</a>
+          </li>
+        
+          <li>
+            <a href="/2014/01/22/uva-command-line-option-and-macro-preprocessor-002/">Command line option and macro preprocessor</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-10284-chessboard-in-fen-004/">10284 - Chessboard in FEN</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/14/uva-489-hangman-judge-005/">489 - Hangman Judge</a>
+          </li>
+        
+          <li>
+            <a href="/2013/12/11/uva-696-how-many-knights-006/">696 - How Many Knights</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      <a href="/licensing/">授權與引用方式</a><br>
+      &copy; 2026 Leaf (Jia-Ye Li)<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

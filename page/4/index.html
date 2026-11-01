@@ -134,11 +134,697 @@
 
 
   
+    <article id="post-uva-10008-what-s-cryptanalysis-037" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-10008-what-s-cryptanalysis-037/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T06:06:27.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-100/">Volume 100</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-10008-what-s-cryptanalysis-037/">10008 - What&#39;s Cryptanalysis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 10008 要統計一段文字中，每個英文字母出現的次數。輸入第一行是正整數 <code>n</code>，接著有 <code>n</code> 行文字，也可能包含空白行。大小寫視為同一個字母，空格、標點和數字都忽略。輸出每行列出一個大寫字母、空格及出現次數；只列出至少出現一次的字母，依次數由多到少排列，次數相同時按字母順序排列。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/100/10008.pdf">題目敘述</a></p>
+<h2 id="統計-26-個字母再排序"><a href="#統計-26-個字母再排序" class="headerlink" title="統計 26 個字母再排序"></a>統計 26 個字母再排序</h2><p>例如自訂文字 <code>aB! a? c</code> 中，<code>A</code> 出現 2 次，<code>B</code> 和 <code>C</code> 各出現 1 次，因此輸出順序是 <code>A 2</code>、<code>B 1</code>、<code>C 1</code>。</p>
+<p>固定使用 26 個計數器記錄 <code>A</code> 到 <code>Z</code> 的出現次數。讀取每一整行，逐字檢查：大寫字母用 <code>ch - &#39;A&#39;</code> 找到位置，小寫字母用 <code>ch - &#39;a&#39;</code> 找到相同位置，其他字元不計數。</p>
+<p>統計完成後，只把出現過的字母放入清單，再依「次數遞減、字母遞增」排序並輸出。若共有 <code>L</code> 個輸入字元，時間複雜度為 <code>O(L + 26 log 26)</code>；計數器和排序清單最多各存 26 個項目。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;limits&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">LetterCount</span> &#123;</span><br><span class="line">    <span class="type">char</span> letter;</span><br><span class="line">    <span class="type">int</span> count;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> lineCount;</span><br><span class="line">    <span class="keyword">if</span> (!(cin &gt;&gt; lineCount)) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    cin.<span class="built_in">ignore</span>(numeric_limits&lt;streamsize&gt;::<span class="built_in">max</span>(), <span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    array&lt;<span class="type">int</span>, 26&gt; frequency = &#123;&#125;;</span><br><span class="line">    string line;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; lineCount; ++i) &#123;</span><br><span class="line">        <span class="built_in">getline</span>(cin, line);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">char</span> ch : line) &#123;</span><br><span class="line">            <span class="keyword">if</span> (ch &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">                ++frequency[ch - <span class="string">&#x27;A&#x27;</span>];</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ch &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">                ++frequency[ch - <span class="string">&#x27;a&#x27;</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    vector&lt;LetterCount&gt; letters;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (frequency[i] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            letters.<span class="built_in">push_back</span>(&#123;<span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(<span class="string">&#x27;A&#x27;</span> + i), frequency[i]&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">sort</span>(letters.<span class="built_in">begin</span>(), letters.<span class="built_in">end</span>(), [](<span class="type">const</span> LetterCount&amp; left,</span><br><span class="line">                                            <span class="type">const</span> LetterCount&amp; right) &#123;</span><br><span class="line">        <span class="keyword">if</span> (left.count != right.count) <span class="keyword">return</span> left.count &gt; right.count;</span><br><span class="line">        <span class="keyword">return</span> left.letter &lt; right.letter;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> LetterCount&amp; item : letters) &#123;</span><br><span class="line">        cout &lt;&lt; item.letter &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; item.count &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>這份 C++11 程式的 UVa 提交 31355637 獲得 <strong>Accepted</strong>，執行時間為 0.000 秒。</p>
+
+      
+    </div>
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10008-what-s-cryptanalysis-037/" data-id="cuidwnjQoeM6T-3TQoq2G24ok" data-title="10008 - What&#39;s Cryptanalysis" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-575-skew-binary-038" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-575-skew-binary-038/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T06:02:28.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-005/">Volume 005</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-575-skew-binary-038/">575 - Skew Binary</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 575 要把 skew binary 數字轉成十進位。從右邊數第 <code>k</code> 位的權重是 <code>2^(k + 1) - 1</code>（最右位的 <code>k = 0</code>）。每一位的數字可以是 <code>0</code> 或 <code>1</code>，最右側的非零位也可能是 <code>2</code>。輸入每行一個數字，<code>0</code> 表示結束；每個數字的十進位值不超過 <code>2^31 - 1</code>。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/5/575.pdf">題目敘述</a></p>
+<h2 id="由右向左累加位值"><a href="#由右向左累加位值" class="headerlink" title="由右向左累加位值"></a>由右向左累加位值</h2><p>各位的權重依序是 <code>1, 3, 7, 15, ...</code>，每一項都等於前一項乘 2 再加 1。因此從最右位開始，逐位乘上目前權重並加進答案，再更新權重即可。</p>
+<p>例如 <code>10120</code> 的計算是 <code>1 × 31 + 0 × 15 + 1 × 7 + 2 × 3 + 0 × 1 = 44</code>。程式以字串讀取輸入，並以 <code>0</code> 作為輸入終止標記。</p>
+<p>題目保證轉換後的答案不超過 <code>2^31 - 1</code>，因此答案與實際用到的權重都放得進 32 位元的 <code>int</code>。不過，目前迴圈在處理完最高位後，仍會執行一次 <code>placeValue = placeValue * 2 + 1</code>；對最大合法值而言，這次更新會得到 <code>2^32 - 1</code>，超過 32 位元 <code>int</code> 的上限。雖然後面不再使用這個權重，溢位仍須避免。因此程式使用 <code>uint64_t</code> 保存權重和答案，省去最後一次更新的特殊判斷，讓寫法保持簡單。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdint&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">toDecimal</span><span class="params">(<span class="type">const</span> string&amp; skew)</span> </span>&#123;</span><br><span class="line">    <span class="type">uint64_t</span> value = <span class="number">0</span>;</span><br><span class="line">    <span class="type">uint64_t</span> placeValue = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = skew.<span class="built_in">size</span>(); i &gt; <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> digit = skew[i - <span class="number">1</span>] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        value += digit * placeValue;</span><br><span class="line">        placeValue = placeValue * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    string skew;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; skew &amp;&amp; skew != <span class="string">&quot;0&quot;</span>) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">toDecimal</span>(skew) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每個輸入位數只處理一次，時間複雜度為 <code>O(D)</code>，其中 <code>D</code> 是位數；額外空間用來保存目前的輸入字串。</p>
+<h2 id="UVa-驗證結果"><a href="#UVa-驗證結果" class="headerlink" title="UVa 驗證結果"></a>UVa 驗證結果</h2><p>這份 C++11 程式的 UVa 提交 31355652 獲得 <strong>Accepted</strong>，執行時間為 0.000 秒。</p>
+
+      
+    </div>
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-575-skew-binary-038/" data-id="cuidYVblJy8OWg_-NsTcvUvfU" data-title="575 - Skew Binary" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-579-clockhands-039" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-579-clockhands-039/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T06:00:29.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-005/">Volume 005</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-579-clockhands-039/">579 - ClockHands</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>UVa 579 給定時間 <code>H:M</code>，要輸出時針和分針之間較小的角度，四捨五入至小數點後三位。時間以 <code>0:00</code> 結束；<code>H</code> 為 1 到 12，<code>M</code> 為 00 到 59。<a target="_blank" rel="noopener" href="https://onlinejudge.org/external/5/579.pdf">題目敘述</a></p>
+<h2 id="先求兩根指針的位置"><a href="#先求兩根指針的位置" class="headerlink" title="先求兩根指針的位置"></a>先求兩根指針的位置</h2><p>指針時鐘的長針是分針，一圈代表 60 分鐘；短針是時針，一圈代表 12 小時。時針會隨時間連續移動，所以 <code>8:10</code> 的時針已略過 8，不會停在 8 上。</p>
+<p><img src="/images/uva-579-clockhands-0810.svg" alt="8:10 的時鐘，分針指向 2，時針略過 8，較小夾角為 175 度"></p>
+<p>上圖為自行繪製的指針位置示意。以下角度都從 12 點方向開始，順時針計算。</p>
+<p>一圈是 <code>360°</code>，兩根指針走完一圈所需的時間不同，因此轉動速度也不同：</p>
+<ul>
+<li><strong>時針每小時</strong>：12 小時走完一圈，所以每小時轉 <code>360° ÷ 12 = 30°</code>。</li>
+<li><strong>時針每分鐘</strong>：一小時有 60 分鐘，所以每分鐘轉 <code>30° ÷ 60 = 0.5°</code>。</li>
+<li><strong>分針每分鐘</strong>：60 分鐘走完一圈，所以每分鐘轉 <code>360° ÷ 60 = 6°</code>。</li>
+</ul>
+<p>因此，時間 <code>H:M</code> 的時針角度是 <code>30H + 0.5M</code>，分針角度是 <code>6M</code>。時針公式中的 <code>0.5M</code>，就是這一小時內經過 <code>M</code> 分鐘所前進的角度。</p>
+<p>兩角相減並取絕對值，得到一個 <code>0°</code> 到 <code>360°</code> 的角度差 <code>d</code>。兩根指針之間較小的角度是 <code>min(d, 360° - d)</code>。例如 <code>8:10</code> 時，時針在 <code>245°</code>，分針在 <code>60°</code>，角度差為 <code>185°</code>，因此答案是 <code>175°</code>。</p>
+<h2 id="C-11-程式"><a href="#C-11-程式" class="headerlink" title="C++11 程式"></a>C++11 程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> hour, minute;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">&quot;%d:%d&quot;</span>,&amp;hour,&amp;minute)!=EOF)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(hour==<span class="number">0</span>&amp;&amp;minute==<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="type">double</span> angleH , angleM;</span><br><span class="line">        angleH = <span class="number">0.5</span>*minute + hour*<span class="number">30</span>;</span><br><span class="line">        angleM = minute*<span class="number">6</span>;</span><br><span class="line">        <span class="type">double</span> ans = angleH-angleM;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(ans &lt; <span class="number">0</span>)</span><br><span class="line">            ans = -ans;</span><br><span class="line">        <span class="keyword">if</span>(ans &gt; <span class="number">180.0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ans = <span class="number">360</span>-ans;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%.3f\n&quot;</span>,ans);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UVa-判題結果"><a href="#UVa-判題結果" class="headerlink" title="UVa 判題結果"></a>UVa 判題結果</h2><p>本文程式以 C++11 提交至 UVa 579，獲得 <strong>Accepted</strong>（submission <strong>31357364</strong>，10 ms）。</p>
+
+      
+    </div>
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-579-clockhands-039/" data-id="cuidXv1ibaWPX_SCUQzyTWVU5" data-title="579 - ClockHands" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-11172-relational-operator-040" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-11172-relational-operator-040/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T05:59:04.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-111/">Volume 111</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-11172-relational-operator-040/">11172 - Relational Operator</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>第一行是測試筆數 <code>T</code>，接著每筆給定兩個整數 <code>a</code> 和 <code>b</code>，輸出 <code>&gt;</code>、<code>&lt;</code> 或 <code>=</code>，表示兩者的大小關係。</p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>依序判斷 <code>a &gt; b</code> 與 <code>a &lt; b</code>，分別輸出 <code>&gt;</code> 和 <code>&lt;</code>；兩者都不成立時，兩數相等，輸出 <code>=</code>。三種情況涵蓋所有可能，每筆只會輸出一個符號。</p>
+<p>題目保證兩數都介於 <code>-10^9</code> 和 <code>10^9</code> 之間，使用 <code>int</code> 即可保存。</p>
+<h2 id="程式"><a href="#程式" class="headerlink" title="程式"></a>程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a,b;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>,&amp;a,&amp;b);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(a&gt;b)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">puts</span>(<span class="string">&quot;&gt;&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">if</span>(a&lt;b)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">puts</span>(<span class="string">&quot;&lt;&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">puts</span>(<span class="string">&quot;=&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每筆比較的時間與額外空間都是 <code>O(1)</code>。</p>
+<h2 id="UVa-判題結果"><a href="#UVa-判題結果" class="headerlink" title="UVa 判題結果"></a>UVa 判題結果</h2><p>本篇程式以 C++11 提交 UVa，獲得 <strong>Accepted</strong>（submission <strong>31356146</strong>，0.000 秒）。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/111/11172.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-11172-relational-operator-040/" data-id="cuid2adNXkA2n-JaWfeG-DMnI" data-title="11172 - Relational Operator" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-424-integer-inquiry-041" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-424-integer-inquiry-041/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T05:57:20.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-004/">Volume 004</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-424-integer-inquiry-041/">424 - Integer Inquiry</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="用大整數加法求總和"><a href="#用大整數加法求總和" class="headerlink" title="用大整數加法求總和"></a>用大整數加法求總和</h2><p>輸入多個非負整數，最後一行的 <code>0</code> 表示輸入結束，請輸出所有數字的總和。題目最多有 100 個數，每個數最多 100 位，連 <code>long long</code> 也放不下。</p>
+<p><strong>解法是用陣列分開保存各位數，再像直式加法一樣相加與進位。</strong> 先用字串讀入完整數字，就不必把整個數值塞進單一整數變數。本篇先用「陣列一格存一位」說明原理，程式再採用「一格存四位」減少需要處理的格數。</p>
+<h2 id="就像直式加法"><a href="#就像直式加法" class="headerlink" title="就像直式加法"></a>就像直式加法</h2><p>例如 <code>999 + 2</code>，從個位開始相加，滿 10 就向左進位：</p>
+<style>
+.article-entry pre.uva424-vertical,.article-entry pre.uva424-vertical code {
+  font-family:Menlo,Consolas,"Liberation Mono",monospace;
+  font-variant-ligatures:none;
+  white-space:pre;
+}
+.article-entry pre.uva424-vertical {overflow-x:auto;line-height:1.6;}
+</style>
+<pre class="uva424-vertical"><code>  999
++   2
+-----
+ 1001</code></pre>
+
+<p>個位的 <code>9 + 2 = 11</code>，保存 1、進位 1；十位與百位都因為接到進位而得到 10，各保存 0、繼續進位，最後得到 1001。大整數加法就是把這個過程寫成程式。</p>
+<h2 id="先從陣列一格存一位開始"><a href="#先從陣列一格存一位開始" class="headerlink" title="先從陣列一格存一位開始"></a>先從陣列一格存一位開始</h2><p>將 <code>999</code> 存成 <code>[9, 9, 9, 0, …]</code>，<code>2</code> 存成 <code>[2, 0, 0, 0, …]</code>。<strong>索引 0 保存個位</strong>，索引 1 保存十位，依此類推。這樣迴圈從索引 0 往後走，就能按照低位到高位的順序處理。</p>
+<p>每格計算 <code>total = 原有數字 + 新數字 + carry</code>，其中 <code>carry</code> 是前一格傳來的進位：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">本格保存 = total % 10</span><br><span class="line">下一格進位 = total / 10</span><br></pre></td></tr></table></figure>
+
+<p>這裡的除法是整數除法。例如 <code>11 % 10 = 1</code>、<code>11 / 10 = 1</code>，正好對應「保存 1、進位 1」。算完 <code>999 + 2</code>，陣列會是 <code>[1, 0, 0, 1, 0, …]</code>；輸出時由高位往低位讀，就得到 <code>1001</code>。</p>
+<h2 id="程式為什麼一格存四位？"><a href="#程式為什麼一格存四位？" class="headerlink" title="程式為什麼一格存四位？"></a>程式為什麼一格存四位？</h2><p>一格一位已經能解這題。一格四位則把相鄰的四個十進位數字合成一段，讓需要處理的格數約縮成四分之一；加法與進位的原理相同，只是由<strong>滿 10 進位，改成滿 10000 進位</strong>。</p>
+<p>例如 <code>123456789</code> 從右側每四位切一段，得到 <code>1、2345、6789</code>，陣列反向存成 <code>[6789, 2345, 1, 0, …]</code>，讓索引 0 仍代表最低段。每段的值介於 0 到 9999。</p>
+<p>對應到程式，<code>BASE = 10000</code>，每段計算：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">total = 總和原有的段值 + 新數字的段值 + carry</span><br><span class="line">本段保存 = total % 10000</span><br><span class="line">下一段進位 = total / 10000</span><br></pre></td></tr></table></figure>
+
+<p>以 <code>99999999 + 2</code> 為例，每四位一組的直式加法如下：</p>
+<pre class="uva424-vertical"><code>   9999 9999
++         2
+-----------
+1  0000 0001</code></pre>
+
+<p>每組滿 10000 就向左進位，結果是 <code>100000001</code>，陣列存成 <code>[1, 0, 1, 0, …]</code>。程式每次都先合併低位並向高位進位，已處理的段就會保持在 0 到 9999 之間；讀完所有輸入後，陣列保存的就是完整總和。</p>
+<h3 id="加法安全，乘法也安全嗎？"><a href="#加法安全，乘法也安全嗎？" class="headerlink" title="加法安全，乘法也安全嗎？"></a>加法安全，乘法也安全嗎？</h3><p>本題一次把一個新數字加進總和，每段相加連同進位，最大為 <code>9999 + 9999 + 1 = 19999</code>，使用 32 位元 <code>int</code> 足夠。</p>
+<p><strong>若改做乘法，就要重新估算中間值，不能直接沿用加法的安全範圍。</strong> 單次兩段相乘最多為 <code>9999 × 9999 = 99980001</code>，仍放得進 32 位元 <code>int</code>；但如果先把多個乘積累加到同一格、最後才進位，就可能溢位。例如累加 50 個最大乘積會得到 <code>4999000050</code>，已超過 <code>2147483647</code>。</p>
+<p>因此，寫乘法時要連同累加項數與進位估算上限，再決定分段大小、中間值型別和進位時機。若需要 <code>long long</code>，也要讓乘法在該型別下進行，例如 <code>1LL * a[i] * b[j]</code>，而不是等乘法算完才轉型。本題只有加法，目前的四位分段與 <code>int</code> 已足夠。</p>
+<h2 id="輸出與容量"><a href="#輸出與容量" class="headerlink" title="輸出與容量"></a>輸出與容量</h2><p>最高的非零段直接輸出，其餘較低的段都固定補成四位，才能保留每段的位置。例如 <code>[1, 1]</code> 要由高到低印成 <code>1</code> 接上 <code>0001</code>，得到 <code>10001</code>，不能直接接成 <code>11</code>。上面的連續進位例子則印出 <code>1</code>、<code>0000</code>、<code>0001</code>，接起來才是 <code>100000001</code>。</p>
+<p>若總和為 0，仍保留並輸出索引 0 的段，避免往陣列範圍外尋找非零段。輸入即使帶有前導零，輸出也會自然省略多餘的零。</p>
+<p>程式使用 50 段的容量，可保存 200 位十進位數字。題目最多將 100 個 100 位數相加，總和最多 102 位，因此容量足夠。</p>
+<h2 id="競賽時也可以用語言提供的大整數"><a href="#競賽時也可以用語言提供的大整數" class="headerlink" title="競賽時也可以用語言提供的大整數"></a>競賽時也可以用語言提供的大整數</h2><p>若競賽允許使用 Python，這題可以直接把輸入字串轉成 <code>int</code> 再累加，不必自行分段與處理進位。Python 的 <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/stdtypes.html#numeric-types-int-float-complex"><code>int</code></a> 支援任意精度整數，可以保存本題的 100 位數與總和。</p>
+<p>Java 的標準函式庫則提供 <a target="_blank" rel="noopener" href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/BigInteger.html"><code>java.math.BigInteger</code></a>，可從字串建立大整數，並以 <code>add</code> 方法相加；一般的 <code>int</code>、<code>long</code> 仍有固定範圍，不會自動變成大整數。</p>
+<p>實際比賽時，可依允許的語言與時間限制選擇寫法。下面的 C++ 程式示範如何自行實作，重點是理解分段保存與進位的原理。</p>
+<h2 id="程式"><a href="#程式" class="headerlink" title="程式"></a>程式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> BASE = <span class="number">10000</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> BLOCK_DIGITS = <span class="number">4</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAX_BLOCKS = <span class="number">50</span>;</span><br><span class="line"><span class="keyword">using</span> BigInteger = array&lt;<span class="type">int</span>, MAX_BLOCKS&gt;;</span><br><span class="line"></span><br><span class="line"><span class="function">BigInteger <span class="title">readNumber</span><span class="params">(<span class="type">const</span> string&amp; number)</span> </span>&#123;</span><br><span class="line">    BigInteger value = &#123;&#125;;</span><br><span class="line">    <span class="type">int</span> block = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> end = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(number.<span class="built_in">size</span>()); end &gt; <span class="number">0</span>; end -= BLOCK_DIGITS) &#123;</span><br><span class="line">        <span class="type">int</span> start = <span class="built_in">max</span>(<span class="number">0</span>, end - BLOCK_DIGITS);</span><br><span class="line">        value[block++] = <span class="built_in">stoi</span>(number.<span class="built_in">substr</span>(start, end - start));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">addTo</span><span class="params">(BigInteger&amp; sum, <span class="type">const</span> BigInteger&amp; number)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> carry = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_BLOCKS; ++i) &#123;</span><br><span class="line">        <span class="type">int</span> total = sum[i] + number[i] + carry;</span><br><span class="line">        sum[i] = total % BASE;</span><br><span class="line">        carry = total / BASE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">printNumber</span><span class="params">(<span class="type">const</span> BigInteger&amp; number)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> top = MAX_BLOCKS - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (top &gt; <span class="number">0</span> &amp;&amp; number[top] == <span class="number">0</span>) --top;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; number[top];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = top - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; <span class="built_in">setw</span>(BLOCK_DIGITS) &lt;&lt; number[i];</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    BigInteger sum = &#123;&#125;;</span><br><span class="line">    string number;</span><br><span class="line">    <span class="keyword">while</span> (cin &gt;&gt; number &amp;&amp; number != <span class="string">&quot;0&quot;</span>) &#123;</span><br><span class="line">        <span class="built_in">addTo</span>(sum, <span class="built_in">readNumber</span>(number));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printNumber</span>(sum);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>令陣列容量為 <code>B</code>、輸入筆數為 <code>N</code>，每筆加法需要 <code>O(B)</code> 時間，總時間為 <code>O(NB)</code>，額外空間為 <code>O(B)</code>；本程式的 <code>B = 50</code>。</p>
+<h2 id="UVa-判題結果"><a href="#UVa-判題結果" class="headerlink" title="UVa 判題結果"></a>UVa 判題結果</h2><p>本篇程式以 C++11 提交 UVa，獲得 <strong>Accepted</strong>（submission <strong>31356157</strong>，0.000 秒）。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/4/424.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-424-integer-inquiry-041/" data-id="cuidqWNzti13d2vgJ5c3xbTNO" data-title="424 - Integer Inquiry" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10041-vito-s-family-042" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-10041-vito-s-family-042/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T05:54:52.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-100/">Volume 100</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-10041-vito-s-family-042/">10041 - Vito&#39;s Family</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>第一行是測試筆數。每筆測資給定親戚人數和各家的門牌，請替 Vito 選一個住址，讓他到所有親戚家的距離總和最小，並輸出這個總和。兩個門牌的距離是兩者相減後的絕對值；多人也可能住在同一個門牌。</p>
+<p>本題可以用兩種方式解：<strong>暴力法逐一嘗試親戚家的門牌；排序法則直接選中位數。</strong> 剛開始學迴圈，可以先看暴力法；已熟悉排序，就可以直接用中位數減少計算量。</p>
+<h2 id="關鍵性質：最佳住址可以選中位數"><a href="#關鍵性質：最佳住址可以選中位數" class="headerlink" title="關鍵性質：最佳住址可以選中位數"></a>關鍵性質：最佳住址可以選中位數</h2><p>將門牌排序後，選中間的位置當住址，就能讓到所有親戚家的距離總和最小。這是中位數使絕對距離總和最小的性質，可參考 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Median#Optimality_property">Wikipedia：Median 的最佳化性質</a>。</p>
+<p>直覺上，把最左邊與最右邊的親戚配成一對，只要住址在兩者之間，到這一對的距離總和就相同。由外向內配對後，各對區間共同包含的中間位置，就是最佳選擇。</p>
+<p>人數是奇數時，選正中間的門牌；人數是偶數時，兩個中間門牌之間的任一位置都能得到最小值，不必特地取兩者的平均。例如親戚住在 <code>2</code> 和 <code>4</code>，選 <code>2</code>、<code>3</code> 或 <code>4</code> 的距離總和都是 <code>2</code>。</p>
+<h2 id="解法一：暴力枚舉候選住址"><a href="#解法一：暴力枚舉候選住址" class="headerlink" title="解法一：暴力枚舉候選住址"></a>解法一：暴力枚舉候選住址</h2><p>把每位親戚的門牌輪流當作候選住址，計算到所有親戚家的距離總和，再取最小值。外層迴圈選住址，內層迴圈累加距離。</p>
+<p>為什麼只試親戚家的門牌就夠？奇數人時，中位數就是其中一家的門牌；偶數人時，兩個中間門牌都是最佳區間的端點。因此，候選之中一定有最佳住址，不需要把所有可能的門牌逐一試過。</p>
+<p>若有 <code>r</code> 位親戚，共有 <code>r</code> 個候選，每個候選要計算 <code>r</code> 次距離，所以時間為 <code>O(r²)</code>。題目的 <code>r &lt; 500</code>，距離計算最多為 <code>499 × 499 = 249001</code> 次，這個做法也足以通過。</p>
+<h3 id="C-11-程式：暴力法"><a href="#C-11-程式：暴力法" class="headerlink" title="C++11 程式：暴力法"></a>C++11 程式：暴力法</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstddef&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;limits&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    std::cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> testCaseCount;</span><br><span class="line">    std::cin &gt;&gt; testCaseCount;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (testCaseCount--) &#123;</span><br><span class="line">        <span class="type">int</span> relativeCount;</span><br><span class="line">        std::cin &gt;&gt; relativeCount;</span><br><span class="line"></span><br><span class="line">        <span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">streetNumbers</span><span class="params">(<span class="keyword">static_cast</span>&lt;std::<span class="type">size_t</span>&gt;(relativeCount))</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span>&amp; streetNumber : streetNumbers) &#123;</span><br><span class="line">            std::cin &gt;&gt; streetNumber;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> minimumDistanceSum = std::numeric_limits&lt;<span class="type">int</span>&gt;::<span class="built_in">max</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> candidate : streetNumbers) &#123;</span><br><span class="line">            <span class="type">int</span> distanceSum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> address : streetNumbers) &#123;</span><br><span class="line">                distanceSum += std::<span class="built_in">abs</span>(address - candidate);</span><br><span class="line">            &#125;</span><br><span class="line">            minimumDistanceSum = std::<span class="built_in">min</span>(minimumDistanceSum, distanceSum);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; minimumDistanceSum &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這份暴力法程式以 C++11 提交至 UVa，獲得 <strong>Accepted</strong>（submission <strong>31357185</strong>，20 ms）。</p>
+<h2 id="解法二：排序後取中位數"><a href="#解法二：排序後取中位數" class="headerlink" title="解法二：排序後取中位數"></a>解法二：排序後取中位數</h2><p>先把門牌由小到大排序，取出中位數，再逐一計算各家到中位數的距離並加總。</p>
+<p>索引從 0 開始，所以可直接取 <code>streetNumbers[r / 2]</code>：奇數人時是正中間的門牌；偶數人時是兩個中間門牌中較大的那一個，也在最佳區間內。</p>
+<p>例如門牌為 <code>6、2、4</code>，排序後是 <code>2、4、6</code>，選 <code>4</code>，距離總和為 <code>2 + 0 + 2 = 4</code>。</p>
+<p>排序需要 <code>O(r log r)</code>，最後累加距離需要 <code>O(r)</code>，總時間為 <code>O(r log r)</code>。兩份程式都用 <code>vector</code> 保存門牌，需要 <code>O(r)</code> 空間。</p>
+<h3 id="C-11-程式：排序法"><a href="#C-11-程式：排序法" class="headerlink" title="C++11 程式：排序法"></a>C++11 程式：排序法</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstddef&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    std::cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> testCaseCount;</span><br><span class="line">    std::cin &gt;&gt; testCaseCount;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (testCaseCount--) &#123;</span><br><span class="line">        <span class="type">int</span> relativeCount;</span><br><span class="line">        std::cin &gt;&gt; relativeCount;</span><br><span class="line"></span><br><span class="line">        <span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">streetNumbers</span><span class="params">(<span class="keyword">static_cast</span>&lt;std::<span class="type">size_t</span>&gt;(relativeCount))</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span>&amp; streetNumber : streetNumbers) &#123;</span><br><span class="line">            std::cin &gt;&gt; streetNumber;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::<span class="built_in">sort</span>(streetNumbers.<span class="built_in">begin</span>(), streetNumbers.<span class="built_in">end</span>());</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> median = streetNumbers[streetNumbers.<span class="built_in">size</span>() / <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> distanceSum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> address : streetNumbers) &#123;</span><br><span class="line">            distanceSum += std::<span class="built_in">abs</span>(address - median);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; distanceSum &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這份排序法程式以 C++11 提交至 UVa，獲得 <strong>Accepted</strong>（submission <strong>31362863</strong>，0 ms）。</p>
+<h2 id="兩種做法怎麼選？"><a href="#兩種做法怎麼選？" class="headerlink" title="兩種做法怎麼選？"></a>兩種做法怎麼選？</h2><table>
+<thead>
+<tr>
+<th>做法</th>
+<th>主要步驟</th>
+<th>時間複雜度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>暴力法</td>
+<td>每個候選住址都算一次總距離</td>
+<td><code>O(r²)</code></td>
+</tr>
+<tr>
+<td>排序法</td>
+<td>排序取中位數，只算一次總距離</td>
+<td><code>O(r log r)</code></td>
+</tr>
+</tbody></table>
+<p>暴力法不需要先學會排序，但要知道候選住址為什麼包含最佳解。理解中位數的性質後，排序法能直接找到最佳住址，也能應付更多親戚的情況。兩種做法都適用於本題。</p>
+<p>題目中每個門牌小於 <code>30000</code>、親戚少於 <code>500</code>，距離總和小於 <code>15000000</code>，使用 32 位元 <code>int</code> 足以保存。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/100/10041.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10041-vito-s-family-042/" data-id="cuidsVWmF-xU4oDtzxpisPnNg" data-title="10041 - Vito&#39;s Family" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-382-perfection-043" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-382-perfection-043/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T05:54:10.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-003/">Volume 003</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-382-perfection-043/">382 - Perfection</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>輸入是一串正整數，以 <code>0</code> 表示結束；每個數值介於 <code>1</code> 和 <code>60000</code>，輸入筆數 <code>N</code> 符合 <code>1 &lt; N &lt; 100</code>。對每個數字 <code>n</code>，加總所有<strong>小於 <code>n</code>、且能整除 <code>n</code> 的正整數</strong>，這些數就是本題要計算的真因數。比較總和與原本的數字 <code>n</code>：</p>
+<ul>
+<li><strong>完美數（PERFECT）</strong>：真因數總和等於 <code>n</code>。例如 <code>6</code> 的真因數是 <code>1、2、3</code>，總和也是 <code>6</code>。</li>
+<li><strong>豐沛數（ABUNDANT）</strong>：真因數總和大於 <code>n</code>。例如 <code>12</code> 的真因數是 <code>1、2、3、4、6</code>，總和為 <code>16</code>。</li>
+<li><strong>不足數（DEFICIENT）</strong>：真因數總和小於 <code>n</code>。例如 <code>9</code> 的真因數是 <code>1、3</code>，總和為 <code>4</code>。</li>
+</ul>
+<p>本題可直接檢查到 <code>n - 1</code>，也可以利用因數成對出現的性質，只檢查到 <code>√n</code>。兩種做法最後都依同一規則分類。</p>
+<p>輸出第一行是 <code>PERFECTION OUTPUT</code>，最後一行是 <code>END OF OUTPUT</code>。每個數字要靠右對齊在 5 個字元內，後面接兩個空格與分類名稱。輸入值 <code>1</code> 沒有真因數，總和為 <code>0</code>，因此是不足數；結束標記 <code>0</code> 不分類也不輸出。</p>
+<h2 id="解法一：逐一檢查到-n-−-1"><a href="#解法一：逐一檢查到-n-−-1" class="headerlink" title="解法一：逐一檢查到 n − 1"></a>解法一：逐一檢查到 n − 1</h2><p>從 <code>1</code> 到 <code>n - 1</code>，逐一檢查哪些數字能整除 <code>n</code>，把它們加起來即可。迴圈不包含 <code>n</code>，自然排除了數字本身；當 <code>n = 1</code>，迴圈不執行，總和維持為 <code>0</code>。</p>
+<p>每個 <code>n</code> 最多檢查 <code>n - 1</code> 次，時間複雜度為 <code>O(n)</code>，額外空間為 <code>O(1)</code>。本題數值不超過 <code>60000</code>、輸入少於 100 筆，這個直接的做法也足夠。</p>
+<h3 id="C-11-程式：逐一檢查"><a href="#C-11-程式：逐一檢查" class="headerlink" title="C++11 程式：逐一檢查"></a>C++11 程式：逐一檢查</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">sumProperDivisors</span><span class="params">(<span class="type">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> divisor = <span class="number">1</span>; divisor &lt; number; ++divisor) &#123;</span><br><span class="line">        <span class="keyword">if</span> (number % divisor == <span class="number">0</span>) &#123;</span><br><span class="line">            sum += divisor;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;PERFECTION OUTPUT\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> number;</span><br><span class="line">    <span class="keyword">while</span> (std::cin &gt;&gt; number &amp;&amp; number != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> sum = <span class="built_in">sumProperDivisors</span>(number);</span><br><span class="line">        <span class="type">const</span> <span class="type">char</span>* classification;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (sum == number) &#123;</span><br><span class="line">            classification = <span class="string">&quot;PERFECT&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &gt; number) &#123;</span><br><span class="line">            classification = <span class="string">&quot;ABUNDANT&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            classification = <span class="string">&quot;DEFICIENT&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; std::<span class="built_in">setw</span>(<span class="number">5</span>) &lt;&lt; number &lt;&lt; <span class="string">&quot;  &quot;</span> &lt;&lt; classification &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;END OF OUTPUT\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這份逐一檢查的程式已於 UVa 382 獲得 <strong>Accepted</strong>（submission <strong>31357197</strong>，0.000 秒）。</p>
+<h2 id="解法二：因數成對，只檢查到-√n"><a href="#解法二：因數成對，只檢查到-√n" class="headerlink" title="解法二：因數成對，只檢查到 √n"></a>解法二：因數成對，只檢查到 √n</h2><p>如果 <code>d</code> 能整除 <code>n</code>，那麼 <code>n / d</code> 也是因數，兩者相乘就是 <code>n</code>。例如 <code>12</code> 的因數可以配成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 × 12</span><br><span class="line">2 ×  6</span><br><span class="line">3 ×  4</span><br></pre></td></tr></table></figure>
+
+<p><strong>每一對因數，至少有一個不大於 <code>√n</code>。</strong> 因為如果兩個都大於 <code>√n</code>，乘積就會大於 <code>n</code>，不可能是 <code>n</code> 的因數對。因此，只要檢查到 <code>√n</code>，每找到一個因數 <code>d</code>，就可以同時找到另一個 <code>n / d</code>；不必再把較大的因數逐一檢查一遍。</p>
+<p>以 <code>12</code> 為例，檢查 <code>1、2、3</code> 就能找到上面的三對因數。排除 <code>12</code> 本身後，加總 <code>1 + 2 + 6 + 3 + 4 = 16</code>。</p>
+<h3 id="完全平方數：相同因數只加一次"><a href="#完全平方數：相同因數只加一次" class="headerlink" title="完全平方數：相同因數只加一次"></a>完全平方數：相同因數只加一次</h3><p>當 <code>n</code> 是完全平方數，最後一對因數會相同。例如 <code>36</code> 的因數對為：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1 × 36</span><br><span class="line">2 × 18</span><br><span class="line">3 × 12</span><br><span class="line">4 ×  9</span><br><span class="line">6 ×  6</span><br></pre></td></tr></table></figure>
+
+<p>最後的 <code>6</code> 只是一個因數，不能因為寫成 <code>6 × 6</code> 就加兩次。因此程式先加 <code>d</code>，再判斷 <code>n / d != d</code>，不同時才加入另一個因數。正確總和是 <code>1 + 2 + 18 + 3 + 12 + 4 + 9 + 6 = 55</code>。</p>
+<h3 id="程式如何排除-n-本身？"><a href="#程式如何排除-n-本身？" class="headerlink" title="程式如何排除 n 本身？"></a>程式如何排除 n 本身？</h3><p>先處理 <code>n = 1</code>，直接回傳 <code>0</code>。對其他數字，先將總和設為 <code>1</code>，再從 <code>d = 2</code> 開始找因數。這樣 <code>1 × n</code> 這一對只會加入 <code>1</code>，不會誤加 <code>n</code>。</p>
+<p>迴圈條件使用 <code>d * d &lt;= n</code>，等同只檢查到 <code>√n</code>，也會包含完全平方數的平方根，不需要另外呼叫開根號函數。本題 <code>n &lt;= 60000</code>，這個條件中的乘法使用 32 位元 <code>int</code> 足夠。</p>
+<h3 id="C-11-程式：成對找因數"><a href="#C-11-程式：成對找因數" class="headerlink" title="C++11 程式：成對找因數"></a>C++11 程式：成對找因數</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">sumProperDivisors</span><span class="params">(<span class="type">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> sum = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> divisor = <span class="number">2</span>; divisor * divisor &lt;= number; ++divisor) &#123;</span><br><span class="line">        <span class="keyword">if</span> (number % divisor == <span class="number">0</span>) &#123;</span><br><span class="line">            sum += divisor;</span><br><span class="line">            <span class="type">const</span> <span class="type">int</span> pairedDivisor = number / divisor;</span><br><span class="line">            <span class="keyword">if</span> (pairedDivisor != divisor) &#123;</span><br><span class="line">                sum += pairedDivisor;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;PERFECTION OUTPUT\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> number;</span><br><span class="line">    <span class="keyword">while</span> (std::cin &gt;&gt; number &amp;&amp; number != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> sum = <span class="built_in">sumProperDivisors</span>(number);</span><br><span class="line">        <span class="type">const</span> <span class="type">char</span>* classification;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (sum == number) &#123;</span><br><span class="line">            classification = <span class="string">&quot;PERFECT&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &gt; number) &#123;</span><br><span class="line">            classification = <span class="string">&quot;ABUNDANT&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            classification = <span class="string">&quot;DEFICIENT&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; std::<span class="built_in">setw</span>(<span class="number">5</span>) &lt;&lt; number &lt;&lt; <span class="string">&quot;  &quot;</span> &lt;&lt; classification &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;END OF OUTPUT\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這份根號版本以 C++11 提交至 UVa 382，獲得 <strong>Accepted</strong>（submission <strong>31362904</strong>，0.000 秒）。</p>
+<p>每個 <code>n</code> 的時間複雜度為 <code>O(√n)</code>，額外空間仍為 <code>O(1)</code>。當 <code>n = 60000</code>，只需檢查 <code>d = 2</code> 到 <code>244</code>，相較直接檢查 <code>1</code> 到 <code>59999</code>，可省下許多次整除判斷。</p>
+<h2 id="兩種做法怎麼選？"><a href="#兩種做法怎麼選？" class="headerlink" title="兩種做法怎麼選？"></a>兩種做法怎麼選？</h2><p>剛開始學迴圈與取餘數，可以先寫逐一檢查的版本；理解因數成對出現後，就能改用根號版本減少計算量。兩種做法都要排除 <code>n</code> 本身，而根號版本還要注意完全平方數不能重複加上平方根。</p>
+<p>比賽時，若題目給定的資料範圍小，簡單的做法就能在時間限制內完成，可以優先選擇容易實作、較不容易寫錯的方法。本題兩個版本在 UVa 的執行時間都顯示為 <code>0 ms</code>，因此直接逐一檢查也是合理的選擇。</p>
+<p>不過，<code>0 ms</code> 不代表兩者的計算量相同；根號版本的複雜度較低，當資料範圍變大時，更能發揮優勢。選擇時應先依題目範圍估算計算量，而不是只看這次判題顯示的時間。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/3/382.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-382-perfection-043/" data-id="cuid_nwfO_8hBRX0-4yx09L7a" data-title="382 - Perfection" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-483-word-scramble-044" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-483-word-scramble-044/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T05:52:00.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-004/">Volume 004</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-483-word-scramble-044/">483 - Word Scramble</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>輸入是多行文字；每個單字都是一段連續的非空白字元。請反轉每個單字內的字元順序，但保留單字原本的排列、空白和換行。例如 <code>I love you.</code> 會變成 <code>I evol .uoy</code>，句點也會跟著單字一起反轉。</p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>用 <code>getline</code> 一次讀一行，再由左向右尋找非空白字元組成的區段。找到一個單字後，只反轉這段字元，接著從區段後面繼續掃描。空格、Tab 等分隔字元不會移動，因此行內的空白排列也會保留。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cctype&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isWhitespace</span><span class="params">(<span class="type">char</span> character)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> std::<span class="built_in">isspace</span>(<span class="built_in">static_cast</span>&lt;<span class="type">unsigned</span> <span class="type">char</span>&gt;(character)) != <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">reverseWords</span><span class="params">(std::string&amp; line)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> begin = line.<span class="built_in">begin</span>();</span><br><span class="line">    <span class="keyword">while</span> (begin != line.<span class="built_in">end</span>()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isWhitespace</span>(*begin)) &#123;</span><br><span class="line">            ++begin;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">auto</span> end = begin;</span><br><span class="line">        <span class="keyword">while</span> (end != line.<span class="built_in">end</span>() &amp;&amp; !<span class="built_in">isWhitespace</span>(*end)) &#123;</span><br><span class="line">            ++end;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::<span class="built_in">reverse</span>(begin, end);</span><br><span class="line">        begin = end;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string line;</span><br><span class="line">    <span class="keyword">while</span> (std::<span class="built_in">getline</span>(std::cin, line)) &#123;</span><br><span class="line">        <span class="built_in">reverseWords</span>(line);</span><br><span class="line">        std::cout &lt;&lt; line &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若一行有 <code>L</code> 個字元，掃描與反轉合計需要 <code>O(L)</code> 時間；字串需要 <code>O(L)</code> 空間。每個字元只會被掃描一次，並且只在所屬單字的區段內交換位置。</p>
+<h2 id="注意：保留換行與單字之間的空白"><a href="#注意：保留換行與單字之間的空白" class="headerlink" title="注意：保留換行與單字之間的空白"></a>注意：保留換行與單字之間的空白</h2><p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/4/483.pdf">官方題目</a>以空白字元分隔單字，但沒有保證單字之間只有一個空格。因此不假設分隔空白的數量，讓它們留在原位即可。</p>
+<p>直接用 <code>cin &gt;&gt; word</code> 讀單字時，空格、Tab 和換行都會被略過。只看讀出的單字，無法知道原本在哪裡換行，也無法還原單字之間有幾個空格。</p>
+<p>先用 <code>getline</code> 讀一整行，再用 <code>stringstream &gt;&gt; word</code> 切單字，可以保留行的界線，但仍會丟掉行內分隔空白的數量與種類。例如自訂的這一行有三個空格：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">原文：ab   cd</span><br><span class="line">結果：ba   dc</span><br></pre></td></tr></table></figure>
+
+<p>若讀出 <code>ab</code>、<code>cd</code> 後統一補一個空格，就會變成 <code>ba dc</code>，改變原本的排列。</p>
+<p>本文採用 <strong><code>getline</code> 加上原字串內的區段搜尋</strong>：讀入一行後，找出每個單字的起點與終點，只反轉這段字元，空格和 Tab 都留在原位；處理完再輸出換行。這樣既保留行的界線，也不必重新組合單字之間的空白。</p>
+<p>另外也可以用 <code>cin.get(ch)</code> 逐字元讀取，自行辨識單字與分隔字元；並非一定要用 <code>getline + stringstream</code> 才能處理換行。</p>
+<p>本文程式以 C++11 提交至 UVa 483，獲得 <strong>Accepted</strong>（submission <strong>31357204</strong>，0 ms）。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/4/483.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-483-word-scramble-044/" data-id="cuid5VSSoaYFBhav6bfn2X6_R" data-title="483 - Word Scramble" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-uva-10079-pizza-cutting-045" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    
+<div class="article-dates">
+  <a href="/2012/07/07/uva-10079-pizza-cutting-045/" class="article-date">
+    <span class="article-date-label">初次發布：</span><time class="dt-published" datetime="2012-07-07T05:51:03.000Z" itemprop="datePublished">2012-07-07</time>
+  </a>
+  
+  <span class="article-date">
+    <span class="article-date-label">最後更新：</span><time class="dt-updated" datetime="2026-10-31T16:00:00.000Z" itemprop="dateModified">2026-11-01</time>
+  </span>
+  
+</div>
+
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UVa/">UVa</a>►<a class="article-category-link" href="/categories/UVa/Volume-100/">Volume 100</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/07/uva-10079-pizza-cutting-045/">10079 - Pizza Cutting</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目要求"><a href="#題目要求" class="headerlink" title="題目要求"></a>題目要求</h2><p>輸入每次給一個整數 <code>n</code>，代表要用幾條直線切披薩，求最多能切出幾塊。<code>n</code> 為非負數，且不超過 <code>210000000</code>；負數表示輸入結束。每筆答案各輸出一行。</p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>最多區塊數為 <code>n(n + 1) / 2 + 1</code>。從一塊完整披薩開始，第 <code>k</code> 條切線若與前面 <code>k - 1</code> 條線都在披薩內相交，而且交點彼此不同，就會被分成 <code>k</code> 段。每一段都能切開一個原有區塊，因此新增 <code>k</code> 塊。</p>
+<p>以第三刀為例：前兩刀已把披薩分成四塊。下圖的紅色第三刀在披薩內，與前兩刀分別交於 A、B，且不經過前兩刀原本的交點。</p>
+<p><img src="/images/uva-10079-third-cut.svg" alt="第三刀與前兩刀產生兩個不同交點，分成三段，各切開一塊，總共七塊"></p>
+<p>這張圖為自行繪製的切割示意。兩個交點把第三刀分成三段，每段各切開一個原有區塊，因此新增三塊，從四塊變成七塊。下面的表格整理了同樣的規律：</p>
+<table>
+<thead>
+<tr>
+<th align="right">切線數</th>
+<th align="right">新增區塊</th>
+<th align="right">區塊總數</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">4</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">7</td>
+</tr>
+</tbody></table>
+<p>所以切 <code>n</code> 條線後，區塊數為 <code>1 + 1 + 2 + ... + n</code>，也就是 <code>n(n + 1) / 2 + 1</code>。程式直接代入公式，不需要模擬切割。題目最大輸入下，答案約為 <code>2.21 × 10^16</code>，因此使用 <code>long long</code> 保存。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 0 1 2 3 4 5 6 7 8 9 10</span></span><br><span class="line">    <span class="comment">// 1 2 4 7 11 16 22 29 37 46 56</span></span><br><span class="line"></span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">while</span>(cin &gt;&gt; n)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(n&lt;<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        cout &lt;&lt; n*(n<span class="number">+1</span>)/<span class="number">2</span><span class="number">+1</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每筆輸入只做固定次數的整數運算，時間與額外空間複雜度都是 <code>O(1)</code>。</p>
+<p>本篇程式以 C++11 提交至 UVa 10079，獲得 <strong>Accepted</strong>（submission <strong>31358262</strong>，0 ms）。</p>
+<p><a target="_blank" rel="noopener" href="https://onlinejudge.org/external/100/10079.pdf">UVa 題目敘述</a></p>
+
+      
+    </div>
+    
+    <footer class="article-footer">
+      <a data-url="https://jiayeli-hualien.github.io/2012/07/07/uva-10079-pizza-cutting-045/" data-id="cuidkGVwnOANmU0E6Qcn2KY_g" data-title="10079 - Pizza Cutting" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一頁</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一頁</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">下一頁 &raquo;</a>
   </nav>
 
 </section>
@@ -149,16 +835,30 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分類</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-003/">Volume 003</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-005/">Volume 005</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-109/">Volume 109</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C/%E7%B7%A8%E8%AD%AF%E5%B7%A5%E5%85%B7/">編譯工具</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/">UVa</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-002/">Volume 002</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-003/">Volume 003</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-004/">Volume 004</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-005/">Volume 005</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-006/">Volume 006</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-007/">Volume 007</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-100/">Volume 100</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-101/">Volume 101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-102/">Volume 102</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-103/">Volume 103</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-104/">Volume 104</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-107/">Volume 107</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-108/">Volume 108</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-109/">Volume 109</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-111/">Volume 111</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-113/">Volume 113</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-115/">Volume 115</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/UVa/Volume-122/">Volume 122</a></li></ul></li></ul>
     </div>
   </div>
 
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E4%B8%B2%E8%99%95%E7%90%86/" rel="tag">字串處理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E9%80%9F%E5%86%AA/" rel="tag">快速冪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B2%AA%E5%BF%83%E6%B3%95/" rel="tag">貪心法</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E5%AD%97%E4%B8%B2%E8%99%95%E7%90%86/" style="font-size: 10px;">字串處理</a> <a href="/tags/%E5%BF%AB%E9%80%9F%E5%86%AA/" style="font-size: 10px;">快速冪</a> <a href="/tags/%E8%B2%AA%E5%BF%83%E6%B3%95/" style="font-size: 10px;">貪心法</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
